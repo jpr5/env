@@ -1,0 +1,5 @@
+set autoeval
+set autolist
+set history save
+set history size 100000
+set history filename /Users/jpr5/.ruby_history

@@ -1,0 +1,43 @@
+[alias]
+    cl = clone --recursive
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+    dt = difftool -y
+	unstage = reset HEAD
+	wc = whatchanged --stat
+	up = remote -v update -p
+	staged = diff --cached
+    sub = submodule
+    m = !git merge $(git remote show)/$(git branch | grep '*' | awk '{print $2}')
+    d = !R=$(git remote show) && B=$(git branch | grep '*' | awk '{print $2}') && git wc $B..$R/$B
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[user]
+	name = Jordan Ritter
+	email = jpr5@darkridge.com
+[core]
+	excludesfile = ~/.gitignore-global
+[github]
+	user = jpr5
+	token = 4225723a97dc811c978bde1c1c54a23d
+[apply]
+	whitespace = nowarn
+[push]
+	default = tracking
+[branch]
+	autosetupmerge = true
+[instaweb]
+    local = true
+    httpd = webrick
+    port = 4321
+[diff]
+	tool = opendiff
+[difftool]
+	prompt = false
+[merge]
+	stat = true
