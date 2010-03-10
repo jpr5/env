@@ -75,11 +75,11 @@
 
       ;; Set initial size
       (setq initial-frame-alist (x-parse-geometry "165x40+5+30")) ;cols x rows (character) +x+y (pixel)
-      (setq default-frame-alist '((cursor-type . bar)))
+      (setq default-frame-alist '((cursor-type . (bar . 3))))
       (setq default-indicate-empty-lines t)
       (setq indicate-empty-lines t)
 
-      (blink-cursor-mode nil)
+      (blink-cursor-mode 0)
       (modify-frame-parameters (selected-frame) initial-frame-alist)
       (global-set-key "\C-z" 'shell)
 
@@ -93,6 +93,8 @@
       (set-face-background 'region                 "dark grey")
       (set-face-background 'highlight              "blue")
 
+      (global-hl-line-mode t)
+
       ;; If in X, startup server and make it work like regular buffer.
       (unless server-mode (server-start))
       (add-hook 'server-switch-hook
@@ -100,7 +102,6 @@
           (when (current-local-map)
             (use-local-map (copy-keymap (current-local-map))))
           (local-set-key (kbd "C-x k RET") 'server-edit)))
-
     )
 )
 
@@ -220,6 +221,9 @@
 (setq desktop-save 't)
 (setq desktop-path '("~"))
 (desktop-save-mode 1)
+
+;; Navigate split buffer windows with shift-{left,right,up,down}
+(windmove-default-keybindings)
 
 ;; TAB settings
 ;;
@@ -424,24 +428,6 @@
 ;      '("*Completions*" "*grep*" "*tex-shell*"))
 
 
-;; And finally Emacs custom settings.
-;;
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(case-fold-search t)
- '(compilation-scroll-output t)
- '(current-language-environment "UTF-8")
- '(default-input-method "latin-1-prefix")
- '(flymake-mode nil t)
- '(flymake-start-syntax-check-on-find-file t)
- '(flymake-start-syntax-check-on-newline nil)
- '(flymake-gui-warnings-enabled nil))
-
-
 ;; Util
 
 (defun count-words (start end)
@@ -463,4 +449,27 @@
    (save-some-buffers t)
 )
 
+;; And finally Emacs custom settings.
+;;
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(case-fold-search t)
+ '(compilation-scroll-output t)
+ '(current-language-environment "UTF-8")
+ '(default-input-method "latin-1-prefix")
+ '(flymake-gui-warnings-enabled nil)
+ '(flymake-mode nil t)
+ '(flymake-start-syntax-check-on-find-file t)
+ '(flymake-start-syntax-check-on-newline nil))
+
 (put 'narrow-to-region 'disabled nil)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(hl-line ((t (:background "lightgrey")))))
