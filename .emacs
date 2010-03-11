@@ -224,9 +224,11 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; Save whatever files you had open at your last open (~/.emacs.desktop)
+(require 'desktop)
 (setq desktop-save 't)
 (setq desktop-path '("~"))
-(desktop-save-mode 1)
+(unless (file-exists-p desktop-base-lock-name)
+  (desktop-save-mode 1))
 
 ;; Navigate split buffer windows with shift-{left,right,up,down}
 (windmove-default-keybindings)
