@@ -7,6 +7,7 @@
 ;; dos2unix:
 ;;     - http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html
 ;;     - http://edivad.wordpress.com/2007/04/03/emacs-convert-dos-to-unix-and-vice-versa/
+;; Basically: C-x RET f, then enter "unix".  C-x C-s (save), and voila.
 
 ;;; Notes:
 ;;;
