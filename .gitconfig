@@ -10,9 +10,9 @@
     up = remote -v update -p
     staged = diff --cached
     sub = submodule
-    m  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && git merge $R/$B
-    d  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && git wc $B..$R/$B
-    rd = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && git wc $R/$B..$B
+    m  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git merge $R/$RB
+    d  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $B..$R/$RB
+    rd = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $R/$RB..$B
 [color]
     diff = auto
     status = auto
