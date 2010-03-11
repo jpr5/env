@@ -7,8 +7,6 @@
 ;; dos2unix:
 ;;     - http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html
 ;;     - http://edivad.wordpress.com/2007/04/03/emacs-convert-dos-to-unix-and-vice-versa/
-;;
-;; move the flymake file output into /tmp
 
 ;;; Notes:
 ;;;
@@ -331,9 +329,10 @@
            (list "ruby" (list "-c" local-file))))
 
 (setq flymake-allowed-file-name-masks (append
-    '((".+\\.rb$"  flymake-ruby-init)
-      (".+\\.ru$"  flymake-ruby-init)
-      ("Rakefile$" flymake-ruby-init))
+    '((".+\\.rb$"   flymake-ruby-init)
+      (".+\\.ru$"   flymake-ruby-init)
+      (".+\\.rake$" flymake-ruby-init)
+      ("Rakefile$"  flymake-ruby-init))
     flymake-allowed-file-name-masks))
 
 (setq flymake-err-line-patterns (append
@@ -349,7 +348,6 @@
 
 (require 'ruby-mode)
 (require 'rhtml-mode)
-;(require 'ruby-electric)
 
 ; add-to-list symbol element
 (setq auto-mode-alist (append
@@ -359,7 +357,7 @@
       ("\\.rake$"       . ruby-mode)
       ("\\.rhtml$"      . rhtml-mode)
       ("\\.rb\\.erb$"   . ruby-mode)
-      ("\\.html\\.erb$" . ruby-mode)
+      ("\\.html\\.erb$" . rhtml-mode)
       ("\\.erb$"        . rhtml-mode)
       ("\\.yml\\..*$"   . yaml-mode))
     auto-mode-alist))
@@ -369,8 +367,11 @@
     (setq ruby-deep-indent-paren nil)
     (setq ruby-indent-level 4)
     (setq fill-column 90)
-    ;(ruby-electric-mode t) ;; auto-fills do/end if/end blocks for you (blech)
-    (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+
+    ; Only launch flymake when we could actually write to the temporary file.
+    (if (and (not (null buffer-file-name))
+             (file-writable-p (concat (file-name-sans-extension buffer-file-name) "_flymake"
+                                      (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
         (flymake-mode))
     ))
 
@@ -385,7 +386,7 @@
 (require 'git)
 (require 'format-spec)
 (autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
-(global-set-key "\C-x v b"    'git-blame-mode)
+(global-set-key "\C-x v b" 'git-blame-mode)
 
 ;; Mark certain keywords with warning faces
 ;;
