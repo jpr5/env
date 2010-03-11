@@ -2,6 +2,12 @@
 ;;; Jordan Ritter's dot-emacs ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; TODO:
+;;
+;; dos2unix:
+;;     - http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html
+;;     - http://edivad.wordpress.com/2007/04/03/emacs-convert-dos-to-unix-and-vice-versa/
+
 ;;; Notes:
 ;;;
 ;;; Indent-Rigidly: set-mark, move cursor, C-x tab
@@ -75,11 +81,11 @@
 
       ;; Set initial size
       (setq initial-frame-alist (x-parse-geometry "165x40+5+30")) ;cols x rows (character) +x+y (pixel)
-      (setq default-frame-alist '((cursor-type . bar)))
+      (setq default-frame-alist '((cursor-type . (bar . 3))))
       (setq default-indicate-empty-lines t)
       (setq indicate-empty-lines t)
 
-      (blink-cursor-mode nil)
+      (blink-cursor-mode 0)
       (modify-frame-parameters (selected-frame) initial-frame-alist)
       (global-set-key "\C-z" 'shell)
 
@@ -93,6 +99,8 @@
       (set-face-background 'region                 "dark grey")
       (set-face-background 'highlight              "blue")
 
+      (global-hl-line-mode t)
+
       ;; If in X, startup server and make it work like regular buffer.
       (unless server-mode (server-start))
       (add-hook 'server-switch-hook
@@ -100,7 +108,6 @@
           (when (current-local-map)
             (use-local-map (copy-keymap (current-local-map))))
           (local-set-key (kbd "C-x k RET") 'server-edit)))
-
     )
 )
 
@@ -217,9 +224,14 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; Save whatever files you had open at your last open (~/.emacs.desktop)
+(require 'desktop)
 (setq desktop-save 't)
 (setq desktop-path '("~"))
-(desktop-save-mode 1)
+(unless (file-exists-p desktop-base-lock-name)
+  (desktop-save-mode 1))
+
+;; Navigate split buffer windows with shift-{left,right,up,down}
+(windmove-default-keybindings)
 
 ;; TAB settings
 ;;
@@ -319,9 +331,10 @@
            (list "ruby" (list "-c" local-file))))
 
 (setq flymake-allowed-file-name-masks (append
-    '((".+\\.rb$"  flymake-ruby-init)
-      (".+\\.ru$"  flymake-ruby-init)
-      ("Rakefile$" flymake-ruby-init))
+    '((".+\\.rb$"   flymake-ruby-init)
+      (".+\\.ru$"   flymake-ruby-init)
+      (".+\\.rake$" flymake-ruby-init)
+      ("Rakefile$"  flymake-ruby-init))
     flymake-allowed-file-name-masks))
 
 (setq flymake-err-line-patterns (append
@@ -337,17 +350,18 @@
 
 (require 'ruby-mode)
 (require 'rhtml-mode)
-;(require 'ruby-electric)
 
 ; add-to-list symbol element
 (setq auto-mode-alist (append
-    '(("\\.rb$"       . ruby-mode)
-      ("\\.ru$"       . ruby-mode)
-      ("Rakefile$"    . ruby-mode)
-      ("\\.rake$"     . ruby-mode)
-      ("\\.rhtml$"    . rhtml-mode)
-      ("\\.erb$"      . rhtml-mode)
-      ("\\.yml\\..*$" . yaml-mode))
+    '(("\\.rb$"         . ruby-mode)
+      ("\\.ru$"         . ruby-mode)
+      ("Rakefile$"      . ruby-mode)
+      ("\\.rake$"       . ruby-mode)
+      ("\\.rhtml$"      . rhtml-mode)
+      ("\\.rb\\.erb$"   . ruby-mode)
+      ("\\.html\\.erb$" . rhtml-mode)
+      ("\\.erb$"        . rhtml-mode)
+      ("\\.yml\\..*$"   . yaml-mode))
     auto-mode-alist))
 
 (add-hook 'ruby-mode-hook
@@ -355,8 +369,11 @@
     (setq ruby-deep-indent-paren nil)
     (setq ruby-indent-level 4)
     (setq fill-column 90)
-    ;(ruby-electric-mode t) ;; auto-fills do/end if/end blocks for you (blech)
-    (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+
+    ; Only launch flymake when we could actually write to the temporary file.
+    (if (and (not (null buffer-file-name))
+             (file-writable-p (concat (file-name-sans-extension buffer-file-name) "_flymake"
+                                      (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
         (flymake-mode))
     ))
 
@@ -371,7 +388,7 @@
 (require 'git)
 (require 'format-spec)
 (autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
-(global-set-key "\C-x v b"    'git-blame-mode)
+(global-set-key "\C-x v b" 'git-blame-mode)
 
 ;; Mark certain keywords with warning faces
 ;;
@@ -424,24 +441,6 @@
 ;      '("*Completions*" "*grep*" "*tex-shell*"))
 
 
-;; And finally Emacs custom settings.
-;;
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(case-fold-search t)
- '(compilation-scroll-output t)
- '(current-language-environment "UTF-8")
- '(default-input-method "latin-1-prefix")
- '(flymake-mode nil t)
- '(flymake-start-syntax-check-on-find-file t)
- '(flymake-start-syntax-check-on-newline nil)
- '(flymake-gui-warnings-enabled nil))
-
-
 ;; Util
 
 (defun count-words (start end)
@@ -463,4 +462,27 @@
    (save-some-buffers t)
 )
 
+;; And finally Emacs custom settings.
+;;
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(case-fold-search t)
+ '(compilation-scroll-output t)
+ '(current-language-environment "UTF-8")
+ '(default-input-method "latin-1-prefix")
+ '(flymake-gui-warnings-enabled nil)
+ '(flymake-mode nil t)
+ '(flymake-start-syntax-check-on-find-file t)
+ '(flymake-start-syntax-check-on-newline nil))
+
 (put 'narrow-to-region 'disabled nil)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(hl-line ((t (:background "lightgrey")))))
