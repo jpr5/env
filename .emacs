@@ -2,6 +2,14 @@
 ;;; Jordan Ritter's dot-emacs ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; TODO:
+;;
+;; dos2unix:
+;;     - http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html
+;;     - http://edivad.wordpress.com/2007/04/03/emacs-convert-dos-to-unix-and-vice-versa/
+;;
+;; move the flymake file output into /tmp
+
 ;;; Notes:
 ;;;
 ;;; Indent-Rigidly: set-mark, move cursor, C-x tab
@@ -345,13 +353,15 @@
 
 ; add-to-list symbol element
 (setq auto-mode-alist (append
-    '(("\\.rb$"       . ruby-mode)
-      ("\\.ru$"       . ruby-mode)
-      ("Rakefile$"    . ruby-mode)
-      ("\\.rake$"     . ruby-mode)
-      ("\\.rhtml$"    . rhtml-mode)
-      ("\\.erb$"      . rhtml-mode)
-      ("\\.yml\\..*$" . yaml-mode))
+    '(("\\.rb$"         . ruby-mode)
+      ("\\.ru$"         . ruby-mode)
+      ("Rakefile$"      . ruby-mode)
+      ("\\.rake$"       . ruby-mode)
+      ("\\.rhtml$"      . rhtml-mode)
+      ("\\.rb\\.erb$"   . ruby-mode)
+      ("\\.html\\.erb$" . ruby-mode)
+      ("\\.erb$"        . rhtml-mode)
+      ("\\.yml\\..*$"   . yaml-mode))
     auto-mode-alist))
 
 (add-hook 'ruby-mode-hook
