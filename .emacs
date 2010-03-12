@@ -228,7 +228,7 @@
 (require 'desktop)
 (setq desktop-save 't)
 (setq desktop-path '("~"))
-(unless (file-exists-p desktop-base-lock-name)
+(unless (file-exists-p (expand-file-name (concat desktop-dirname desktop-base-lock-name))))
   (desktop-save-mode 1))
 
 ;; Navigate split buffer windows with shift-{left,right,up,down}
