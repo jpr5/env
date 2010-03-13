@@ -226,10 +226,11 @@
 
 ;; Save whatever files you had open at your last open (~/.emacs.desktop)
 (require 'desktop)
-(setq desktop-save 't)
-(setq desktop-path '("~"))
-(unless (file-exists-p (expand-file-name (concat desktop-dirname desktop-base-lock-name)))
-  (desktop-save-mode 1))
+(setq desktop-dirname (expand-file-name "~"))
+(setq desktop-path    (list desktop-dirname))
+(setq desktop-load-locked-desktop 'nil)
+(unless (file-exists-p (expand-file-name (desktop-full-lock-name)))
+    (desktop-save-mode 1))
 
 ;; Navigate split buffer windows with shift-{left,right,up,down}
 (windmove-default-keybindings)
