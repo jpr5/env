@@ -381,16 +381,19 @@
 
 ;; Git stuff
 ;;
-;;(require 'egg)
-;;(require 'magit)
-;;(setq exec-path (append '("/usr/local/git/bin") exec-path))
 
+;; Load vc-git and "fix" the broken blame invocation syntax.
 (require 'vc-git)
-(when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
-(require 'git)
-(require 'format-spec)
-(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
-(global-set-key "\C-x v b" 'git-blame-mode)
+(add-to-list 'vc-handled-backends 'git)
+(defun vc-git-annotate-command (file buf &optional rev)
+  (let ((name (file-relative-name file)))
+     (vc-git-command buf 0 name "blame" (if rev (concat rev)))))
+
+;; Enable this for the the ever-awesome git-blame-mode
+;(require 'git)
+;(require 'format-spec)
+;(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
+;(global-set-key "\C-x v b" 'git-blame-mode) ;; FIXME: doesn't work
 
 ;; Mark certain keywords with warning faces
 ;;
