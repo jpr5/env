@@ -6,6 +6,7 @@
     br = branch
     dt = difftool -y
     unstage = reset HEAD
+    chekcout = checkout
     wc = whatchanged --stat
     up = remote -v update -p
     staged = diff --cached
