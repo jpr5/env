@@ -2,23 +2,14 @@
 ;;; Jordan Ritter's dot-emacs ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO:
-;;
-;; dos2unix:
-;;     - http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html
-;;     - http://edivad.wordpress.com/2007/04/03/emacs-convert-dos-to-unix-and-vice-versa/
-;; Basically: C-x RET f, then enter "unix".  C-x C-s (save), and voila.
-
 ;;; Notes:
 ;;;
-;;; Indent-Rigidly: set-mark, move cursor, C-x tab
-;;; Indent-Region:  set-mark, move cursor, C-M-\
-;;;
-;;; C-x r k    - cut rectangle (set-mark first) [remove rigid space from lines]
-;;; C-x r o    - insert rectangle (set-mark first) [add rigid space to lines]
+;;; C-x r k    - cut rectangle (set-mark first) [remove columns from lines]
+;;; C-x r o    - insert rectangle (set-mark first) [add columns to lines]
 ;;; C-x r y    - yank rectangle (at cursor h-coord)
 ;;; C-x n n    - narrow view
 ;;; C-x n w    - widen (un-narrow) view
+;;; C-x RET f  - choose coding system ("unix" == dos2unix)
 ;;;
 ;;; Compile all .el -> .elc: emacs -l ~/.emacs -batch -f batch-byte-compile .emacs.d/*.el
 
@@ -29,6 +20,11 @@
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; Set load path before we get started.
+(setq load-path (append
+    '("~/.emacs.d" "~/.emacs.d/rinari-rhtml")
+    load-path))
 
 ;; Before we start setting colors, we have to tell Emacs to always
 ;; syntax-hightlight everything to its fullest extent, and don't wait
@@ -56,8 +52,8 @@
             mac-option-modifier        'meta
             mac-allow-anti-aliasing    t
             mac-pass-command-to-system t)
-      (global-set-key [?\A-v] 'yank)
-      (global-set-key [?\A-c] 'kill-ring-save)
+      (global-set-key (kbd "A-v") 'yank)
+      (global-set-key (kbd "A-c") 'kill-ring-save)
       ;(set-frame-parameter nil 'alpha 94) ;; transparency - HOW YOU LIKE ME NOW
     )
 )
@@ -88,7 +84,7 @@
 
       (blink-cursor-mode 0)
       (modify-frame-parameters (selected-frame) initial-frame-alist)
-      (global-set-key "\C-z" 'shell)
+      (global-set-key (kbd "C-z") 'shell)
 
       (set-foreground-color                        "black")
       (set-background-color                        "grey75")       ;; easy on eyes
@@ -139,15 +135,15 @@
 ;; Global KeyMappings
 ;;
 
-(global-set-key [delete]      'delete-char)
-(global-set-key [kp-delete]   'delete-char)
-(global-set-key "\C-h"        'delete-backward-char)
-(global-set-key "\C-xC"       'compile)
-(global-set-key "\C-c\C-c"    'eval-buffer)
-(global-set-key "\C-x\C-x"    'end-of-buffer)
-(global-set-key "\C-x\C-p"    'beginning-of-buffer)
-(global-set-key "\M-r"        'revert-buffer)
-(global-set-key "\M-g"        'goto-line)
+(global-set-key (kbd "<delete>")    'delete-char)
+(global-set-key (kbd "<kp-delete>") 'delete-char)
+(global-set-key (kbd "C-h")         'delete-backward-char)
+(global-set-key (kbd "C-x C")       'compile)
+(global-set-key (kbd "C-c C-c")     'eval-buffer)
+(global-set-key (kbd "C-x C-x")     'end-of-buffer)
+(global-set-key (kbd "C-x C-p")     'beginning-of-buffer)
+(global-set-key (kbd "M-r")         'revert-buffer)
+(global-set-key (kbd "M-g")         'goto-line)
 
 ;; Zoom functions and keymapping
 
@@ -156,9 +152,9 @@
   (set-face-attribute 'default (selected-frame) :height
     (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10))))
 
-(global-set-key [?\A-=] '(lambda nil (interactive) (screen-zoom 1)))
-(global-set-key [?\A-+] '(lambda nil (interactive) (screen-zoom 1)))
-(global-set-key [?\A--] '(lambda nil (interactive) (screen-zoom -1)))
+(global-set-key (kbd "A-=") '(lambda nil (interactive) (screen-zoom 1)))
+(global-set-key (kbd "A-+") '(lambda nil (interactive) (screen-zoom 1)))
+(global-set-key (kbd "A--") '(lambda nil (interactive) (screen-zoom -1)))
 
 ;; Encodings
 ;;
@@ -235,6 +231,9 @@
 ;; Navigate split buffer windows with shift-{left,right,up,down}
 (windmove-default-keybindings)
 
+;; Handle escape sequences when shelling out (C-z)
+(require 'ansi-color)
+
 ;; TAB settings
 ;;
 ;; Set some basic requirements around input (width 4, don't use tabs),
@@ -250,13 +249,13 @@
 ;; saving.  I do this by default now, with modes "opting out" of the
 ;; practice by setting indent-tabs-mode to non-nil.
 
-(add-hook 'find-file-hooks
-  (lambda ()
-    (if (not indent-tabs-mode)
-      (save-excursion
-        (untabify (point-min) (point-max))
-        (delete-trailing-whitespace)
-        ))))
+;(add-hook 'find-file-hooks
+;  (lambda ()
+;    (if (not indent-tabs-mode)
+;      (save-excursion
+;        (untabify (point-min) (point-max))
+;        (delete-trailing-whitespace)
+;        ))))
 
 (add-hook 'write-file-hooks
   (lambda ()
@@ -295,9 +294,7 @@
     (lambda ()
         (setq c-basic-offset 4)
         (c-set-offset 'case-label '+)
-        (c-set-offset 'substatement-open 0)
-    )
-)
+        (c-set-offset 'substatement-open 0)))
 
 ;; JavaScript / HTML stuff
 ;;
@@ -346,10 +343,6 @@
 ;; Ruby settings
 ;;
 
-(setq load-path (append
-    '("~/.emacs.d" "~/.emacs.d/rinari-rhtml")
-    load-path))
-
 (require 'ruby-mode)
 (require 'rhtml-mode)
 
@@ -393,7 +386,7 @@
 ;(require 'git)
 ;(require 'format-spec)
 ;(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
-;(global-set-key "\C-x v b" 'git-blame-mode) ;; FIXME: doesn't work
+;(global-set-key (kbd "C-x v b") 'git-blame-mode) ;; FIXME: doesn't work
 
 ;; Mark certain keywords with warning faces
 ;;
@@ -402,13 +395,13 @@
     "Add hiliting of certain keywords to given modes."
     (dolist (mode modes)
       (font-lock-add-keywords mode
-        '(("\\<\\(FIXME\\):" 1 font-lock-warning-face t)
-          ("\\<\\(WARNING\\):" 1 font-lock-warning-face t)
-          ("\\<\\(NOTE\\):" 1 font-lock-warning-face t)
+        '(("\\<\\(FIXME\\):"     1 font-lock-warning-face t)
+          ("\\<\\(WARNING\\):"   1 font-lock-warning-face t)
+          ("\\<\\(NOTE\\):"      1 font-lock-warning-face t)
           ("\\<\\(IMPORTANT\\):" 1 font-lock-warning-face t)
-          ("\\<\\(TODO\\):" 1 font-lock-warning-face t)
-          ("\\<\\(TBC\\)" 1 font-lock-warning-face t)
-          ("\\<\\(TBD\\)" 1 font-lock-warning-face t)))
+          ("\\<\\(TODO\\):"      1 font-lock-warning-face t)
+          ("\\<\\(TBC\\)"        1 font-lock-warning-face t)
+          ("\\<\\(TBD\\)"        1 font-lock-warning-face t)))
       ))
 
 (enable-warning-keyword-hiliting '(c-mode c++-mode perl-mode ruby-mode))
@@ -433,8 +426,8 @@
     (setq tex-dvi-view-command "xdvi *")
     (setq tex-output-extension ".dvi")
     (setq tex-default-mode 'latex-mode)
-    (define-key latex-mode-map "\C-c\C-c" 'tex-file)
-    (define-key latex-mode-map "\C-c\C-v" 'tex-view)
+    (define-key latex-mode-map (kbd "C-c C-c") 'tex-file)
+    (define-key latex-mode-map (kbd "C-c C-v") 'tex-view)
   ))
 
 ;; Special Display Buffers -- if enabled, whatever buffers match names
@@ -445,6 +438,10 @@
 ;(setq special-display-buffer-names
 ;      '("*Completions*" "*grep*" "*tex-shell*"))
 
+
+;; Browse your kill ring buffer
+(require 'browse-kill-ring)
+(global-set-key (kbd "C-c k") 'browse-kill-ring)
 
 ;; Util
 
