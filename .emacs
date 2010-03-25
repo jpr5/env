@@ -45,6 +45,13 @@
 ;; the overriding fg/bg colors.
 ;;
 
+(defun mac-toggle-max-window ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen
+    (if (frame-parameter nil 'fullscreen)
+      nil
+      'fullboth)))
+
 ;; Window systems: 'x 'ns 'mac
 (if (eq window-system 'mac)
     (progn
@@ -54,9 +61,9 @@
             mac-pass-command-to-system t)
       (global-set-key (kbd "A-v") 'yank)
       (global-set-key (kbd "A-c") 'kill-ring-save)
+      (global-set-key (kbd "M-RET") 'mac-toggle-max-window)
       ;(set-frame-parameter nil 'alpha 94) ;; transparency - HOW YOU LIKE ME NOW
-    )
-)
+      ))
 
 ;; Set things different based on windowing environment.
 (if (null window-system) ;; Console mode
@@ -233,6 +240,9 @@
 
 ;; Handle escape sequences when shelling out (C-z)
 (require 'ansi-color)
+(ansi-color-for-comint-mode-on)
+;(add-hook comint-output-filter-functions ansi-color-process-output)
+;(setq ansi-color-for-comint-mode t)
 
 ;; TAB settings
 ;;
