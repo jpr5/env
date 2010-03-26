@@ -119,18 +119,28 @@
 ;; the colors the schemes above give you, then just comment out this
 ;; entire section.
 ;;
+(if (null t)
+    (progn
+      (set-face-foreground 'font-lock-comment-face       "dark red")
+      (set-face-foreground 'font-lock-doc-face           "dark slate grey")
+      (set-face-foreground 'font-lock-type-face          "forest green")
+      (set-face-foreground 'font-lock-variable-name-face "dark green")
+      (set-face-foreground 'font-lock-function-name-face "dark blue")
+      (set-face-foreground 'font-lock-keyword-face       "blue")
+      (set-face-foreground 'font-lock-builtin-face       "dark blue")
+      (set-face-foreground 'font-lock-constant-face      "slateblue3")
 
-(set-face-foreground 'font-lock-comment-face       "dark red")
-(set-face-foreground 'font-lock-doc-face           "dark slate grey")
-(set-face-foreground 'font-lock-type-face          "forest green")
-(set-face-foreground 'font-lock-variable-name-face "dark green")
-(set-face-foreground 'font-lock-function-name-face "dark blue")
-(set-face-foreground 'font-lock-keyword-face       "blue")
-(set-face-foreground 'font-lock-builtin-face       "dark blue")
-(set-face-foreground 'font-lock-constant-face      "slateblue3")
+      (set-face-foreground 'modeline                     "white")
+      (set-face-background 'modeline                     "black")
 
-(set-face-foreground 'modeline                     "white")
-(set-face-background 'modeline                     "black")
+      (set-face-background 'hl-line "lightgrey")
+      )
+    (progn
+      (require 'color-theme)
+      (color-theme-initialize)
+      (color-theme-midnight)
+      (set-face-background 'hl-line "grey16")
+    ))
 
 ;; Some defaults about ourselves.
 ;;
@@ -217,9 +227,6 @@
 (icomplete-mode          1)
 (iswitchb-mode           1)
 
-; Override standard grep mechanism.
-(setq grep-command "grep --color=never -rw -nH ")
-
 ;; Save your minibuffer history
 (setq savehist-file (expand-file-name "~/.emacs.history"))
 (savehist-mode 1)
@@ -241,8 +248,12 @@
 ;; Handle escape sequences when shelling out (C-z)
 (require 'ansi-color)
 (ansi-color-for-comint-mode-on)
+(setq comint-prompt-read-only t) ; this simplifies the two lines below
 ;(add-hook comint-output-filter-functions ansi-color-process-output)
 ;(setq ansi-color-for-comint-mode t)
+
+; Override standard grep mechanism.
+(setq grep-command "grep -rw -nH ")
 
 ;; TAB settings
 ;;
@@ -492,9 +503,4 @@
  '(flymake-start-syntax-check-on-newline nil))
 
 (put 'narrow-to-region 'disabled nil)
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(hl-line ((t (:background "lightgrey")))))
+
