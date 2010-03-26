@@ -11,146 +11,31 @@
 ;;; C-x n w    - widen (un-narrow) view
 ;;; C-x RET f  - choose coding system ("unix" == dos2unix)
 ;;;
+;;; M-x list-colors-display  - show what all the colors look like in a buffer
+;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
+;;;
 ;;; Compile all .el -> .elc: emacs -l ~/.emacs -batch -f batch-byte-compile .emacs.d/*.el
 
-;; Get rid of all those annoying things that get in our way.
-;;
+;; First get rid of all those annoying things that get in our way.
 
 (setq inhibit-startup-message t)
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; Set load path before we get started.
+;; Then set the load path before we get started.
+
 (setq load-path (append
     '("~/.emacs.d" "~/.emacs.d/rinari-rhtml")
     load-path))
 
-;; Before we start setting colors, we have to tell Emacs to always
-;; syntax-hightlight everything to its fullest extent, and don't wait
-;; to fontify (do it immediately).
-;;
-
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
-(setq font-lock-maximum-size nil)
-(setq font-lock-support-mode 'jit-lock-mode)
-(setq jit-lock-stealth-time 0)
-
-;; Basic Color Settings.  These define entire faces themselves, but
-;; we'll override individual settings next.  Below are some color
-;; combinations I liked.. note that the following font-lock*face
-;; definitions are tuned to the current fg/bg color combination, and
-;; so you may want to disable all the face definitions if you change
-;; the overriding fg/bg colors.
-;;
-
-(defun mac-toggle-max-window ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen
-    (if (frame-parameter nil 'fullscreen)
-      nil
-      'fullboth)))
-
-;; Window systems: 'x 'ns 'mac
-(if (eq window-system 'mac)
-    (progn
-      (setq mac-command-modifier       'alt
-            mac-option-modifier        'meta
-            mac-allow-anti-aliasing    t
-            mac-pass-command-to-system t)
-      (global-set-key (kbd "A-v") 'yank)
-      (global-set-key (kbd "A-c") 'kill-ring-save)
-      (global-set-key (kbd "M-RET") 'mac-toggle-max-window)
-      ;(set-frame-parameter nil 'alpha 94) ;; transparency - HOW YOU LIKE ME NOW
-      ))
-
-;; Set things different based on windowing environment.
-(if (null window-system) ;; Console mode
-    (progn
-      (setq default-frame-alist '((cursor-type . box)))
-
-      (blink-cursor-mode t)
-
-      (set-foreground-color                        "white")
-      (set-background-color                        "black")
-      (set-cursor-color                            "grey")
-      (set-face-foreground 'font-lock-warning-face "black")
-      (set-face-background 'font-lock-warning-face "yellow")
-      (set-face-foreground 'font-lock-string-face  "light grey")
-      (set-face-background 'region                 "blue")
-      (set-face-background 'highlight              "dark blue")
-    )
-    (progn ;; Graphics mode
-
-      ;; Set initial size
-      (setq initial-frame-alist (x-parse-geometry "165x40+5+30")) ;cols x rows (character) +x+y (pixel)
-      (setq default-frame-alist '((cursor-type . (bar . 3))))
-      (setq default-indicate-empty-lines t)
-      (setq indicate-empty-lines t)
-
-      (blink-cursor-mode 0)
-      (modify-frame-parameters (selected-frame) initial-frame-alist)
-      (global-set-key (kbd "C-z") 'shell)
-
-      (set-foreground-color                        "black")
-      (set-background-color                        "grey75")       ;; easy on eyes
-;     (set-background-color                        "white smoke")  ;; high contrast
-      (set-cursor-color                            "DarkBlue")
-      (set-border-color                            "DarkSlateGray")
-      (set-face-background 'font-lock-warning-face "yellow")
-      (set-face-foreground 'font-lock-string-face  "grey35")
-      (set-face-background 'region                 "dark grey")
-      (set-face-background 'highlight              "blue")
-
-      (global-hl-line-mode t)
-
-      ;; If in X, startup server and make it work like regular buffer.
-      (unless server-mode (server-start))
-      (add-hook 'server-switch-hook
-        (lambda ()
-          (when (current-local-map)
-            (use-local-map (copy-keymap (current-local-map))))
-          (local-set-key (kbd "C-x k RET") 'server-edit)))
-    )
-)
-
-;; Explicitly set colors (faces) of individual objects.  If you like
-;; the colors the schemes above give you, then just comment out this
-;; entire section.
-;;
-(if (null t)
-    (progn
-      (set-face-foreground 'font-lock-comment-face       "dark red")
-      (set-face-foreground 'font-lock-doc-face           "dark slate grey")
-      (set-face-foreground 'font-lock-type-face          "forest green")
-      (set-face-foreground 'font-lock-variable-name-face "dark green")
-      (set-face-foreground 'font-lock-function-name-face "dark blue")
-      (set-face-foreground 'font-lock-keyword-face       "blue")
-      (set-face-foreground 'font-lock-builtin-face       "dark blue")
-      (set-face-foreground 'font-lock-constant-face      "slateblue3")
-
-      (set-face-foreground 'modeline                     "white")
-      (set-face-background 'modeline                     "black")
-
-      (set-face-background 'hl-line "lightgrey")
-      )
-    (progn
-      (require 'color-theme)
-      (color-theme-initialize)
-      (color-theme-midnight)
-      (set-face-background 'hl-line "grey16")
-    ))
-
-;; Some defaults about ourselves.
-;;
+;; Set some defaults about ourselves.
 
 (setq user-full-name    "Jordan Ritter"
       user-mail-address "jpr5@darkridge.com"
       mail-host-address '"darkridge.com")
 
 ;; Global KeyMappings
-;;
 
 (global-set-key (kbd "<delete>")    'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
@@ -162,21 +47,41 @@
 (global-set-key (kbd "M-r")         'revert-buffer)
 (global-set-key (kbd "M-g")         'goto-line)
 
-;; Zoom functions and keymapping
+;; Mac functions and keymapping
 
 (defun screen-zoom (n)
   "with positive N, increase the font size, otherwise decrease it"
   (set-face-attribute 'default (selected-frame) :height
-    (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10))))
+    (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10))
+    ))
 
-(global-set-key (kbd "A-=") '(lambda nil (interactive) (screen-zoom 1)))
-(global-set-key (kbd "A-+") '(lambda nil (interactive) (screen-zoom 1)))
-(global-set-key (kbd "A--") '(lambda nil (interactive) (screen-zoom -1)))
+(defun mac-toggle-max-window ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen
+    (if (frame-parameter nil 'fullscreen)
+      nil
+      'fullboth)
+    ))
+
+;; Possible window systems: 'x 'ns 'mac
+
+(if (eq window-system 'mac) ;; Carbon Emacs, specifically
+    (progn
+      (setq mac-command-modifier       'alt
+            mac-option-modifier        'meta
+            mac-allow-anti-aliasing    t
+            mac-pass-command-to-system t)
+
+      (global-set-key (kbd "A-v")   'yank)
+      (global-set-key (kbd "A-c")   'kill-ring-save)
+      (global-set-key (kbd "M-RET") 'mac-toggle-max-window)
+      (global-set-key (kbd "A-=")   '(lambda nil (interactive) (screen-zoom 1)))
+      (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
+      (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))
+      ))
 
 ;; Encodings
-;;
 
-;(set-language-environment  "English")
 (set-language-environment    "UTF-8")
 (set-default-coding-systems  'utf-8)
 (set-keyboard-coding-system  'utf-8)
@@ -184,12 +89,102 @@
 (set-clipboard-coding-system 'utf-8)
 (prefer-coding-system        'utf-8)
 
+;; Define themes for all the colors (faces) I like.
+
+(require 'color-theme)
+
+(defun color-theme-jpr5-gui ()
+  "jpr5's gui theme"
+  (interactive)
+  (color-theme-install
+    '(color-theme-jpr5-gui
+      ((foreground-color . "black") (background-color . "grey75") (background-mode . light))
+
+      (font-lock-comment-face           ((t (:foreground "dark red" :italic t))))
+      (font-lock-comment-delimiter-face ((t (:foreground "dark red" :italic t))))
+
+      (font-lock-string-face            ((t (:foreground "grey35"))))
+      (font-lock-variable-name-face     ((t (:foreground "black" :bold t))))
+      (font-lock-type-face              ((t (:foreground "forest green" :bold nil))))
+      (font-lock-constant-face          ((t (:foreground "slateblue3" :bold t))))
+      (font-lock-builtin-face           ((t (:foreground "dark blue"))))
+      (font-lock-function-name-face     ((t (:foreground "blue" :bold t))))
+      (font-lock-keyword-face           ((t (:foreground "dark blue" :bold t))))
+      (font-lock-warning-face           ((t (:foreground "red" :bold t :italic nil :underline t))))
+
+      (font-lock-doc-face               ((t (:foreground "dark slate grey"))))
+      (font-lock-doc-string-face        ((t (:foreground "dark slate grey"))))
+
+      (hl-line                          ((t (:background "lightgrey"))))
+      (mode-line                        ((t (:foreground "white" :background "black"))))
+      (region                           ((t (:foreground nil     :background "dark grey"))))
+      (show-paren-match-face            ((t (:foreground "white" :background "black" :bold t))))
+      )))
+
+(defun color-theme-jpr5-tty ()
+  "jpr5's tty theme"
+  (interactive)
+  (color-theme-install
+    '(color-theme-jpr5-tty
+      ((foreground-color . "white") (background-color . "black") (background-mode . dark))
+
+      (font-lock-comment-face           ((t (:foreground "dark red"))))
+      (font-lock-comment-delimiter-face ((t (:foreground "dark red"))))
+      (font-lock-string-face            ((t (:foreground "light grey"))))
+      (font-lock-warning-face           ((t (:foreground "black" :background "yello"))))
+      (region                           ((t (:foreground nil     :background "dark grey"))))
+      )))
+
+;; Set things differently based on windowing environment.
+
+(if window-system
+    (progn ;; Graphics mode
+      (setq default-frame-alist '((cursor-type . (bar . 3))))
+      (setq initial-frame-alist (x-parse-geometry "178x45+5+30")) ;; cols x rows (character) +x+y (pixel)
+      (modify-frame-parameters (selected-frame) initial-frame-alist) ;; initial window size
+      ;(set-frame-parameter nil 'alpha 94) ;; transparency %
+
+      (blink-cursor-mode 0)
+      (global-hl-line-mode t)
+
+      (global-set-key (kbd "C-z") 'shell)
+
+      (setq default-indicate-empty-lines t)
+      (setq indicate-empty-lines t)
+
+      (color-theme-jpr5-gui)
+      (set-cursor-color "DarkBlue")
+
+      ;; If in X, startup server and make it work like regular buffer.
+      (unless server-mode (server-start))
+      (add-hook 'server-switch-hook
+        (lambda ()
+          (when (current-local-map)
+            (use-local-map (copy-keymap (current-local-map))))
+          (local-set-key (kbd "C-x k RET") 'server-edit)))
+      )
+    (progn ;; Console mode
+      (setq default-frame-alist '((cursor-type . box)))
+
+      (blink-cursor-mode t)
+
+      (color-theme-jpr5-tty)
+      ))
+
+;; Now tell Emacs to always syntax-hightlight everything to its fullest extent, and don't
+;; wait to fontify (do it immediately).
+
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+(setq font-lock-maximum-size nil)
+(setq font-lock-support-mode 'jit-lock-mode)
+(setq jit-lock-stealth-time 0)
+
 ;; Some good settings: visible bell instead of beep, show line and column #, show
 ;; hilighting when selecting a region, raise the cut buffer size from 20 KiB to 64KB,
 ;; always add a final newline if there isn't one, don't auto-create newlines when you go
-;; past the end of the file, change the yes-or-no prompt to a simple single ``y'' or
-;; ``n'' across the board.
-;;
+;; past the end of the file, change the yes-or-no prompt to a simple single ``y'' or ``n''
+;; across the board.
 
 (setq visible-bell            t)
 (setq line-number-mode        t
@@ -207,8 +202,8 @@
 (setq-default completion-ignore-case t)
 (setq-default fill-column            90)
 
-; Override standard grep mechanism and use tramp for ssh.
-(setq grep-command         "grep --color=never -rw -nH ")
+;; Override standard grep mechanism and use tramp for ssh.
+(setq grep-command         "grep -rw -nH ")
 (setq tramp-default-method "ssh")
 
 ;; Put backup files in /tmp
@@ -220,6 +215,7 @@
 ;; Auto-reload buffers if they change out from underneath us (as long as we haven't
 ;; changed them in emacs), highlight searches as you type them, support loading of
 ;; compressed files directly, overwrite selections when typed.
+
 (global-auto-revert-mode 1)
 (auto-compression-mode   1)
 (pending-delete-mode     1)
@@ -227,14 +223,15 @@
 (icomplete-mode          1)
 (iswitchb-mode           1)
 
-;; Save your minibuffer history
-(setq savehist-file (expand-file-name "~/.emacs.history"))
-(savehist-mode 1)
+;; Navigate split buffer windows with shift-{left,right,up,down}
+(windmove-default-keybindings)
 
+;; Set buffer name collision (duplicate) styling
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; Save whatever files you had open at your last open (~/.emacs.desktop)
+;; Save whatever files you had open at your last open (~/.emacs.desktop), and don't
+;; open/save it if already locked (might have to clean out stale lock files on your own).
 (require 'desktop)
 (setq desktop-dirname (expand-file-name "~"))
 (setq desktop-path    (list desktop-dirname))
@@ -242,33 +239,32 @@
 (unless (file-exists-p (expand-file-name (desktop-full-lock-name)))
     (desktop-save-mode 1))
 
-;; Navigate split buffer windows with shift-{left,right,up,down}
-(windmove-default-keybindings)
+;; Save your minibuffer history
+(setq savehist-file (expand-file-name "~/.emacs.history"))
+(savehist-mode 1)
 
 ;; Handle escape sequences when shelling out (C-z)
 (require 'ansi-color)
 (ansi-color-for-comint-mode-on)
-(setq comint-prompt-read-only t) ; this simplifies the two lines below
-;(add-hook comint-output-filter-functions ansi-color-process-output)
-;(setq ansi-color-for-comint-mode t)
+(setq comint-prompt-read-only t)
 
-; Override standard grep mechanism.
-(setq grep-command "grep -rw -nH ")
+;; Browse your kill ring buffer
+(require 'browse-kill-ring)
+(global-set-key (kbd "C-c k") 'browse-kill-ring)
 
 ;; TAB settings
 ;;
-;; Set some basic requirements around input (width 4, don't use tabs),
-;; but then also define some magic that will replace tabs if we happen
-;; to save a file that has tabs inadvertently added to it, as well as
-;; nuke trailing whitespace.  This is the default behaviour; (setq
-;; indent-tabs-mode t) in a hook for modes you want left alone.
+;; Set some basic requirements around input (width 4, don't use tabs), but then also
+;; define some magic that will replace tabs if we happen to save a file that has tabs
+;; inadvertently added to it, as well as nuke trailing whitespace.  This is the default
+;; behaviour; (setq indent-tabs-mode t) in a hook for modes you want left alone.
 
-(setq-default tab-width        4) ;; used by untabify
+(setq-default tab-width        4)   ;; used by untabify
 (setq-default indent-tabs-mode nil)
 
-;; If indent-tabs-mode is off, nuke whitespace and untabify before
-;; saving.  I do this by default now, with modes "opting out" of the
-;; practice by setting indent-tabs-mode to non-nil.
+;; If indent-tabs-mode is off, nuke whitespace and untabify before saving.  I do this by
+;; default now, with modes "opting out" of the practice by setting indent-tabs-mode to
+;; non-nil.  (Only enable find-file-hooks hook if you're an aggressive asshole.)
 
 ;(add-hook 'find-file-hooks
 ;  (lambda ()
@@ -286,18 +282,15 @@
         (delete-trailing-whitespace)
         ))))
 
-;; Instead of default-mode being lisp, make it text.  Uncomment the
-;; other option to force auto-fill for everything (sometimes not good
-;; when programming, though -- depends on how you write codex).
-;;
+;; Instead of default-mode being lisp, make it text.  Uncomment the other option to force
+;; auto-fill for everything (sometimes not good when programming, though -- depends on how
+;; you write codex).
 
 (setq default-major-mode 'text-mode)
 (setq initial-major-mode 'text-mode)
 
-;; Basic C/C++ settings around parenthesis and how Emacs indents
-;; various syntactic structures.  Also, highlight certain keywords
-;; differently.
-;;
+;; Basic C/C++ settings around parenthesis and how Emacs indents various syntactic
+;; structures.  Also, highlight certain keywords differently.
 
 (setq c-basic-indent 4)
 (setq show-paren-delay 0
@@ -313,12 +306,12 @@
 
 (add-hook 'c-mode-common-hook
     (lambda ()
-        (setq c-basic-offset 4)
-        (c-set-offset 'case-label '+)
-        (c-set-offset 'substatement-open 0)))
+      (setq c-basic-offset 4)
+      (c-set-offset 'case-label '+)
+      (c-set-offset 'substatement-open 0)
+      ))
 
 ;; JavaScript / HTML stuff
-;;
 
 (autoload 'javascript-mode "javascript" nil t)
 (setq auto-mode-alist (append
@@ -329,17 +322,47 @@
 
 ;; ActionScript/ECMAScript
 
-;;(autoload 'actionscript-mode "actionscript" nil t)
-;;(setq auto-mode-alist (append
-;;    '(("\\.as$"    . actionscript-mode))
-;;    auto-mode-alist))
+;(autoload 'actionscript-mode "actionscript" nil t)
+;(setq auto-mode-alist (append
+;    '(("\\.as$"    . actionscript-mode))
+;    auto-mode-alist))
 
 (autoload 'ecmascript-mode "ecmascript" nil t)
 (setq auto-mode-alist (append
     '(("\\.as$"    . ecmascript-mode))
     auto-mode-alist))
 
-;; Flymake settings
+;; Ruby settings
+
+(require 'ruby-mode)
+(require 'rhtml-mode)
+
+; add-to-list symbol element
+(setq auto-mode-alist (append
+    '(("\\.rb$"         . ruby-mode)
+      ("\\.ru$"         . ruby-mode)
+      ("Rakefile$"      . ruby-mode)
+      ("\\.rake$"       . ruby-mode)
+      ("\\.rb\\.erb$"   . ruby-mode)
+      ("\\.html\\.erb$" . rhtml-mode)
+      ("\\.rhtml$"      . rhtml-mode)
+      ("\\.erb$"        . rhtml-mode)
+      ("\\.yml\\..*$"   . yaml-mode))
+    auto-mode-alist))
+
+(add-hook 'ruby-mode-hook
+  (lambda ()
+    (setq ruby-deep-indent-paren nil)
+    (setq ruby-indent-level 4)
+
+    ; Only launch flymake when we could actually write to the temporary file.
+    (if (and (not (null buffer-file-name))
+             (file-writable-p (concat (file-name-sans-extension buffer-file-name) "_flymake"
+                                      (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
+        (flymake-mode))
+    ))
+
+;; Flymake for ruby
 (require 'flymake)
 
 (defun flymake-ruby-init ()
@@ -361,57 +384,37 @@
     '(("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3))
     flymake-err-line-patterns))
 
-;; Ruby settings
-;;
-
-(require 'ruby-mode)
-(require 'rhtml-mode)
-
-; add-to-list symbol element
-(setq auto-mode-alist (append
-    '(("\\.rb$"         . ruby-mode)
-      ("\\.ru$"         . ruby-mode)
-      ("Rakefile$"      . ruby-mode)
-      ("\\.rake$"       . ruby-mode)
-      ("\\.rhtml$"      . rhtml-mode)
-      ("\\.rb\\.erb$"   . ruby-mode)
-      ("\\.html\\.erb$" . rhtml-mode)
-      ("\\.erb$"        . rhtml-mode)
-      ("\\.yml\\..*$"   . yaml-mode))
-    auto-mode-alist))
-
-(add-hook 'ruby-mode-hook
-  (lambda ()
-    (setq ruby-deep-indent-paren nil)
-    (setq ruby-indent-level 4)
-    (setq fill-column 90)
-
-    ; Only launch flymake when we could actually write to the temporary file.
-    (if (and (not (null buffer-file-name))
-             (file-writable-p (concat (file-name-sans-extension buffer-file-name) "_flymake"
-                                      (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
-        (flymake-mode))
-    ))
-
-;; Git stuff
-;;
-
-;; Load vc-git and "fix" the broken blame invocation syntax.
+;; Git stuff - load vc-git and "fix" the broken blame invocation syntax.
 (require 'vc-git)
 (add-to-list 'vc-handled-backends 'git)
 (defun vc-git-annotate-command (file buf &optional rev)
   (let ((name (file-relative-name file)))
      (vc-git-command buf 0 name "blame" (if rev (concat rev)))))
 
-;; Enable this for the the ever-awesome git-blame-mode
+;; Enable this for the the ever-awesome git-blame-mode (kinda broken)
 ;(require 'git)
 ;(require 'format-spec)
 ;(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
 ;(global-set-key (kbd "C-x v b") 'git-blame-mode) ;; FIXME: doesn't work
 
-;; Mark certain keywords with warning faces
-;;
+(setq diff-switches '"-u")
+;(setq vc-diff-switches '"-u")
+;(setq cvs-diff-flags '("-u"))
+;(setq vc-cvs-diff-switches '"-u")
+;(setenv "PATH" (concat "/usr/local/git/bin:" (getenv "PATH")))
 
+;; Some useful LaTeX keybindings/settings.
+
+(add-hook 'latex-mode-hook
+  (lambda ()
+    (setq tex-dvi-view-command "xdvi *")
+    (setq tex-output-extension ".dvi")
+    (setq tex-default-mode 'latex-mode)
+    (define-key latex-mode-map (kbd "C-c C-c") 'tex-file)
+    (define-key latex-mode-map (kbd "C-c C-v") 'tex-view)
+  ))
+
+;; Mark certain keywords with warning faces
 (defun enable-warning-keyword-hiliting (modes)
     "Add hiliting of certain keywords to given modes."
     (dolist (mode modes)
@@ -427,44 +430,11 @@
 
 (enable-warning-keyword-hiliting '(c-mode c++-mode perl-mode ruby-mode))
 
-;;
-;; Some cool settings for making VCS integration better.
-;;
-
-(setq diff-switches '"-u")
-;;(setq vc-diff-switches '"-u")
-;;(setq cvs-diff-flags '("-u"))
-;;(setq vc-cvs-diff-switches '"-u")
-
-;(setenv "PATH" (concat "/usr/local/git/bin:" (getenv "PATH")))
-
-;;
-;; Some useful LaTeX keybindings/settings.
-;;
-
-(add-hook 'latex-mode-hook
-  (lambda ()
-    (setq tex-dvi-view-command "xdvi *")
-    (setq tex-output-extension ".dvi")
-    (setq tex-default-mode 'latex-mode)
-    (define-key latex-mode-map (kbd "C-c C-c") 'tex-file)
-    (define-key latex-mode-map (kbd "C-c C-v") 'tex-view)
-  ))
-
-;; Special Display Buffers -- if enabled, whatever buffers match names
-;; in this list are created as separate windows (frames), instead of
-;; splitting the current buffer.
-;;
+;; Special Display Buffers -- if enabled, whatever buffers match names in this list are
+;; created as separate windows (frames), instead of splitting the current buffer.
 
 ;(setq special-display-buffer-names
 ;      '("*Completions*" "*grep*" "*tex-shell*"))
-
-
-;; Browse your kill ring buffer
-(require 'browse-kill-ring)
-(global-set-key (kbd "C-c k") 'browse-kill-ring)
-
-;; Util
 
 (defun count-words (start end)
   "Print number of words in the region."
@@ -479,14 +449,14 @@
       n)))
 
 (defun emacs-format-function ()
-   "Format the whole buffer."
+   "Untabify the whole buffer."
    (untabify (point-min) (point-max))
    (delete-trailing-whitespace)
    (save-some-buffers t)
 )
 
 ;; And finally Emacs custom settings.
-;;
+(put 'narrow-to-region 'disabled nil)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -501,6 +471,3 @@
  '(flymake-mode nil t)
  '(flymake-start-syntax-check-on-find-file t)
  '(flymake-start-syntax-check-on-newline nil))
-
-(put 'narrow-to-region 'disabled nil)
-
