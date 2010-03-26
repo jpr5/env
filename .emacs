@@ -4,12 +4,13 @@
 
 ;;; Notes:
 ;;;
-;;; C-x r k    - cut rectangle (set-mark first) [remove columns from lines]
-;;; C-x r o    - insert rectangle (set-mark first) [add columns to lines]
-;;; C-x r y    - yank rectangle (at cursor h-coord)
-;;; C-x n n    - narrow view
-;;; C-x n w    - widen (un-narrow) view
-;;; C-x RET f  - choose coding system ("unix" == dos2unix)
+;;; C-x r k       - cut rectangle (set-mark first) [remove columns from lines]
+;;; C-x r o       - insert rectangle (set-mark first) [add columns to lines]
+;;; C-x r y       - yank rectangle (at cursor h-coord)
+;;; C-x n n       - narrow view
+;;; C-x n w       - widen (un-narrow) view
+;;; C-x RET f     - choose coding system ("unix" == dos2unix)
+;;; C-S backspace - cut whole line at point (without needing to select the line)
 ;;;
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
 ;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
@@ -98,7 +99,7 @@
   (interactive)
   (color-theme-install
     '(color-theme-jpr5-gui
-      ((foreground-color . "black") (background-color . "grey75") (background-mode . light))
+      ((foreground-color . "black") (background-color . "grey75") (cursor-color . "DarkBlue") (background-mode . light))
 
       (font-lock-comment-face           ((t (:foreground "dark red" :italic t))))
       (font-lock-comment-delimiter-face ((t (:foreground "dark red" :italic t))))
@@ -145,7 +146,8 @@
       ;(set-frame-parameter nil 'alpha 94) ;; transparency %
 
       (blink-cursor-mode 0)
-      (global-hl-line-mode t)
+      (when (fboundp 'global-hl-line-mode)
+        (global-hl-line-mode t))
 
       (global-set-key (kbd "C-z") 'shell)
 
@@ -153,7 +155,6 @@
       (setq indicate-empty-lines t)
 
       (color-theme-jpr5-gui)
-      (set-cursor-color "DarkBlue")
 
       ;; If in X, startup server and make it work like regular buffer.
       (unless server-mode (server-start))
@@ -187,8 +188,10 @@
 ;; across the board.
 
 (setq visible-bell            t)
+(setq resize-mini-windows     t)
 (setq line-number-mode        t
       column-number-mode      t
+      size-indication-mode    t
       transient-mark-mode     t)
 (setq require-final-newline   t
       next-line-add-newlines  nil)
@@ -227,30 +230,35 @@
 (windmove-default-keybindings)
 
 ;; Set buffer name collision (duplicate) styling
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(when (require 'uniquify nil 'noerror)
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 ;; Save whatever files you had open at your last open (~/.emacs.desktop), and don't
 ;; open/save it if already locked (might have to clean out stale lock files on your own).
-(require 'desktop)
-(setq desktop-dirname (expand-file-name "~"))
-(setq desktop-path    (list desktop-dirname))
-(setq desktop-load-locked-desktop 'nil)
-(unless (file-exists-p (expand-file-name (desktop-full-lock-name)))
-    (desktop-save-mode 1))
+(when (require 'desktop nil 'noerror)
+  (setq desktop-dirname (expand-file-name "~"))
+  (setq desktop-path    (list desktop-dirname))
+  (setq desktop-load-locked-desktop 'nil)
+  (unless (file-exists-p (expand-file-name (desktop-full-lock-name)))
+    (desktop-save-mode 1)))
 
 ;; Save your minibuffer history
-(setq savehist-file (expand-file-name "~/.emacs.history"))
+(setq savehist-file                 (expand-file-name "~/.emacs.history")
+      savehist-additional-variables '(search ring regexp-search-ring))
 (savehist-mode 1)
 
 ;; Handle escape sequences when shelling out (C-z)
-(require 'ansi-color)
-(ansi-color-for-comint-mode-on)
-(setq comint-prompt-read-only t)
+(when (require 'ansi-color nil 'noerror)
+  (ansi-color-for-comint-mode-on)
+  (setq comint-prompt-read-only t))
 
 ;; Browse your kill ring buffer
-(require 'browse-kill-ring)
-(global-set-key (kbd "C-c k") 'browse-kill-ring)
+(when (require 'browse-kill-ring nil 'noerror)
+  (global-set-key (kbd "C-c k") 'browse-kill-ring))
+
+;; Better buffer browser
+(when (fboundp 'ibuffer)
+  (global-set-key (kbd "C-x C-b") 'ibuffer))
 
 ;; TAB settings
 ;;
@@ -389,7 +397,7 @@
 (add-to-list 'vc-handled-backends 'git)
 (defun vc-git-annotate-command (file buf &optional rev)
   (let ((name (file-relative-name file)))
-     (vc-git-command buf 0 name "blame" (if rev (concat rev)))))
+    (vc-git-command buf 0 name "blame" (if rev (concat rev)))))
 
 ;; Enable this for the the ever-awesome git-blame-mode (kinda broken)
 ;(require 'git)
@@ -419,14 +427,9 @@
     "Add hiliting of certain keywords to given modes."
     (dolist (mode modes)
       (font-lock-add-keywords mode
-        '(("\\<\\(FIXME\\):"     1 font-lock-warning-face t)
-          ("\\<\\(WARNING\\):"   1 font-lock-warning-face t)
-          ("\\<\\(NOTE\\):"      1 font-lock-warning-face t)
-          ("\\<\\(IMPORTANT\\):" 1 font-lock-warning-face t)
-          ("\\<\\(TODO\\):"      1 font-lock-warning-face t)
-          ("\\<\\(TBC\\)"        1 font-lock-warning-face t)
-          ("\\<\\(TBD\\)"        1 font-lock-warning-face t)))
-      ))
+        '(("\\<\\(FIXME\\|WARNING\\|NOTE\\|TODO\\|TBC\\|TBD\\):" 1
+           font-lock-warning-face t))
+      )))
 
 (enable-warning-keyword-hiliting '(c-mode c++-mode perl-mode ruby-mode))
 
@@ -455,6 +458,23 @@
    (save-some-buffers t)
 )
 
+;; Show offscreen paren matches in the minibuffer
+ (defadvice show-paren-function
+      (after show-matching-paren-offscreen activate)
+      "If the matching paren is offscreen, show the matching line in the
+    echo area. Has no effect if the character before point is not of
+    the syntax class ')'."
+      (interactive)
+      (let ((matching-text nil))
+        ;; Only call `blink-matching-open' if the character before point
+        ;; is a close parentheses type character. Otherwise, there's not
+        ;; really any point, and `blink-matching-open' would just echo
+        ;; "Mismatched parentheses", which gets really annoying.
+        (if (char-equal (char-syntax (char-before (point))) ?\))
+            (setq matching-text (blink-matching-open)))
+        (if (not (null matching-text))
+            (message matching-text))))
+
 ;; And finally Emacs custom settings.
 (put 'narrow-to-region 'disabled nil)
 
@@ -471,3 +491,4 @@
  '(flymake-mode nil t)
  '(flymake-start-syntax-check-on-find-file t)
  '(flymake-start-syntax-check-on-newline nil))
+
