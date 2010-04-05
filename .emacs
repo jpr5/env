@@ -352,12 +352,13 @@
 (setq auto-mode-alist (append
     '(("\\.rb$"         . ruby-mode)
       ("\\.ru$"         . ruby-mode)
+      ("\\.ru\\..*$"    . ruby-mode)
       ("Rakefile$"      . ruby-mode)
       ("\\.rake$"       . ruby-mode)
       ("\\.rb\\.erb$"   . ruby-mode)
+      ("\\.erb$"        . rhtml-mode)
       ("\\.html\\.erb$" . rhtml-mode)
       ("\\.rhtml$"      . rhtml-mode)
-      ("\\.erb$"        . rhtml-mode)
       ("\\.yml\\..*$"   . yaml-mode))
     auto-mode-alist))
 
