@@ -19,3 +19,16 @@
   (save-some-buffers t)
   )
 
+(defun screen-zoom (n)
+  "with positive N, increase the font size, otherwise decrease it"
+  (set-face-attribute 'default (selected-frame) :height
+                      (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10))
+                      ))
+
+(defun mac-toggle-max-window ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen
+                       (if (frame-parameter nil 'fullscreen)
+                           nil
+                         'fullboth)
+                       ))
