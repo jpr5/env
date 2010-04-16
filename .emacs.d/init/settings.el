@@ -23,7 +23,7 @@
 (setq-default fill-column            90)
 
 ;; Override standard grep mechanism and use tramp for ssh.
-(setq grep-command         "grep -rw -nH ")
+(setq grep-command         "grep --color=never -rw -nH ")
 (setq tramp-default-method "ssh")
 
 ;; Put backup files in /tmp
