@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 EMACSSERVER="/Applications/Emacs.app/Contents/MacOS/Emacs"
 EMACSCLIENT="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
 
