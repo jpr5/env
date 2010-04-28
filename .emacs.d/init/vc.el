@@ -16,3 +16,5 @@
 ;(setq cvs-diff-flags '("-u"))
 ;(setq vc-cvs-diff-switches '"-u")
 ;(setenv "PATH" (concat "/usr/local/git/bin:" (getenv "PATH")))
+
+(setq vc-follow-symlinks t)

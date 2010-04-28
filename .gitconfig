@@ -15,15 +15,29 @@
     d  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $B..$R/$RB
     rd = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $R/$RB..$B
 [color]
+    ui = auto
     diff = auto
     status = auto
     branch = auto
     interactive = auto
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    whitespace = red reverse
+    frag = cyan
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
 [user]
     name = Jordan Ritter
     email = jpr5@darkridge.com
 [core]
     excludesfile = ~/.gitignore-global
+    whitespace=indent-with-no-tab,trailing-space,cr-at-eol
 [github]
     user = jpr5
     token = 4225723a97dc811c978bde1c1c54a23d
