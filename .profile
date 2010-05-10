@@ -65,6 +65,7 @@ alias rs='rsync -avuxe ssh '
 alias grep='grep --line-buffered --color=always'
 alias less='less -R'
 alias lsof='lsof -nP'
+alias diff='diff -u'
 
 [ -n "`which gfind`"  ] && alias find=gfind
 
