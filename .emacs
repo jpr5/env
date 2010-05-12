@@ -8,8 +8,8 @@
       mail-host-address '"darkridge.com")
 
 ;; Load our settings/config
-(setq load-path (append '("~/.emacs.d" "~/.emacs.d/init") load-path))
-(mapcar 'load (file-expand-wildcards "~/.emacs.d/init/*.el"))
+(setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
+(mapcar 'load (file-expand-wildcards "~/.emacs.d/*.el"))
 
 ;; Set the theme
 (if window-system

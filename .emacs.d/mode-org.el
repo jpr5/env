@@ -1,4 +1,4 @@
-(setq load-path (add-to-list 'load-path "~/.emacs.d/org-mode"))
+(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/org-mode"))
 
 (require 'org-install)
 (require 'org-mouse)

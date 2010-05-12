@@ -23,7 +23,7 @@
 
 ;; Rinari package
 
-(setq load-path (add-to-list 'load-path "~/.emacs.d/rinari-rhtml"))
+(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/rinari-rhtml"))
 (require 'rhtml-mode)
 
 ; add-to-list symbol element
