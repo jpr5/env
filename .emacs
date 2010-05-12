@@ -7,15 +7,17 @@
       user-mail-address "jpr5@darkridge.com"
       mail-host-address '"darkridge.com")
 
-;; Load our settings/config
+;; Load our settings/config.  Set our load path, then loop over all root files as
+;; basenames so load can choose to pick up any .elc files in place of .els, if present.
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
-(mapcar 'load (file-expand-wildcards "~/.emacs.d/*.el"))
+(dolist (filename (file-expand-wildcards "~/.emacs.d/*"))
+  (when (file-regular-p filename)
+    (load (file-name-sans-extension filename))))
 
 ;; Set the theme
 (if window-system
     (color-theme-jpr5-gui)
-    (color-theme-jpr5-tty)
-  )
+    (color-theme-jpr5-tty))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
