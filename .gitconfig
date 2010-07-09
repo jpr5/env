@@ -7,6 +7,7 @@
     dt = difftool -y
     unstage = reset HEAD
     chekcout = checkout
+    rev = rev-parse HEAD
     wc = whatchanged --stat
     up = remote -v update -p
     staged = diff --cached
