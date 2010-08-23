@@ -15,13 +15,13 @@ esac
 if [ "$color_prompt" = yes ]; then
     PS1='\[\033[01;32m\]\u@\h\[\033[00m\](\[\033[01;34m\]\W\[\033[00m\])\$ '
 else
-    PS1='\u@\h:\w\$ '
+    PS1='\u@\h(\W)\$ '
 fi
 unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|rxvt*|screen*)
     PS1="\[\e]0;\u@\h: \w\a\]$PS1"
     ;;
 esac
