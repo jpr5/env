@@ -55,3 +55,6 @@
 ;; Include rdebug-mode if we've got it
 (setq load-path (add-to-list 'load-path "~/.emacs.d/lib/rdebug-mode"))
 (require 'rdebug nil 'noerror)
+
+;; Load up cucumber/feature-mode.
+(require 'cucumber-mode nil 'noerror)
