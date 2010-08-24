@@ -1,16 +1,23 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Jordan Ritter's dot-emacs ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Jordan Ritter's (jpr5) dot-emacs ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Identify ourselves
 (setq user-full-name    "Jordan Ritter"
       user-mail-address "jpr5@darkridge.com"
       mail-host-address '"darkridge.com")
 
-;; Load our settings/config.  Set our load path, then loop over all root files as
-;; basenames to load (add-to-list uniqifies). This will prefer elc's over el's if
-;; present.
+;; Load our settings/config.  Set our load path first, load up the on-the-fly
+;; byte-compiler, then loop over all root files as basenames to load
+;; (add-to-list uniqifies). This will prefer elc's over el's if present.
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
+
+(require 'bytecomp)
+(setq byte-compile-verbose nil)
+(setq byte-compile-warnings nil)
+(require 'byte-code-cache)
+(setq bcc-blacklist '("\\.emacs\\.history" "\\.emacs\\.desktop"))
+(setq bcc-cache-directory "~/.emacs.d/elc")
 
 (let (files)
   (dolist (filename (file-expand-wildcards "~/.emacs.d/*.el*") files)
@@ -19,12 +26,13 @@
   (dolist (filename files)
     (load-library filename)))
 
-;; Set the theme
+;; Set the Visual theme
 (if window-system
 ;    (color-theme-jpr5-day)
     (color-theme-jpr5-night)
     (color-theme-jpr5-tty))
 
+;; And finally Emacs custom settings.
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -39,7 +47,6 @@
  '(flymake-start-syntax-check-on-find-file t)
  '(flymake-start-syntax-check-on-newline nil))
 
-;; And finally Emacs custom settings.
 (put 'narrow-to-region 'disabled nil)
 
 ;;; Notes:
@@ -55,5 +62,6 @@
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
 ;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
 ;;;
-;;; Compile all .el -> .elc:
+;;; Manually compile all .el -> .elc:
 ;;;   find .emacs.d -name *.el | xargs emacs -l ~/.emacs -batch -f batch-byte-compile
+;;; Shouldn't be necessary though, with the automatic byte compile stuff.
