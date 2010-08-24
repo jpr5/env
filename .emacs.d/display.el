@@ -1,6 +1,9 @@
 ;; Get rid of all those annoying things that get in our way.
 
 (setq inhibit-startup-message t)
+(setq emacs-query-startup t)
+(setq emacs-base-display t)
+
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -43,8 +46,8 @@
 (setq search-highlight        t
       query-replace-highlight t)
 
-(setq-default even-window-heights    nil)
-(setq-default resize-mini-windows    nil)
+(setq-default even-window-heights nil)
+(setq-default resize-mini-windows nil)
 
 ;; Handle escape sequences when shelling out (C-z)
 (when (require 'ansi-color nil 'noerror)
