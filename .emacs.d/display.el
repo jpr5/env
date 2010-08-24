@@ -59,7 +59,7 @@
     "Add hiliting of certain keywords to given modes."
     (dolist (mode modes)
       (font-lock-add-keywords mode
-        '(("\\<\\(FIXME\\|WARNING\\|NOTE\\|TODO\\|TBC\\|TBD\\):" 1
+        '(("\\<\\(FIXME\\|WARNING\\|NOTE\\|TODO\\|TBC\\|TBD\\)[: ]" 1
            font-lock-warning-face t))
       )))
 
