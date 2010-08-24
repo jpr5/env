@@ -51,3 +51,7 @@
                                       (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
         (flymake-mode))
     ))
+
+;; Include rdebug-mode if we've got it
+(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/rdebug-mode"))
+(require 'rdebug nil 'noerror)
