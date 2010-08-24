@@ -20,7 +20,7 @@
 
 (setq-default mouse-yank-at-point    t)
 (setq-default completion-ignore-case t)
-(setq-default fill-column            90)
+(setq-default fill-column            80)
 
 ;; Override standard grep mechanism and use tramp for ssh.
 (setq grep-command         "grep --color=never -rw -nH ")
