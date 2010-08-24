@@ -8,15 +8,21 @@
       mail-host-address '"darkridge.com")
 
 ;; Load our settings/config.  Set our load path, then loop over all root files as
-;; basenames so load can choose to pick up any .elc files in place of .els, if present.
+;; basenames to load (add-to-list uniqifies). This will prefer elc's over el's if
+;; present.
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
-(dolist (filename (file-expand-wildcards "~/.emacs.d/*"))
-  (when (file-regular-p filename)
-    (load (file-name-sans-extension filename))))
+
+(let (files)
+  (dolist (filename (file-expand-wildcards "~/.emacs.d/*.el*") files)
+    (when (file-regular-p filename)
+      (add-to-list 'files (file-name-sans-extension filename))))
+  (dolist (filename files)
+    (load-library filename)))
 
 ;; Set the theme
 (if window-system
-    (color-theme-jpr5-gui)
+;    (color-theme-jpr5-day)
+    (color-theme-jpr5-night)
     (color-theme-jpr5-tty))
 
 (custom-set-variables
@@ -49,4 +55,5 @@
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
 ;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
 ;;;
-;;; Compile all .el -> .elc: emacs -l ~/.emacs -batch -f batch-byte-compile .emacs.d/*.el
+;;; Compile all .el -> .elc:
+;;;   find .emacs.d -name *.el | xargs emacs -l ~/.emacs -batch -f batch-byte-compile
