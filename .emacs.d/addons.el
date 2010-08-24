@@ -12,7 +12,7 @@
     (desktop-save-mode 1)))
 
 ;; Save your minibuffer history
-(setq savehist-file                 (expand-file-name "~/.emacs.history")
+(setq savehist-file                  (expand-file-name "~/.emacs.history")
       savehist-additional-variables '(search ring regexp-search-ring))
 (savehist-mode 1)
 
@@ -24,5 +24,6 @@
 (when (require 'browse-kill-ring nil 'noerror)
   (global-set-key (kbd "C-c k") 'browse-kill-ring))
 
-(when (require 'linum nil 'noerror)
+;; Weirdness with linum not being added to features when elc'd.
+(when (or (require 'linum nil 'noerror) (functionp 'global-linum-mode))
   (global-linum-mode))
