@@ -23,3 +23,6 @@
 ;; Browse your kill ring buffer
 (when (require 'browse-kill-ring nil 'noerror)
   (global-set-key (kbd "C-c k") 'browse-kill-ring))
+
+(when (require 'linum nil 'noerror)
+  (global-linum-mode))
