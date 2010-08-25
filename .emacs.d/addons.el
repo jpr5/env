@@ -25,5 +25,5 @@
   (global-set-key (kbd "C-c k") 'browse-kill-ring))
 
 ;; Weirdness with linum not being added to features when elc'd.
-(when (or (require 'linum nil 'noerror) (functionp 'global-linum-mode))
-  (global-linum-mode))
+;(when (or (require 'linum nil 'noerror) (functionp 'global-linum-mode))
+;  (global-linum-mode))
