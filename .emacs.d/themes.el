@@ -47,8 +47,45 @@
       (show-paren-match-face            ((t (:foreground "white" :background "grey50" :bold t))))
       )))
 
-
 (defun color-theme-jpr5-night ()
+  "jpr5's night time theme"
+  (interactive)
+  (color-theme-install
+   '(color-theme-jpr5-night
+     ((font . "fixed")
+      (width . 130)
+      (height . 50)
+      (background-color . "black")
+      (foreground-color . "grey85")
+      (background-mode . dark)
+      (mouse-color . "grey85")
+      (cursor-color . "grey85"))
+     (default ((t (nil))))
+     (font-lock-comment-face ((t (:italic t :foreground "tomato4"))))
+     (font-lock-string-face ((t (:foreground "RosyBrown3" :background "gray12"))))
+     (font-lock-keyword-face ((t (:foreground "DodgerBlue1"))))
+     (font-lock-constant-face ((t (:foreground "gold2"))))
+     (font-lock-type-face ((t (:foreground "DarkCyan"))))
+     (font-lock-variable-name-face ((t (:foreground "SkyBlue1"))))
+     (font-lock-function-name-face ((t (:foreground "SlateBlue"))))
+     (font-lock-builtin-face ((t (:foreground "SkyBlue"))))
+     (highline-face ((t (:background "grey10"))))
+     (setnu-line-number-face ((t (:background "grey15" :foreground "white" :bold t))))
+     (show-paren-match-face ((t (:background "grey30"))))
+     (region ((t (:background "grey15"))))
+     (highlight ((t (:background "blue"))))
+     (secondary-selection ((t (:background "navy"))))
+     (widget-field-face ((t (:background "navy"))))
+     (widget-single-line-field-face ((t (:background "royalblue"))))
+
+     (font-lock-warning-face ((t (:foreground "red" :bold t :italic nil :underline t))))
+     (hl-line                ((t (:background "grey10"))))
+)))
+
+(color-theme-jpr5-night)
+
+
+(defun color-theme-jpr5-night-old ()
   "jpr5's night time theme"
   (interactive)
   (color-theme-install
