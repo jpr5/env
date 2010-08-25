@@ -22,6 +22,10 @@
 (setq-default completion-ignore-case t)
 (setq-default fill-column            80)
 
+;; Don't let the mouse overscroll the window!
+(setq mouse-wheel-scroll-amount     '(1))
+(setq mouse-wheel-progressive-speed nil)
+
 ;; Override standard grep mechanism and use tramp for ssh.
 (setq grep-command         "grep --color=never -rw -nH ")
 (setq tramp-default-method "ssh")
