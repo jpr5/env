@@ -62,7 +62,7 @@
       (cursor-color . "grey85"))
      (default ((t (nil))))
      (font-lock-comment-face ((t (:italic t :foreground "tomato4"))))
-     (font-lock-string-face ((t (:foreground "RosyBrown3" :background "gray12"))))
+     (font-lock-string-face ((t (:foreground "RosyBrown3" :background "gray10"))))
      (font-lock-keyword-face ((t (:foreground "DodgerBlue1"))))
      (font-lock-constant-face ((t (:foreground "gold2"))))
      (font-lock-type-face ((t (:foreground "DarkCyan"))))
@@ -81,9 +81,6 @@
      (font-lock-warning-face ((t (:foreground "red" :bold t :italic nil :underline t))))
      (hl-line                ((t (:background "grey10"))))
 )))
-
-(color-theme-jpr5-night)
-
 
 (defun color-theme-jpr5-night-old ()
   "jpr5's night time theme"
