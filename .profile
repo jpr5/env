@@ -59,7 +59,7 @@ export PATH=/opt/local/lib/mysql5/bin:$PATH
 ## Aliases
 ##
 
-alias su='sudo -s'
+alias su='sudo -i'
 alias df='df -klH '
 alias rs='rsync -avuxe ssh '
 alias grep='grep --line-buffered --color=always'
