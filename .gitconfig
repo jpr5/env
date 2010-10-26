@@ -2,6 +2,7 @@
     cl = clone --recursive
     st = status
     stat = status -sb
+    sb = show-branch
     ci = commit
     co = checkout
     br = branch

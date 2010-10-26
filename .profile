@@ -66,6 +66,7 @@ alias grep='grep --line-buffered --color=always'
 alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
+alias cleanup='find -name .#* -o -name *.~*~  | xargs rm'
 
 [ -n "`which gfind`"  ] && alias find=gfind
 
