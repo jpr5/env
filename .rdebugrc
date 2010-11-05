@@ -2,4 +2,23 @@ set autoeval
 set autolist
 set history save
 set history size 10000
-set history filename /Users/jpr5/.ruby_history
+
+## Ruby ruby-debug sucks:
+##    docs say you can set the history file, but you can't.
+##    almost everything's done with basic objects and singleton methods, and it's a bitch to hack anything.
+##    the history is read when the LocalInterface is initialized (so you have to manually clear and re-add)
+##
+## Ruby readline on OSX sucks:
+##    you can't clear the history in one call (so you have to pop)
+##    it loses the first entry on every load/save (so you have to leave one in)
+##
+## So, because *THIS* doesn't work:
+##
+##set history filename "#{ENV['HOME']}/.ruby_history"
+##
+## We have to do *THIS*:
+
+eval MY_HISTORY = "#{ENV['HOME']}/.ruby_history"
+eval Readline::HISTORY.pop while Readline::HISTORY.length > 1
+eval File.read(MY_HISTORY).split($/).each{ |l| Readline::HISTORY << l }
+eval ObjectSpace.each_object(Debugger::LocalInterface) { |i| i.histfile = MY_HISTORY }
