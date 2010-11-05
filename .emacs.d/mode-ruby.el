@@ -59,9 +59,9 @@
 (require 'align)
 
 (defconst align-ruby-modes '(ruby-mode)
-  "align-ruby-modes is a variable defined in `align.el'.")
+  "List of modes that will have align-ruby-rules-list applied.")
 
-(defconst ruby-align-rules-list
+(defconst align-ruby-rules-list
   '((ruby-comma-delimiter
      (regexp . ",\\(\\s-*\\)[^/ \t\n]")
      (modes  . align-ruby-modes)
@@ -72,13 +72,21 @@
      (repeat . t))
     (ruby-symbol-after-func
      (regexp . "^\\s-*[a-zA-Z0-9.:?_]+\\(\\s-+\\):\\w+")
-     (modes  . align-ruby-modes)))
-  "Alignment rules specific to the ruby mode. See the variable `align-rules-list' for more details.")
+     (modes  . align-ruby-modes))
+    (ruby-hash-literal
+     (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
+     (modes . align-ruby-modes)
+     (repeat . t))
+    (ruby-assignment-literal
+     (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+     (modes . align-ruby-modes)
+     (repeat . t))
+    )
+  "Alignment rules specific to ruby-mode. See the variable `align-rules-list' for more details.")
 
-(dolist (it ruby-align-rules-list)
+(dolist (it align-ruby-rules-list)
   (add-to-list 'align-rules-list it))
 
-(add-to-list 'align-perl-modes         'ruby-mode)
 (add-to-list 'align-dq-string-modes    'ruby-mode)
 (add-to-list 'align-sq-string-modes    'ruby-mode)
 (add-to-list 'align-open-comment-modes 'ruby-mode)
