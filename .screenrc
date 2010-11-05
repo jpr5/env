@@ -1,0 +1,6 @@
+defutf8 on
+defscrollback 100000
+
+altscreen on
+
+termcapinfo xterm* ti@:te@
