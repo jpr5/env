@@ -10,8 +10,9 @@
 (global-set-key (kbd "M-r")         'revert-buffer)
 (global-set-key (kbd "M-g")         'goto-line)
 (global-set-key (kbd "C-M-\\")      'indent-region)
-;(global-set-key (kbd "C-M-\\")      'align)
 (global-set-key (kbd "C-M-/")       'align)
+(global-set-key (kbd "M-SPC")       'delete-horizontal-space)
+(global-set-key (kbd "M-j")         'join-line)
 
 ;; Some settings when we're in a windowed environment.
 (when window-system
