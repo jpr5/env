@@ -30,5 +30,7 @@
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen)
                            nil
-                         'fullboth)
-                       ))
+                         'fullboth)))
+;; Take any list-of-list(-of-list) and return a flat list.
+(defun flatten (list)
+  (mapcan (lambda (x) (if (listp x) x nil)) list))
