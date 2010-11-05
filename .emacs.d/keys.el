@@ -9,6 +9,9 @@
 (global-set-key (kbd "C-x C-p")     'beginning-of-buffer)
 (global-set-key (kbd "M-r")         'revert-buffer)
 (global-set-key (kbd "M-g")         'goto-line)
+(global-set-key (kbd "C-M-\\")      'indent-region)
+;(global-set-key (kbd "C-M-\\")      'align)
+(global-set-key (kbd "C-M-/")       'align)
 
 ;; Some settings when we're in a windowed environment.
 (when window-system
