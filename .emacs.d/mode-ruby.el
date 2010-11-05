@@ -1,13 +1,5 @@
-;; Flymake for ruby
+;; Enable Flymake in Ruby
 (require 'flymake)
-
-(defun flymake-ruby-init ()
-    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                         'flymake-create-temp-inplace))
-           (local-file  (file-relative-name
-                         temp-file
-                         (file-name-directory buffer-file-name))))
-           (list "ruby" (list "-c" local-file))))
 
 (setq flymake-allowed-file-name-masks (append
     '((".+\\.rb$"   flymake-ruby-init)
@@ -20,10 +12,24 @@
     '(("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3))
     flymake-err-line-patterns))
 
+; Ensure flymake turds are written to system temp directory
+(defun flymake-create-temp-in-system-tempdir (filename prefix)
+  (make-temp-file (or prefix "flymake-ruby")))
+
+(defun flymake-ruby-init ()
+  (list "ruby" (list "-c" (flymake-init-create-temp-buffer-copy
+                           'flymake-create-temp-in-system-tempdir))))
+
+;(defun flymake-ruby-init ()
+;    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+;                         'flymake-create-temp-inplace))
+;           (local-file  (file-relative-name
+;                         temp-file
+;                         (file-name-directory buffer-file-name))))
+;           (list "ruby" (list "-c" local-file))))
 
 ;; Rinari package
-
-(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/rinari-rhtml"))
+(add-to-list 'load-path "~/.emacs.d/lib/rinari-rhtml")
 (require 'rhtml-mode)
 
 ; add-to-list symbol element
@@ -44,24 +50,14 @@
   (lambda ()
     (setq ruby-deep-indent-paren nil)
     (setq ruby-indent-level 4)
-
-    ; Only launch flymake when we could actually write to the temporary file.
-    (if (and (not (null buffer-file-name))
-             (file-writable-p (concat (file-name-sans-extension buffer-file-name) "_flymake"
-                                      (and (file-name-extension buffer-file-name) (concat "." (file-name-extension buffer-file-name))))))
-        (flymake-mode))
+    (flymake-mode t)
     ))
-
-;; Include rdebug-mode if we've got it
-(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/rdebug-mode"))
-(require 'rdebug nil 'noerror)
-
-;; Load up cucumber/feature-mode.
-(require 'cucumber-mode nil 'noerror)
 
 ;; Gank some auto-align stuff from the compuweb.
 ;;
 ;; TODO: find a way to "group" '=' and '=>' align targets differently.
+(require 'align)
+
 (defconst align-ruby-modes '(ruby-mode)
   "align-ruby-modes is a variable defined in `align.el'.")
 
@@ -86,4 +82,13 @@
 (add-to-list 'align-dq-string-modes    'ruby-mode)
 (add-to-list 'align-sq-string-modes    'ruby-mode)
 (add-to-list 'align-open-comment-modes 'ruby-mode)
+
 (setq align-indent-before-aligning t)
+(setq align-region-separate 'group)
+
+;; Include rdebug-mode if we've got it
+(add-to-list 'load-path "~/.emacs.d/lib/rdebug-mode")
+(require 'rdebug nil 'noerror)
+
+;; Load up cucumber/feature-mode.
+(require 'cucumber-mode nil 'noerror)
