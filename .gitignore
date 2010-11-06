@@ -1,1 +1,11 @@
 *
+!*rc
+!.ssh/config
+!.git[ci]*
+!.mm.cfg
+!.emacs
+.emacs.history*
+.emacs.desktop*
+!.emacs.d/
+.emacs.d/elc
+.emacs.d/auto-save-list
