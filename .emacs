@@ -7,6 +7,7 @@
 ;;; C-x r k       - cut rectangle (set-mark first) [remove columns from lines]
 ;;; C-x r o       - insert rectangle (set-mark first) [add columns to lines]
 ;;; C-x r y       - yank rectangle (at cursor h-coord)
+;;; C-x r i       - string rectangle (replace rect with string; prefix if point at beg-of-line)
 ;;; C-x n n       - narrow view
 ;;; C-x n w       - widen (un-narrow) view
 ;;; C-x RET f     - choose coding system ("unix" == dos2unix)

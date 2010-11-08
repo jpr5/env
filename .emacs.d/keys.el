@@ -7,6 +7,7 @@
 (global-set-key (kbd "C-c C-c")     'eval-buffer)
 (global-set-key (kbd "C-x C-x")     'end-of-buffer)
 (global-set-key (kbd "C-x C-p")     'beginning-of-buffer)
+(global-set-key (kbd "C-x r i")     'string-rectangle)
 (global-set-key (kbd "M-r")         'revert-buffer)
 (global-set-key (kbd "M-g")         'goto-line)
 (global-set-key (kbd "C-M-\\")      'indent-region)
