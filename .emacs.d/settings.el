@@ -26,8 +26,14 @@
 (setq mouse-wheel-scroll-amount     '(1))
 (setq mouse-wheel-progressive-speed nil)
 
-;; Override standard grep mechanism and use tramp for ssh.
-(setq grep-command         "grep --color=never -rw -nH ")
+;; Override standard grep settings with better options.
+(setq grep-use-null-device nil)
+(setq grep-command       '("grep --color=never -nH -wEe  *" . 29))
+(setq grep-find-command  '("find . -type f -exec grep --color=never -nH -wEe   {} /dev/null \\;" . 50))
+(setq grep-template      "grep <C> --color=never -nH -wEe <R> <F>")
+(setq grep-find-template "find <D> <X> -type f <F> -exec grep --color=never <C> -nH -Ee <R> {} /dev/null \\;")
+
+;; Use ssh for tramp.
 (setq tramp-default-method "ssh")
 
 ;; Put backup files in /tmp
