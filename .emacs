@@ -16,6 +16,7 @@
 ;;; M-j           - join current line with next, separated with a space
 ;;;
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
+;;; M-x list-faces-display   - show all defined faces and what they look like
 ;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
 ;;;
 ;;; Manually compile all .el -> .elc:
