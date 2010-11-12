@@ -39,6 +39,8 @@
   (global-set-key (kbd "M-RET") 'mac-toggle-max-window)
   (global-set-key (kbd "A-RET") 'mac-toggle-max-window) ; Hrm, not working..
 
+  (global-set-key (kbd "A-g")   'grep-find)
+
   (global-set-key (kbd "A-=")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))
