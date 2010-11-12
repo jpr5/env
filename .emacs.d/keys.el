@@ -12,8 +12,9 @@
 (global-set-key (kbd "M-g")         'goto-line)
 (global-set-key (kbd "C-M-\\")      'indent-region)
 (global-set-key (kbd "C-M-/")       'align)
-(global-set-key (kbd "M-SPC")       'delete-horizontal-space)
 (global-set-key (kbd "M-j")         'join-line)
+(global-set-key (kbd "M-SPC")       'fixup-whitespace)
+(global-set-key (kbd "C-M-SPC")     'delete-blank-lines)
 
 ;; Some settings when we're in a windowed environment.
 (when window-system
@@ -40,5 +41,3 @@
   (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))
 )
-
-
