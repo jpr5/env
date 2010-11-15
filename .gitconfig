@@ -7,17 +7,18 @@
     co = checkout
     br = branch
     dt = difftool -y
-    unstage = reset HEAD
     chekcout = checkout
     rev = rev-parse HEAD
     wc = whatchanged --stat
+    wd = diff --word-diff
     up = remote -v update -p
-    staged = diff --cached
     sub = submodule
     remotes = remote -v show
     m  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git merge $R/$RB
     d  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $B..$R/$RB
     rd = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3) && git wc $R/$RB..$B
+    human = name-rev --name-only --refs=refs/heads/*
+    humin = name-rev --name-only --refs=refs/heads/* --stdin
 [color]
     ui = auto
     diff = auto
@@ -61,3 +62,6 @@
     prompt = false
 [merge]
     stat = true
+[rerere]
+    enabled = 1
+    autoupdate = 1
