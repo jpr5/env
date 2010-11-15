@@ -15,6 +15,10 @@
 (global-set-key (kbd "M-j")         'join-line)
 (global-set-key (kbd "M-SPC")       'fixup-whitespace)
 (global-set-key (kbd "C-M-SPC")     'delete-blank-lines)
+(global-set-key (kbd "C-x t")       '(lambda nil
+                                       (interactive)
+                                       (switch-to-buffer-other-window
+                                        (generate-new-buffer "*Temp*"))))
 
 ;; Some settings when we're in a windowed environment.
 (when window-system
