@@ -62,6 +62,7 @@
     prompt = false
 [merge]
     stat = true
+    conflictstyle = diff3
 [rerere]
     enabled = 1
     autoupdate = 1
