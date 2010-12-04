@@ -42,7 +42,7 @@
     email = jpr5@darkridge.com
 [core]
     excludesfile = ~/.gitignore-global
-    whitespace=indent-with-no-tab,trailing-space,cr-at-eol
+    whitespace=trailing-space,cr-at-eol
 [github]
     user = jpr5
     token = 4225723a97dc811c978bde1c1c54a23d
@@ -66,3 +66,5 @@
 [rerere]
     enabled = 1
     autoupdate = 1
+[status]
+    submodulesummary = true
