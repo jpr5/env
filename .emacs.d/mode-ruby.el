@@ -50,6 +50,7 @@
   (lambda ()
     (setq ruby-deep-indent-paren nil)
     (setq ruby-indent-level 4)
+    (make-variable-buffer-local 'ruby-indent-level)
     (flymake-mode t)
     ))
 
