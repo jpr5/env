@@ -2,6 +2,9 @@
 ## Preamble
 ##
 
+# Load RVM if present
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -83,7 +86,6 @@ esac
 ## Functions
 ##
 
-#function field { awk "{ print \$$1 }"; }
 function field { s=""; c=""; for a in $*; do s="$s$c\$$a"; c=","; done; awk "{ print $s }"; }
 function fcount {
     field $1 | sort | uniq -c | sort -rn | head $2
@@ -97,5 +99,22 @@ function rubylib {
     export RUBYLIB=$BASE:`ruby -e 'puts Dir["#{ENV["BASE"]}/*/**/lib"].join(":")'`:$RUBYLIB
 }
 alias rl=rubylib
+
+##
+## Git
+##
+
+# Git autocomplete
+_complete_git() {
+    dir=`git rev-parse --git-dir 2>/dev/null`
+  if [ -n "$dir" ]; then
+    branches=`git branch -a | cut -c 3-`
+    tags=`git tag`
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=( $(compgen -W "${branches} ${tags}" -- ${cur}) )
+  fi
+}
+complete -F _complete_git git checkout
+
 
 test -f .profile.cc && source .profile.cc
