@@ -2,6 +2,9 @@
 ## Preamble
 ##
 
+# Load RVM if present
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -83,7 +86,6 @@ esac
 ## Functions
 ##
 
-#function field { awk "{ print \$$1 }"; }
 function field { s=""; c=""; for a in $*; do s="$s$c\$$a"; c=","; done; awk "{ print $s }"; }
 function fcount {
     field $1 | sort | uniq -c | sort -rn | head $2
