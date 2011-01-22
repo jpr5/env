@@ -14,11 +14,12 @@
     up = remote -v update -p
     sub = submodule
     remotes = remote -v show
-    m  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3-) && git merge $R/$RB
-    d  = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git config branch.$B.merge | cut -d/ -f3-) && git wc $B..$R/$RB
-    rd = !B=$(git branch | grep '*' | awk '{print $2}') && R=$(git config branch.$B.remote) && RB=$(git ) && git wc $R/$RB..$B
+    m  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git merge $RB
+    d  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$B $RB
+    rd = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$RB $B
     human = name-rev --name-only --refs=refs/heads/*
     humin = name-rev --name-only --refs=refs/heads/* --stdin
+    graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
 [color]
     ui = auto
     diff = auto
