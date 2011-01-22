@@ -48,9 +48,8 @@
 
 (add-hook 'ruby-mode-hook
   (lambda ()
-    (setq ruby-deep-indent-paren nil)
-    (setq ruby-indent-level 4)
-    (make-variable-buffer-local 'ruby-indent-level)
+    (set (make-variable-buffer-local 'ruby-deep-indent-paren) nil)
+    (set (make-variable-buffer-local 'ruby-indent-level)      4)
     (flymake-mode t)
     ))
 
@@ -97,7 +96,8 @@
 
 ;; Include rdebug-mode if we've got it
 (add-to-list 'load-path "~/.emacs.d/lib/rdebug-mode")
-(require 'rdebug nil 'noerror)
+(when (require 'rdebug nil 'noerror)
+  (setq-default ruby-many-windows nil))
 
 ;; Load up cucumber/feature-mode.
 (require 'cucumber-mode nil 'noerror)
