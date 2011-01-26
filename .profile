@@ -105,16 +105,16 @@ alias rl=rubylib
 ##
 
 # Git autocomplete
-_complete_git() {
-    dir=`git rev-parse --git-dir 2>/dev/null`
-  if [ -n "$dir" ]; then
-    branches=`git branch -a | cut -c 3-`
-    tags=`git tag`
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=( $(compgen -W "${branches} ${tags}" -- ${cur}) )
-  fi
-}
-complete -F _complete_git git checkout
+#_complete_git() {
+#    dir=`git rev-parse --git-dir 2>/dev/null`
+#  if [ -n "$dir" ]; then
+#    branches=`git branch -a | cut -c 3-`
+#    tags=`git tag`
+#    cur="${COMP_WORDS[COMP_CWORD]}"
+#    COMPREPLY=( $(compgen -W "${branches} ${tags}" -- ${cur}) )
+#  fi
+#}
+#complete -F _complete_git git checkout
 
 
 test -f .profile.cc && source .profile.cc
