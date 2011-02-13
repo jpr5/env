@@ -118,4 +118,8 @@
      (hl-line                ((t (:background "grey12"))))
 )))
 
+;; Set the Visual theme
+(if window-system
+    (color-theme-jpr5-night)
+    (color-theme-jpr5-tty))
 
