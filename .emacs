@@ -14,6 +14,9 @@
 ;;; C-S backspace - cut whole line at point (without needing to select the line)
 ;;; M-SPC         - delete all horizontal whitespace around point
 ;;; M-j           - join current line with next, separated with a space
+;;; C-x (         - start recording keyboard macro
+;;; C-x )         - stop recording keyboard macro
+;;; C-x e         - replay current keyboard macro
 ;;;
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
 ;;; M-x list-faces-display   - show all defined faces and what they look like
@@ -46,11 +49,6 @@
       (add-to-list 'files (file-name-sans-extension filename))))
   (dolist (filename files)
     (load-library filename)))
-
-;; Set the Visual theme
-(if window-system
-    (color-theme-jpr5-night)
-    (color-theme-jpr5-tty))
 
 ;; And finally Emacs custom settings.
 (custom-set-variables

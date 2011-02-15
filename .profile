@@ -56,7 +56,7 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 # Put the real mysql utils at the beginning of the path.
 export PATH=/opt/local/lib/mysql5/bin:$PATH
-
+export PATH=/opt/local/lib/postgresql90/bin:$PATH
 
 ##
 ## Aliases
