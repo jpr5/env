@@ -29,6 +29,20 @@ xterm*|rxvt*|screen*)
     ;;
 esac
 
+function rvmised_prompt {
+    n_cols=$(tput cols)
+    rvm_prompt="$(rvm-prompt i g)"
+    let rvm_ppos=$n_cols-${#rvm_prompt}
+
+    tput sc # save cursor
+    tput cuf $rvm_ppos; tput bold; tput setaf 0 # dark grey 
+    echo -n $rvm_prompt
+    tput sgr0 # may not always work as expected
+    tput rc # restore cursor
+}
+PROMPT_COMMAND=rvmised_prompt
+
+
 ##
 ## Bash options
 ##
