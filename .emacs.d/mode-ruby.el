@@ -20,17 +20,11 @@
   (list "ruby" (list "-c" (flymake-init-create-temp-buffer-copy
                            'flymake-create-temp-in-system-tempdir))))
 
-;(defun flymake-ruby-init ()
-;    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-;                         'flymake-create-temp-inplace))
-;           (local-file  (file-relative-name
-;                         temp-file
-;                         (file-name-directory buffer-file-name))))
-;           (list "ruby" (list "-c" local-file))))
-
-;; Rinari package
-(add-to-list 'load-path "~/.emacs.d/lib/rinari-rhtml")
+;; Rinari RHTML package
+(add-to-list 'load-path "~/.emacs.d/lib/rhtml")
 (require 'rhtml-mode)
+;(add-hook 'rhtml-mode-hook
+;    (lambda () (rinari-launch)))
 
 ; add-to-list symbol element
 (setq auto-mode-alist (append
