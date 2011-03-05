@@ -27,3 +27,8 @@
 ;; Weirdness with linum not being added to features when elc'd.
 ;(when (or (require 'linum nil 'noerror) (functionp 'global-linum-mode))
 ;  (global-linum-mode))
+
+(setq package-user-dir (expand-file-name "~/.emacs.d/lib/elpa"))
+(add-to-list 'load-path package-user-dir)
+(when (require 'package nil 'noerror)
+  (package-initialize))

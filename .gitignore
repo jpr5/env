@@ -7,3 +7,5 @@
 !.mm.cfg
 !.emacs
 !.emacs.d/
+.emacs.d/lib/elpa/archive-contents
+.emacs.d/lib/elpa/builtin-packages
