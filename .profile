@@ -10,38 +10,29 @@
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+GIT_COMP="/opt/local/share/doc/git-core/contrib/completion/git-completion.bash"
+if test -f $GIT_COMP; then
+    source $GIT_COMP
+    export GIT_PS1_SHOWDIRTYSTATE="1"
+    export GIT_PS1_SHOWUNTRACKEDFILES="1"
+    export GIT_PS1_SHOWUPSTREAM="auto"
+fi
+
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm*) 
+        PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "(%s) ")\[\033[01;32m\]\u@\h\[\033[00m\](\[\033[01;34m\]\W\[\033[00m\])\$ '
+    ;;
+    *) 
+        PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "(%s) ")\u@\h(\W)\$ '
 esac
 
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\](\[\033[01;34m\]\W\[\033[00m\])\$ '
-else
-    PS1='\u@\h(\W)\$ '
-fi
-unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*|screen*)
-    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-    ;;
-esac
-
-function rvmised_prompt {
-    n_cols=$(tput cols)
-    rvm_prompt="$(rvm-prompt i g)"
-    let rvm_ppos=$n_cols-${#rvm_prompt}
-
-    tput sc # save cursor
-    tput cuf $rvm_ppos; tput bold; tput setaf 0 # dark grey 
-    echo -n $rvm_prompt
-    tput sgr0 # may not always work as expected
-    tput rc # restore cursor
-}
-PROMPT_COMMAND=rvmised_prompt
-
+#case "$TERM" in
+#xterm*|rxvt*|screen*)
+#    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+#    ;;
+#esac
 
 ##
 ## Bash options
