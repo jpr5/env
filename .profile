@@ -15,24 +15,16 @@ if test -f $GIT_COMP; then
     source $GIT_COMP
     export GIT_PS1_SHOWDIRTYSTATE="1"
     export GIT_PS1_SHOWUNTRACKEDFILES="1"
-    export GIT_PS1_SHOWUPSTREAM="auto"
+#    export GIT_PS1_SHOWUPSTREAM="auto"
 fi
 
 case "$TERM" in
-    xterm*) 
+    xterm*)
         PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "(%s) ")\[\033[01;32m\]\u@\h\[\033[00m\](\[\033[01;34m\]\W\[\033[00m\])\$ '
     ;;
-    *) 
+    *)
         PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "(%s) ")\u@\h(\W)\$ '
 esac
-
-
-# If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*|screen*)
-#    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-#    ;;
-#esac
 
 ##
 ## Bash options
@@ -76,7 +68,7 @@ alias lsof='lsof -nP'
 alias diff='diff -u'
 alias cleanup='find -name .#* -o -name *.~*~  | xargs rm'
 
-[ -n "`which gfind`"  ] && alias find=gfind
+[[ -n "`which gfind`"  ]] && alias find=gfind
 
 case `uname` in
     Linux)
@@ -96,30 +88,5 @@ function fcount {
     field $1 | sort | uniq -c | sort -rn | head $2
 }
 alias f=field
-
-function rubylib {
-    if [ -n "$1" ]; then BASE="$1/"; else BASE="/proj/work/rubylib"; fi
-    export BASE
-    echo RUBYLIB will use base: $BASE
-    export RUBYLIB=$BASE:`ruby -e 'puts Dir["#{ENV["BASE"]}/*/**/lib"].join(":")'`:$RUBYLIB
-}
-alias rl=rubylib
-
-##
-## Git
-##
-
-# Git autocomplete
-#_complete_git() {
-#    dir=`git rev-parse --git-dir 2>/dev/null`
-#  if [ -n "$dir" ]; then
-#    branches=`git branch -a | cut -c 3-`
-#    tags=`git tag`
-#    cur="${COMP_WORDS[COMP_CWORD]}"
-#    COMPREPLY=( $(compgen -W "${branches} ${tags}" -- ${cur}) )
-#  fi
-#}
-#complete -F _complete_git git checkout
-
 
 test -f .profile.cc && source .profile.cc
