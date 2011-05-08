@@ -5,7 +5,7 @@
     sb = show-branch
     ci = commit
     co = checkout
-    br = branch
+    br = branch -vv
     dt = difftool -y
     chekcout = checkout
     rev = rev-parse HEAD
