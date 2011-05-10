@@ -18,11 +18,7 @@
 
 (add-hook 'org-mode-hook 'turn-on-font-lock) ; Org buffers only
 
-;(setq org-todo-keywords
-;      '(
-;        "WAIT"
-;        "TODO"
-;        "DELEGATED"
-;        "DONE"
-;        )
-;      org-todo-interpretation 'type)
+(setq org-todo-keywords
+      '((sequence "TODO" "DONE")
+        (sequence "DEFER" "TODO" "|" "DONE")
+        (sequence "TASK" "|" "DONE")))
