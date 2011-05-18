@@ -65,6 +65,7 @@
 [merge]
     stat = true
     conflictstyle = diff3
+    defaultToUpstream = true
 [rerere]
     enabled = 1
     autoupdate = 1
