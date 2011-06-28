@@ -63,6 +63,7 @@
  '(flymake-gui-warnings-enabled nil)
  '(flymake-mode nil t)
  '(flymake-start-syntax-check-on-find-file t)
- '(flymake-start-syntax-check-on-newline nil))
+ '(flymake-start-syntax-check-on-newline nil)
+ '(safe-local-variable-values (quote ((encoding . utf-8)))))
 
 (put 'narrow-to-region 'disabled nil)
