@@ -13,8 +13,8 @@
 GIT_COMP="/opt/local/share/doc/git-core/contrib/completion/git-completion.bash"
 if test -f $GIT_COMP; then
     source $GIT_COMP
-    export GIT_PS1_SHOWDIRTYSTATE="1"
-    export GIT_PS1_SHOWUNTRACKEDFILES="1"
+#    export GIT_PS1_SHOWDIRTYSTATE="1"
+#    export GIT_PS1_SHOWUNTRACKEDFILES="1"
 #    export GIT_PS1_SHOWUPSTREAM="auto"
 fi
 
@@ -62,7 +62,7 @@ export PATH=/opt/local/lib/postgresql90/bin:$PATH
 alias su='sudo -s'
 alias df='df -klH '
 alias rs='rsync -avuxe ssh '
-alias grep='grep --line-buffered --color=always'
+alias grep='grep --line-buffered --color=auto'
 alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
