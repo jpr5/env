@@ -32,3 +32,7 @@
 (add-to-list 'load-path package-user-dir)
 (when (require 'package nil 'noerror)
   (package-initialize))
+
+;; 23.x only, unfortunately
+(when (and (fboundp 'characterp) (require 'fci nil 'noerror))
+  (setq fci-rule-width 2))
