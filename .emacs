@@ -36,12 +36,13 @@
 ;; (add-to-list uniqifies). BCC will prefer elc's over el's, if present.
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
 
-(require 'bytecomp)
-(setq byte-compile-verbose nil)
-(setq byte-compile-warnings nil)
-(require 'byte-code-cache)
-(setq bcc-blacklist '("\\.emacs\\.history" "\\.emacs\\.desktop"))
-(setq bcc-cache-directory "~/.emacs.d/elc")
+;; Disable bytecomp for now, while experimenting with newer emacsen.
+;(require 'bytecomp)
+;(setq byte-compile-verbose nil)
+;(setq byte-compile-warnings nil)
+;(require 'byte-code-cache)
+;(setq bcc-blacklist '("\\.emacs\\.history" "\\.emacs\\.desktop"))
+;(setq bcc-cache-directory "~/.emacs.d/elc")
 
 (let (files)
   (dolist (filename (file-expand-wildcards "~/.emacs.d/*.el*") files)
