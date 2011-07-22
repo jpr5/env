@@ -12,6 +12,7 @@
     (lambda ()
         (turn-on-font-lock)
         (local-set-key (kbd "<return>") 'org-return)
+        (local-set-key (kbd "C-<return>") 'org-return)
         (local-set-key (kbd "M-<return>") 'mac-toggle-max-window)
         (local-set-key (kbd "M-n") 'outline-next-visible-heading)
         (local-set-key (kbd "M-p") 'outline-previous-visible-heading)
