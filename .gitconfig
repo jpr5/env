@@ -71,3 +71,7 @@
     autoupdate = 1
 [status]
     submodulesummary = true
+[gc]
+    reflogExpire = 180 days
+    reflogExpireUnreachable = 90 days
+    pruneExpire = 3 months ago
