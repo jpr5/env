@@ -1,26 +1,24 @@
 [alias]
-    cl = clone --recursive
+    wc = whatchanged --stat
     st = status
     stat = status -sb
-    sb = show-branch
-    ci = commit
-    co = checkout
     br = branch -vv
-    dt = difftool -y
     chekcout = checkout
-    rev = rev-parse HEAD
-    wc = whatchanged --stat
-    wd = diff --word-diff
     up = remote -v update -p
+    d  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$B $RB
+    rd = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$RB $B
+    m  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git merge $RB
     sub = submodule
     subup = !git submodule sync && git submodule update --init
     remotes = remote -v show
-    m  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git merge $RB
-    d  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$B $RB
-    rd = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$RB $B
+    rev = rev-parse HEAD
+    cl = clone --recursive
     human = name-rev --name-only --refs=refs/heads/*
     humin = name-rev --name-only --refs=refs/heads/* --stdin
     graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+    sb = show-branch
+    wd = diff --word-diff
+    dt = difftool -y
 [color]
     ui = auto
     diff = auto
