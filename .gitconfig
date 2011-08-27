@@ -19,6 +19,7 @@
     sb = show-branch
     wd = diff --word-diff
     dt = difftool -y
+    cat = cat-file
 [color]
     ui = auto
     diff = auto
