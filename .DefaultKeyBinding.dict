@@ -1,0 +1,46 @@
+{
+        "~f" = "moveWordForward:";
+        "~b" = "moveWordBackward:";
+        "~<" = "moveToBeginningOfDocument:";
+        "~>" = "moveToEndOfDocument:";
+        "~v" = "pageUp:";
+        "^v" = "pageDown:";
+        "~d" = "deleteWordForward:";
+        "~^h" = "deleteWordBackward:";
+        "~\Uf728" = "deleteWordForward:";
+        "\Uf729" = "moveToBeginningOfDocument:";
+        "\Uf72b" = "moveToEndOfDocument:";
+        "@\Uf729" = "moveToBeginningOfParagraph:";
+        "@\Uf72b" = "moveToEndOfParagraph:";
+        "@\Uf700" = "moveToBeginningOfDocument:";
+        "@\Uf701" = "moveToEndOfDocument:";
+        "^\Uf700" = "pageUp:";
+        "^\Uf701" = "pageDown:";
+        "\Uf72c" = "pageUp:";
+        "\Uf72d" = "pageDown:";
+        "^$_" = "undo:";
+        "~c" = "capitalizeWord:";
+        "~u" = "uppercaseWord:";
+        "~l" = "lowercaseWord:";
+        "^t" = "transpose:";
+        "~t" = "transposeWords:";
+        "~/" = "complete:";
+        "^g" = "_cancelKey:";
+        "^a" = "moveToBeginningOfLine:";
+        "^e" = "moveToEndOfLine:";
+        "^x" = {
+                "^x" = "swapWithMark:";
+                "^m" = "selectToMark:";
+                "^s" = "save:";
+                "^w" = "saveAs:";
+                "k" = "performClose:";
+        };
+        "^@" = "setMark:";
+        "^ " = "setMark:";
+        "^w" = "deleteToMark:";
+        "\Uf704" = "undo:";
+        "\Uf705" = "cut:";
+        "\Uf706" = "copy:";
+        "\Uf707" = "paste:";
+        "\Uf708" = "_cancelKey:";
+}
