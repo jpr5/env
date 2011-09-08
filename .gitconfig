@@ -4,7 +4,7 @@
     stat = status -sb
     br = branch -vv
     chekcout = checkout
-    up = remote -v update -p
+    up = fetch -t --all
     d  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$B $RB
     rd = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git wc ^$RB $B
     m  = !read B RB <<<$(git branch -vv | ruby -ne 'puts $_.match(%r<\\* ([^\\s]+)\\s+\\w+\\s+\\[([^:\\]]+)>)[1,2] * \" \" rescue nil') && git merge $RB
