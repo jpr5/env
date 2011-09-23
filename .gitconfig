@@ -59,12 +59,14 @@
     port = 4321
 [diff]
     tool = opendiff
+    renamelimit = 500
 [difftool]
     prompt = false
 [merge]
     stat = true
     conflictstyle = diff3
     defaultToUpstream = true
+    renamelimit = 2000
 [rerere]
     enabled = 1
     autoupdate = 1
