@@ -20,7 +20,8 @@
 (if window-system
     (progn ;; Graphics mode
       (setq default-frame-alist '((cursor-type . (bar . 3))))
-      (setq initial-frame-alist (x-parse-geometry "178x45+5+30")) ;; cols x rows (character) +x+y (pixel)
+      (setq initial-frame-alist (x-parse-geometry "150x40+5+5")) ;; cols x rows (character) +x+y (pixel)
+      (set-face-attribute 'default nil :height 150)
       (modify-frame-parameters (selected-frame) initial-frame-alist) ;; initial window size
 
       (blink-cursor-mode 0)
