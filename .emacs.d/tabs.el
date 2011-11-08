@@ -45,9 +45,7 @@
   "Cycle through tab widths"
   (interactive)
   (make-variable-buffer-local 'tab-widths)
-  (setq tab-width (pop tab-widths))
-  (nconc tab-widths (list tab-width))
+  (nconc tab-widths (list (setq tab-width (pop tab-widths))))
   (setq ruby-indent-level tab-width)
   (message "Tab-width set to %d." tab-width)
   (redraw-display))
-
