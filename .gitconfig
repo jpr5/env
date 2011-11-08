@@ -20,6 +20,7 @@
     wd = diff --word-diff
     dt = difftool -y
     cat = cat-file
+    ll = log --oneline --graph
 [color]
     ui = auto
     diff = auto
