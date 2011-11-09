@@ -47,7 +47,6 @@ export HISTSIZE=100000
 
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 export TMPDIR=/tmp
-export MANPATH=$MANPATH:/usr/local/git/man
 
 export EDITOR="/usr/bin/emacs"
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
