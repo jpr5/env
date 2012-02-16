@@ -79,6 +79,9 @@ case `uname` in
     ;;
 esac
 
+## EC2
+test -f .ec2/rc && source .ec2/rc
+
 ##
 ## Functions
 ##
