@@ -1,5 +1,9 @@
 require 'irb/completion'
 require 'irb/ext/save-history'
+
+require 'rubygems'
+require 'pp'
+
 ARGV.concat [ "--readline", "--prompt-mode", "simple" ]
 IRB.conf[:VERBOSE] = true
 IRB.conf[:SAVE_HISTORY] = 10000
