@@ -21,6 +21,7 @@
     dt = difftool -y
     cat = cat-file
     ll = log --oneline --graph
+    ls = ls-files
 [color]
     ui = auto
     diff = auto
