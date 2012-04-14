@@ -34,5 +34,5 @@
   (package-initialize))
 
 ;; 23.x only, unfortunately
-(when (and (fboundp 'characterp) (require 'fci nil 'noerror))
-  (setq fci-rule-width 2))
+;(when (and (fboundp 'characterp) (require 'fci nil 'noerror))
+;  (setq fci-rule-width 2))

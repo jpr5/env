@@ -32,7 +32,7 @@
       ))
 
 ;; Some settings when we're specifically in Carbon Emacs
-(when (eq window-system 'mac)
+(when (or (eq window-system 'ns) (eq window-system 'mac))
   (setq mac-command-modifier       'alt
         mac-option-modifier        'meta
         mac-allow-anti-aliasing    t

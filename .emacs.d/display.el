@@ -38,6 +38,7 @@
 ;; past the end of the file, change the yes-or-no prompt to a simple single ``y'' or ``n''
 ;; across the board.
 
+;(setq ring-bell-function 'ignore)
 (setq visible-bell            t)
 (setq resize-mini-windows     t)
 (setq line-number-mode        t

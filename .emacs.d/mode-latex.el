@@ -11,7 +11,7 @@
 ; C-c C-p C-c C-d   preview-clearout-document
 ; C-c C-p C-c C-s   preview-clearout-section
 
-(require 'tex)
+(require 'tex nil 'noerror)
 (require 'flymake)
 
 (defun flymake-get-tex-args (file-name)
