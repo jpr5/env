@@ -231,7 +231,7 @@ but have an extra entry which is 'tar for tar packages and
 'single for single-file packages.")
 
 (defvar package-user-dir
-  (expand-file-name (convert-standard-filename "~/.emacs.d/elpa"))
+  (expand-file-name (convert-standard-filename "~/.emacs.d/lib/elpa"))
   "Name of the directory where the user's packages are stored.")
 
 (defvar package-directory-list
