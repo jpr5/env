@@ -75,3 +75,6 @@
 
 ;(setq special-display-buffer-names
 ;      '("*Completions*" "*grep*" "*tex-shell*"))
+
+; always paste plain text
+(setq yank-excluded-properties t)
