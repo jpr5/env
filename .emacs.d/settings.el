@@ -33,6 +33,12 @@
 (setq grep-template      "grep <C> --color=never -nH -wEe <R> <F>")
 (setq grep-find-template "find <D> <X> -type f <F> -exec grep --color=never <C> -nH -Ee <R> {} /dev/null \\;")
 
+; Under 23.x, grep-compute-defaults stores the above defaults on a per-host
+; basis.  We get back the per-buffer behaviour by forcing
+; grep-host-defaults-alist to always be buffer-local.
+(if (eq emacs-major-version 23)
+    (make-variable-buffer-local 'grep-host-defaults-alist))
+
 ;; Use ssh for tramp.
 (setq tramp-default-method "ssh")
 
