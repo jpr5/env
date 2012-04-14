@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-EMACSSERVER="/Applications/Emacs.app/Contents/MacOS/Emacs"
-EMACSCLIENT="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+EMACSSERVER="/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs"
+EMACSCLIENT="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
 
 # Premise: Almost always want to invoke emacsclient.  Thus we catch the special 
 # cases of running emacs itself, otherwise pass through to emacsclient.
