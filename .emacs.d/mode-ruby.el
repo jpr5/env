@@ -1,9 +1,9 @@
 
 ;; ruby-block.el current-block-header hiliting
-(require 'ruby-block)
-(ruby-block-mode t)
-(setq ruby-block-highlight-face 'hl-line)
-(setq ruby-block-highlight-toggle 'overlay)
+(when (require 'ruby-block nil 'noerror)
+  (ruby-block-mode t)
+  (setq ruby-block-highlight-face 'hl-line)
+  (setq ruby-block-highlight-toggle 'overlay))
 
 ;; Enable Flymake in Ruby
 (require 'flymake)
