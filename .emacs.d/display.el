@@ -34,14 +34,12 @@
       (setq indicate-empty-lines t)
       ))
 
-;; Some good settings: visible bell instead of beep, show line and column #, show
-;; hilighting when selecting a region, raise the cut buffer size from 20 KiB to 64KB,
-;; always add a final newline if there isn't one, don't auto-create newlines when you go
-;; past the end of the file, change the yes-or-no prompt to a simple single ``y'' or ``n''
-;; across the board.
+;; Some good settings: show line and column #, show hilighting when selecting a
+;; region, raise the cut buffer size from 20 KiB to 64KB, always add a final
+;; newline if there isn't one, don't auto-create newlines when you go past the
+;; end of the file, change the yes-or-no prompt to a simple single ``y'' or
+;; ``n'' across the board.
 
-;(setq ring-bell-function 'ignore)
-(setq visible-bell            t)
 (setq resize-mini-windows     t)
 (setq line-number-mode        t
       column-number-mode      t
@@ -68,3 +66,45 @@
       )))
 
 (enable-warning-keyword-hiliting '(c-mode c++-mode perl-mode ruby-mode))
+
+;; Replace that horrible emacs 23.x visible-bell square with a mode-line-based
+;; one instead.  Thanks, Miles.
+
+;(setq visible-bell t)
+;(setq ring-bell-function 'ignore)
+
+(defcustom mode-line-bell-string "♪♪♪♪♪♪♪♪♪"
+  "Message displayed in mode-line by `mode-line-bell' function."
+  :group 'user)
+(defcustom mode-line-bell-delay 0.1
+  "Number of seconds `mode-line-bell' displays its message."
+  :group 'user)
+
+(defvar mode-line-bell-cached-string nil)
+(defvar mode-line-bell-propertized-string nil)
+
+(defun mode-line-bell ()
+  "Briefly display a highlighted message in the mode-line.
+
+The string displayed is the value of `mode-line-bell-string',
+with a red background; the background highlighting extends to the
+right margin.  The string is displayed for `mode-line-bell-delay'
+seconds.
+
+This function is intended to be used as a value of `ring-bell-function'."
+  (unless (equal mode-line-bell-string mode-line-bell-cached-string)
+    (setq mode-line-bell-propertized-string
+      (propertize
+       (concat
+        (propertize
+         "x"
+         'display
+         `(space :align-to (- right ,(string-width mode-line-bell-string))))
+        mode-line-bell-string)
+       'face '(:background "red")))
+    (setq mode-line-bell-cached-string mode-line-bell-string))
+  (message mode-line-bell-propertized-string)
+  (sit-for mode-line-bell-delay)
+  (message ""))
+
+(setq ring-bell-function 'mode-line-bell)
