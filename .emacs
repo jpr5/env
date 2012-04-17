@@ -11,7 +11,7 @@
 ;;; C-x n n       - narrow view
 ;;; C-x n w       - widen (un-narrow) view
 ;;; C-x RET f     - choose coding system ("unix" == dos2unix)
-;;; C-S backspace - cut whole line at point (without needing to select the line)
+;;; C-S-backspace - cut whole line at point (without needing to select the line)
 ;;; M-SPC         - delete all horizontal whitespace around point
 ;;; M-j           - join current line with next, separated with a space
 ;;; C-x (         - start recording keyboard macro
@@ -20,20 +20,20 @@
 ;;;
 ;;; M-x list-colors-display  - show what all the colors look like in a buffer
 ;;; M-x list-faces-display   - show all defined faces and what they look like
-;;; M-x color-themes-select  - show (and select from) all known themes in a buffer
+;;; M-x color-theme-select   - show (and select from) all known themes in a buffer
+;;;
+;;; M-x calc                 - RPN calculator
 ;;;
 ;;; Manually compile all .el -> .elc:
 ;;;   find .emacs.d -name *.el | xargs emacs -l ~/.emacs -batch -f batch-byte-compile
-;;; Shouldn't be necessary though, with the automatic byte compile stuff.
 
 ;; Identify ourselves
 (setq user-full-name    "Jordan Ritter"
       user-mail-address "jpr5@darkridge.com"
       mail-host-address '"darkridge.com")
 
-;; Load our settings/config.  Set our load path first, then load up our
-;; on-the-fly byte-compiler. Then loop over all root files as basenames to load
-;; (add-to-list uniqifies). BCC will prefer elc's over el's, if present.
+;; Load our settings/config.  Prefix the load-path with our own first, then loop
+;; over all root files as basenames to load (add-to-list uniqifies).
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
 
 ;; Disable bytecomp for now, while experimenting with newer emacsen.

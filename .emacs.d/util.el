@@ -25,12 +25,14 @@
                       (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10))
                       ))
 
+;; Only works on emacs <= 22
 (defun mac-toggle-max-window ()
   (interactive)
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen)
                            nil
                          'fullboth)))
+
 ;; Take any list-of-list(-of-list) and return a flat list.
 (defun flatten (list)
   (mapcan (lambda (x) (if (listp x) x nil)) list))
