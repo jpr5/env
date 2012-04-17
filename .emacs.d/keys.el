@@ -20,7 +20,7 @@
                                        (switch-to-buffer-other-window
                                         (generate-new-buffer "*Temp*"))))
 (global-set-key (kbd "C-x C-t")     'cycle-tab-width)
-(global-set-key (kbd "C-x M-s")     '(lambda nil
+(global-set-key (kbd "C-x M-o")     '(lambda nil
                                        (interactive)
                                        (swap-windows)))
 
