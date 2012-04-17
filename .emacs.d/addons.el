@@ -2,8 +2,9 @@
 (when (require 'uniquify nil 'noerror)
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
-;; Save whatever files you had open at your last open (~/.emacs.desktop), and don't
-;; open/save it if already locked (might have to clean out stale lock files on your own).
+;; Save whatever files you had open at your last open (~/.emacs.desktop), and
+;; don't open/save it if already locked (might have to clean out stale lock
+;; files on your own).
 (when (require 'desktop nil 'noerror)
   (setq desktop-dirname (expand-file-name "~"))
   (setq desktop-path    (list desktop-dirname))
@@ -32,7 +33,3 @@
 (add-to-list 'load-path package-user-dir)
 (when (require 'package nil 'noerror)
   (package-initialize))
-
-;; 23.x only, unfortunately
-;(when (and (fboundp 'characterp) (require 'fci nil 'noerror))
-;  (setq fci-rule-width 2))

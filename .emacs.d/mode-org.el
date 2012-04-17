@@ -1,5 +1,3 @@
-;(setq load-path (add-to-list 'load-path "~/.emacs.d/lib/org-mode"))
-
 (require 'org)
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))

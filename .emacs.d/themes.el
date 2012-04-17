@@ -1,10 +1,5 @@
 (require 'color-theme)
 
-;; For some reason, Emacs kept loading the source along with the elcs.
-;(setq load-path (add-to-list 'load-path "/Applications/Emacs.app/Contents/Resources/site-lisp/color-theme/themes"))
-;(load-library "color-theme-example.elc")
-;(load-library "color-theme-library.elc")
-
 (defun color-theme-jpr5-tty ()
   "jpr5's tty theme"
   (interactive)

@@ -1,10 +1,8 @@
-/*
-.emacs.d/elc
+*
 .emacs.d/auto-save-list
 !*rc
 !.ssh/config
 !.git[ci]*
-!.mm.cfg
 !.emacs
 !.emacs.d/
 .emacs.d/lib/elpa/archive-contents
