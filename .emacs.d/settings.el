@@ -35,9 +35,13 @@
 
 ; Under 23.x, grep-compute-defaults stores the above defaults on a per-host
 ; basis.  We get back the per-buffer behaviour by forcing
-; grep-host-defaults-alist to always be buffer-local.
-(if (eq emacs-major-version 23)
-    (make-variable-buffer-local 'grep-host-defaults-alist))
+; grep-host-defaults-alist to always be buffer-local.  Also, git grep (and
+; vc-git-grep) spews so fast that font-lock doesn't actually properly fontify
+; all matches, so re-fontify any buffer using compile.el when it finishes.
+(when (eq emacs-major-version 23)
+  (make-variable-buffer-local 'grep-host-defaults-alist)
+  (setq compilation-finish-functions
+        (lambda (buf msg) (with-current-buffer buf (font-lock-fontify-buffer)))))
 
 ;; Use ssh for tramp.
 (setq tramp-default-method "ssh")
