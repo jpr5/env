@@ -26,13 +26,11 @@
 
 ;; Some settings when we're in a windowed environment.
 (when window-system
-    (progn
-      ;; Navigate split buffer windows with shift-{left,right,up,down}
-      (windmove-default-keybindings)
+  ;; Navigate split buffer windows with shift-{left,right,up,down}
+  (windmove-default-keybindings)
 
-      ;; Shell out instead of minimize on C-z
-      (global-set-key (kbd "C-z") 'shell)
-      ))
+  ;; Shell out instead of minimize on C-z
+  (global-set-key (kbd "C-z") 'shell))
 
 ;; Some settings when we're specifically in Carbon Emacs
 (when (or (eq window-system 'ns) (eq window-system 'mac))

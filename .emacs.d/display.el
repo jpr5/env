@@ -17,22 +17,20 @@
 (setq font-lock-support-mode 'jit-lock-mode)
 (setq jit-lock-stealth-time 0)
 
-(if window-system
-    (progn ;; Graphics mode
-      (setq default-frame-alist '((cursor-type . (bar . 3))))
-      (set-face-attribute 'default nil :height 150)
+(when window-system ;; Graphics mode
+  (setq default-frame-alist '((cursor-type . (bar . 3))))
+  (set-face-attribute 'default nil :height 150)
 
-      (let ((frame (selected-frame)))
-        (set-frame-position frame 0 0)
-        (set-frame-size frame 150 40))
+  (let ((frame (selected-frame)))
+    (set-frame-position frame 0 0)
+    (set-frame-size frame 150 40))
 
-      (blink-cursor-mode 0)
-      (when (fboundp 'global-hl-line-mode)
-        (global-hl-line-mode t))
+  (blink-cursor-mode 0)
+  (when (fboundp 'global-hl-line-mode)
+    (global-hl-line-mode t))
 
-      (setq default-indicate-empty-lines t)
-      (setq indicate-empty-lines t)
-      ))
+  (setq default-indicate-empty-lines t)
+  (setq indicate-empty-lines t))
 
 ;; Some good settings: show line and column #, show hilighting when selecting a
 ;; region, raise the cut buffer size from 20 KiB to 64KB, always add a final
@@ -97,7 +95,7 @@ This function is intended to be used as a value of `ring-bell-function'."
       (propertize
        (concat
         (propertize
-         "x"
+         " "
          'display
          `(space :align-to (- right ,(string-width mode-line-bell-string))))
         mode-line-bell-string)
