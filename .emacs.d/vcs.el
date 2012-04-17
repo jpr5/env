@@ -7,9 +7,10 @@
 (require 'vc-git)
 
 ;; Fix vc-git's broken blame invocation syntax (OSX Carbon Emacs 22.3.1).
-(defun vc-git-annotate-command (file buf &optional rev)
-  (let ((name (file-relative-name file)))
-    (vc-git-command buf 0 name "blame" (if rev (concat rev)))))
+(when (eq emacs-major-version 22)
+  (defun vc-git-annotate-command (file buf &optional rev)
+    (let ((name (file-relative-name file)))
+      (vc-git-command buf 0 name "blame" (if rev (concat rev))))))
 
 ;; Whenever we open a file, if we're in a GIT-controlled file, switch M-x grep
 ;; to use a **much** faster form of grep.
