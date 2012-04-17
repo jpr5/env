@@ -2,9 +2,6 @@
 ## Preamble
 ##
 
-# Load RVM if present
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
