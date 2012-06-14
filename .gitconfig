@@ -1,3 +1,6 @@
+[core]
+    excludesfile = ~/.gitignore-global
+    whitespace=trailing-space,cr-at-eol
 [alias]
     wc = whatchanged --stat
     st = status
@@ -40,15 +43,6 @@
     added = green
     changed = yellow
     untracked = red
-[user]
-    name = Jordan Ritter
-    email = jpr5@darkridge.com
-[core]
-    excludesfile = ~/.gitignore-global
-    whitespace=trailing-space,cr-at-eol
-[github]
-    user = jpr5
-    token = 4225723a97dc811c978bde1c1c54a23d
 [apply]
     whitespace = nowarn
 [push]
@@ -78,3 +72,9 @@
     reflogExpire = 180 days
     reflogExpireUnreachable = 90 days
     pruneExpire = 3 months ago
+[github]
+    user = jpr5
+    token = 4225723a97dc811c978bde1c1c54a23d
+[user]
+    name = Jordan Ritter
+    email = jpr5@darkridge.com
