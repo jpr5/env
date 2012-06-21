@@ -9,6 +9,7 @@
 (add-hook 'org-mode-hook
     (lambda ()
         (turn-on-font-lock)
+        (set (make-local-variable 'line-move-visual) 'nil)
         (local-set-key (kbd "<return>") 'org-return)
         (local-set-key (kbd "C-<return>") 'org-return)
         (local-set-key (kbd "M-<return>") 'mac-toggle-max-window)
@@ -18,6 +19,7 @@
 
 (setq org-log-done 'time)
 (setq org-deadline-warning-days 10)
+(setq org-special-ctrl-a/e 'reversed)
 ;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 
 (defadvice pabbrev-global-mode (around org-stop-pabbrev activate)
