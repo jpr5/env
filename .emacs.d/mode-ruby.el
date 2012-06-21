@@ -33,6 +33,9 @@
 ;(add-hook 'rhtml-mode-hook
 ;    (lambda () (rinari-launch)))
 
+(add-to-list 'load-path "~/.emacs.d/lib/elpa/yaml-mode-0.0.5")
+(require 'yaml-mode)
+
 ; add-to-list symbol element
 (setq auto-mode-alist (append
     '(("\\.rb$"         . ruby-mode)
