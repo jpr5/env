@@ -22,6 +22,9 @@
     cat = cat-file
     ll = log --oneline --graph
     ls = ls-files
+[core]
+    excludesfile = ~/.gitignore-global
+    whitespace=trailing-space,cr-at-eol,space-before-tab,tab-in-indent
 [color]
     ui = auto
     diff = auto
@@ -40,15 +43,6 @@
     added = green
     changed = yellow
     untracked = red
-[user]
-    name = Jordan Ritter
-    email = jpr5@darkridge.com
-[core]
-    excludesfile = ~/.gitignore-global
-    whitespace=trailing-space,cr-at-eol
-[github]
-    user = jpr5
-    token = 4225723a97dc811c978bde1c1c54a23d
 [apply]
     whitespace = nowarn
 [push]
@@ -78,3 +72,9 @@
     reflogExpire = 180 days
     reflogExpireUnreachable = 90 days
     pruneExpire = 3 months ago
+[user]
+    name = Jordan Ritter
+    email = jpr5@darkridge.com
+[github]
+    user = jpr5
+    token = 4225723a97dc811c978bde1c1c54a23d
