@@ -40,3 +40,34 @@ module Kernel
         IRB.start_session(Kernel.binding)
     end
 end
+
+module Balls
+    def remote_execute(host, *commands)
+        commands = commands.flatten.map(&:chomp)
+
+        ssh      = Net::SSH.start(host, `whoami`.chomp)
+        channel  = ssh.open_channel do |channel|
+            channel.exec("bash -l") do |ch, success|
+                ch.on_data          { |_, data| STDOUT.print data }
+                ch.on_extended_data { |_, _, data| STDERR.print data }
+                ch.on_close         { STDOUT.print "connection closed." }
+
+                commands.each do |c|
+                    STDOUT.print "#{c}\n"
+                    ch.send_data "#{c}\n"
+                end
+
+                ch.send_data("exit\n")
+            end
+        end
+
+        channel.wait
+
+        return true
+    end
+end
+
+# Give ourselves some balls.
+class << self
+    include Balls
+end
