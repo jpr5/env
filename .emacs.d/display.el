@@ -30,7 +30,11 @@
     (global-hl-line-mode t))
 
   (setq default-indicate-empty-lines t)
-  (setq indicate-empty-lines t))
+  (setq indicate-empty-lines t)
+
+  ;; If you're using OSX emacs-app, this makes 'open -a Emacs file.txt' re-use
+  ;; an existing frame.
+  (setq ns-pop-up-frames nil))
 
 ;; Some good settings: show line and column #, show hilighting when selecting a
 ;; region, raise the cut buffer size from 20 KiB to 64KB, always add a final

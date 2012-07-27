@@ -48,7 +48,7 @@ export HISTSIZE=100000
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 export TMPDIR=/tmp
 
-export EDITOR="/usr/bin/emacs"
+export EDITOR="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 # Put the real mysql utils at the beginning of the path.
@@ -74,8 +74,10 @@ case `uname` in
     Linux)
     alias ls='ls -F --color=auto '
     ;;
+
     Darwin)
     alias ls='ls -FG '
+    alias emacs='open -a Emacs'
     ;;
 esac
 
