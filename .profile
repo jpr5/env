@@ -1,11 +1,9 @@
-##
-## Preamble
-##
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+##
+## Setup Prompt
+##
 
 GIT_COMP="/opt/local/share/doc/git-core/contrib/completion/git-completion.bash"
 if test -f $GIT_COMP; then
@@ -42,6 +40,10 @@ shopt -s no_empty_cmd_completion
 export PATH=/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
+# Put the real mysql utils at the beginning of the path.
+export PATH=/opt/local/lib/mysql5/bin:$PATH
+export PATH=/opt/local/lib/postgresql90/bin:$PATH
+
 #export HISTCONTROL=ignoredups,ignorespace,ignoreboth
 export HISTSIZE=100000
 
@@ -51,9 +53,7 @@ export TMPDIR=/tmp
 export EDITOR="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
-# Put the real mysql utils at the beginning of the path.
-export PATH=/opt/local/lib/mysql5/bin:$PATH
-export PATH=/opt/local/lib/postgresql90/bin:$PATH
+[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
 ##
 ## Aliases
@@ -61,14 +61,12 @@ export PATH=/opt/local/lib/postgresql90/bin:$PATH
 
 alias su='sudo -s'
 alias df='df -klH '
-alias rs='rsync -avuxe ssh '
 alias grep='grep --line-buffered --color=auto'
 alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
-alias cleanup='find -name .#* -o -name *.~*~  | xargs rm'
 
-[[ -n "`which gfind`"  ]] && alias find=gfind
+[[ -n "`which gfind`" ]] && alias find=gfind
 
 case `uname` in
     Linux)
@@ -81,9 +79,6 @@ case `uname` in
     ;;
 esac
 
-## EC2
-test -f .ec2/rc && source .ec2/rc
-
 ##
 ## Functions
 ##
@@ -94,4 +89,5 @@ function fcount {
 }
 alias f=field
 
-test -f .profile.cc && source .profile.cc
+## EC2
+test -f .ec2/rc && source .ec2/rc
