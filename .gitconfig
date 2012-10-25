@@ -1,6 +1,3 @@
-[core]
-    excludesfile = ~/.gitignore-global
-    whitespace=trailing-space,cr-at-eol
 [alias]
     wc = whatchanged --stat
     st = status
