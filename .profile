@@ -2,12 +2,12 @@
 ## Setup Prompt
 ##
 
-GIT_COMP="/opt/local/share/doc/git-core/contrib/completion/git-completion.bash"
+GIT_COMP="$HOME/.git-prompt.sh"
 if test -f $GIT_COMP; then
     source $GIT_COMP
-#    export GIT_PS1_SHOWDIRTYSTATE="1"
-#    export GIT_PS1_SHOWUNTRACKEDFILES="1"
-#    export GIT_PS1_SHOWUPSTREAM="auto"
+    #export GIT_PS1_SHOWDIRTYSTATE="1"
+    #export GIT_PS1_SHOWUNTRACKEDFILES="1"
+    #export GIT_PS1_SHOWUPSTREAM="auto"
     export GIT_MERGE_AUTOEDIT=no
 fi
 
