@@ -9,18 +9,27 @@ if test -f $GIT_COMP; then
     #export GIT_PS1_SHOWUNTRACKEDFILES="1"
     #export GIT_PS1_SHOWUPSTREAM="auto"
     export GIT_MERGE_AUTOEDIT=no
+
+    GIT_PROMPT='$(__git_ps1 "⦗%s⦘ ")'
 fi
 
 case "$TERM" in
     xterm*)
-        PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "⦗%s⦘ ")\[\033[01;32m\]\u@\h\[\033[00m\](\[\033[01;34m\]\W\[\033[00m\])⇒ '
-        ;;
-    dumb)
-        PS1='$(__git_ps1 "(%s) ")\u@\h(\W)⇒ '
+        [[ "`id -u`" -eq "0" ]] && U='\[\e[1;31m\]\u\[\e[0m\]' || U='\[\e[1;32m\]\u\[\e[0m\]'
+        H='\[\e[1;34m\]\h\[\e[0m\]'
+        S='\[\e[0;37m\]@\[\e[0m\]'
+        D='\[\e[0;37m\]\W\[\e[0m\]'
+
+        TITLEBAR_PROMPT='\[\e]0;\u@\h: \w\a\]'
         ;;
     *)
-        PS1='\[\e]0;\u@\h: \w\a\]$(__git_ps1 "(%s) ")\u@\h(\W)$ '
+        U='\u'
+        H='\h'
+        S='@'
+        D='\W'
 esac
+
+export PS1=$(echo -e "$TITLEBAR_PROMPT$GIT_PROMPT$U$S$H($D)⇒ ")
 
 ##
 ## Bash options
