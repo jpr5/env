@@ -1,0 +1,317 @@
+#
+# System configuration file for Mutt
+#
+
+## Add our own headers
+
+my_hdr X-Copyright: This e-mail is Copyright (c) 2005 by jpr5@darkridge.com
+my_hdr X-SpamAdvice: Pursuant to US Code\; Title 47\; Chapter 5\; Subchapter II\;\n     227 any unsolicited commercial email to this address will be subject\n     to a download and archival fee of US$500.  Pursuant to California\n     Business & Professions Code\; S17538.45 any email service provider\n     involved in SPAM activities will be liable for statutory damages of\n     US$50 per message, up to US$25,000 per day.  Pursuant to California\n     Penal Code\; S502 any unsolicited email sent to this address is in\n     violation of Federal Law and is subject to fine and/or imprisonment.
+
+
+ignore "from " received content- mime-version status x-status message-id
+ignore sender references return-path lines
+ignore x- precedence in-reply-to errors-to importance
+ignore list-unsubscribe mailing-list delivered-to
+ignore resent-date resent-message-id mail-followup-to
+
+#lists bugtraq@securityfocus.com w00w00@blackops.org team@cloudmark.com
+
+# imitate the old search-body function
+#macro index \eb '/~b ' 'search in message bodies'
+
+macro index \en l~N\n 'show new messages'
+
+# simulate the old url menu
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
+macro pager \cb |urlview\n 'call urlview to extract URLs out of a message'
+
+# Show documentation when pressing F1
+macro generic <f1> "!less /usr/local/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro index   <f1> "!less /usr/local/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro pager   <f1> "!less /usr/local/doc/mutt/manual.txt\n" "Show Mutt documentation"
+
+
+# If Mutt is unable to determine your site's domain name correctly, you can
+# set the default here.
+
+set hostname=darkridge.com
+
+set abort_nosubject=yes
+set abort_unmodified=yes
+set alias_file="~/.muttrc"
+#set alias_format=""%2n %t %-10a   %r"
+set allow_8bit
+#set alternates="(jpr5|jordan)@(darkridge|bos\.bindview|netect|napster|cloudmark|spilter)\.(com|net)"
+
+unset arrow_cursor
+set attribution="On %d, %n wrote:"
+
+unset autoedit
+unset beep
+unset beep_new
+
+set bounce_delivered
+set check_new
+
+unset collapse_unread
+set uncollapse_jump
+
+unset confirmappend
+unset confirmcreate
+
+#set copy="/home/jpr5/mail/sent"
+
+set from="jpr5@darkridge.com"
+
+# set default_hook="~f %s !~P | (~P ~C %s)"
+set delete=yes
+set edit_headers
+set editor="/usr/bin/emacs -nw"
+# set escape="~"
+set fast_reply
+# unset fcc_attach
+set folder="~/mail"
+set folder_format="%N %F %2l %-8.8u %-8.8g %8s %d %f"
+# set followup_to
+# unset force_name
+# set forward_decode
+# unset forward_decrypt
+set forward_format="FW: %s (%a)"
+# unset forward_quote
+# set hdrs
+# unset header
+# set help
+# unset hidden_host
+# set history=10
+#set in_reply_to="%i; from %n on %{!%a, %b %d, %Y at %I:%M:%S%p %Z}"
+set include=yes
+set indent_string="# "
+# unset ignore_list_reply_to
+set ispell="/usr/bin/ispell"
+# set locale="C"
+# set mail_check=5
+# set mailcap_path=""
+# set mark_old
+# set markers
+# set mask="!^\\.[^.]"
+#set mbox="~/mail/read"
+#set mbox="{demerol}inbox"
+#set mbox_type="mbox"
+# unset metoo
+# unset menu_scroll
+# unset meta_key
+set meta_key
+# unset mh_purge
+# unset mime_forward
+# unset mime_forward_decode
+set move=no
+# set message_format="%s"
+#set pager="builtin"
+# unset pager_context
+# set pager_format="-%S- %C/%m: %-20.20n   %s"
+#set pager_index_lines=8
+# unset pager_stop
+# unset pip_split
+# unset pipe_decode
+# set pipe_sep="\n"
+# set post_indent_string=""
+set postpone=ask-yes
+set postponed="~/mail/postponed"
+# set print=ask-no
+set print_command="muttprint"
+# set prompt_after=1
+# set query_command=""
+set quit=yes
+# set quote_regexp="^([ \t]*[|>:}#])+"
+# set reply_regexp="^(re([\\[0-9\\]+])*|aw):[ \t]*"
+set read_inc=25
+# unset read_only
+set realname="Jordan Ritter"
+# set recall=ask-yes
+set record="/home/jpr5/mail/sent"
+# unset reply_self
+set reply_to=ask-yes
+# set resolve
+set reverse_alias
+set reverse_name
+
+# set sendmail="/usr/sbin/sendmail -oem -oi"
+set sendmail_wait=-1
+set shell="/bin/bash"
+
+#set signature="~/.signature"
+set sig_dashes="no"
+set simple_search="~f %s | ~t %s | ~c %s | ~s %s"
+
+set smart_wrap
+set smileys="(>From )|(:[-^]?[][)(><}{|/DP])"
+
+set sort=date-received
+set sort_aux=threads
+
+set spoolfile="mail/inbox"
+# set status_chars="-*%A"
+
+set suspend
+set timeout=300
+set tmpdir="/home/jpr5/mail/tmp"
+set use_domain
+set user_agent
+set weed
+
+## Formats
+
+#set date_format="!%a, %b %d, %Y at %I:%M:%S%p %Z"
+#set attach_format="%u%D%I %t%4n %T%.40d%> [%.7m/%.10M, %.6e%?C?, %C?, %s] "
+set index_format="%4C %Z %{%b %d} %-15.15L %?M?(#%3M)&(%4l)? %s"
+set status_format="-%r-Mutt: %f [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%s/%S)-%>-(%P)---"
+
+## IMAP Settings
+
+#set imap_user="jpr5"
+#set imap_pass="*"
+#set imap_checkinterval="60"
+
+## POP Settings
+
+#set pop_host="pop://jpr5@127.0.0.1:2222"
+#set pop_user="jpr5"
+#set pop_checkinterval=120
+#unset pop_delete
+#unset pop_last
+
+## Bindings
+
+# generic
+bind generic j jump
+bind generic \ex enter-command
+bind generic \Cf search
+bind generic \Cr search-reverse
+bind generic n next-entry
+bind generic p previous-entry
+bind generic \Cn next-entry
+bind generic \Cp previous-entry
+bind generic \Cu previous-page
+bind generic \Cd next-page
+bind generic \Cy previous-page
+bind generic \Cv next-page
+
+# in the list view
+bind index c mail
+bind index r reply
+bind index o change-folder
+bind index <Return> display-message
+bind index <right> display-message
+bind index - previous-page
+bind index <Space> next-page
+bind index > display-message
+bind index n next-entry
+bind index p previous-entry
+bind index \Cn next-entry
+bind index \Cp previous-entry
+bind index \Cu previous-page
+bind index \Cd next-page
+bind index \Cy previous-page
+bind index \Cv next-page
+bind index \es sort-mailbox
+bind index \et collapse-thread
+bind index \eT collapse-all
+
+#macro index \er "|/usr/bin/razor-report "
+
+macro index } :"toggle wait_key"\n
+macro index \er }|/usr/bin/razor-report\n}s=spam\n
+macro index \eR }|/usr/bin/razor-revoke\n}
+macro index \eb }|/usr/local/bin/razor-bl.pl\n}
+
+macro index S }s=spam\n}
+macro index F }|~/bin/fetch.sh\n}
+
+macro index \ch |urlview\n
+
+# in the email viewer
+bind pager \Cy previous-page
+bind pager \Cv next-page
+bind pager <Space> half-down
+bind pager \Cu previous-page
+bind pager \Cd next-page
+bind pager c mail
+bind pager o change-folder
+bind pager <up> previous-line
+bind pager <down> next-line
+bind pager <left> exit
+bind pager < exit
+bind pager <right> view-attachments
+bind pager > view-attachments
+bind pager p previous-entry
+bind pager n next-entry
+bind pager \Cp previous-line
+bind pager \Cn next-line
+macro pager \ch |urlview\n
+bind pager \ep print-message
+
+# attachment viewer
+bind attach i exit
+bind attach p previous-entry
+bind attach n next-entry
+bind attach \Cp previous-entry
+bind attach \Cn next-entry
+bind attach <left> exit
+bind attach < exit
+bind attach <right> view-attach
+bind attach > view-attach
+
+
+#color normal white default
+#color hdrdefault white default
+#color header brightwhite default ^(From|Subject):
+
+color normal white black
+color hdrdefault white black
+color header brightwhite black ^(From|Subject):
+
+color body brightgreen default "(ftp|http)://[^ ]+"             # point out URLs
+color body brightgreen default [-a-z_0-9.]+@[-a-z_0-9.]+        # e-mail addresses
+
+color quoted white default
+color signature red default
+
+#color indicator brightwhite default
+#color error brightwhite default
+#color message brightwhite default
+
+color indicator brightwhite black
+color error brightwhite black
+color message brightwhite black
+color status brightyellow blue
+
+#color tree blue default        # the thread tree in the index menu
+color tree blue black
+
+color tilde white default
+color markers brightcyan default
+color attachment cyan default
+color search default green
+color underline brightgreen default
+
+
+
+## The following options are only valid if you have
+## compiled in PGP support
+
+set pgp_decode_command="gpg --default-key jpr5@darkridge.com --no-secmem-warning %?p?--passphrase-fd 0? --no-verbose --batch -o - %f"
+set pgp_verify_command="gpg --default-key jpr5@darkridge.com --no-verbose --no-secmem-warning --batch -o - --verify %s %f"
+set pgp_decrypt_command="gpg --default-key jpr5@darkridge.com --passphrase-fd 0 --no-secmem-warning  --no-verbose --batch -o - %f"
+set pgp_sign_command="gpg --no-verbose --batch --default-key jpr5@darkridge.com --no-secmem-warning  -o - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+set pgp_clearsign_command="gpg --default-key jpr5@darkridge.com --no-verbose --no-secmem-warning  --batch -o - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command="pgpewrap gpg --default-key jpr5@darkridge.com -v --no-secmem-warning --batch -o - --encrypt --textmode --armor --always-trust -- -r %r -- %f"
+set pgp_encrypt_sign_command="pgpewrap gpg --default-key jpr5@darkridge.com --no-secmem-warning --passphrase-fd 0 -v --batch -o - --encrypt --sign %?a?-u %a? --armor --always-trust -- -r %r -- %f"
+set pgp_import_command="gpg --no-secmem-warning --no-verbose --import -v %f"
+set pgp_export_command="gpg --no-secmem-warning --no-verbose --export --armor %r"
+set pgp_verify_key_command="gpg --no-secmem-warning --default-key jpr5@darkridge.com --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command="gpg --no-secmem-warning --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command="gpg --no-secmem-warning --no-verbose --batch --with-colons --list-secret-keys %r"
+set pgp_getkeys_command=""
+set pgp_replysign="yes"
+set pgp_timeout=1800
+
