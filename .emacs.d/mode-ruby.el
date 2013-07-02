@@ -6,26 +6,26 @@
   (setq ruby-block-highlight-toggle 'overlay))
 
 ;; Enable Flymake in Ruby
-(require 'flymake)
+(when (require 'flymake nil 'noerror)
+  (setq flymake-allowed-file-name-masks (append
+      '((".+\\.rb$"   flymake-ruby-init)
+        (".+\\.ru$"   flymake-ruby-init)
+        (".+\\.rake$" flymake-ruby-init)
+        ("Rakefile$"  flymake-ruby-init))
+      flymake-allowed-file-name-masks))
 
-(setq flymake-allowed-file-name-masks (append
-    '((".+\\.rb$"   flymake-ruby-init)
-      (".+\\.ru$"   flymake-ruby-init)
-      (".+\\.rake$" flymake-ruby-init)
-      ("Rakefile$"  flymake-ruby-init))
-    flymake-allowed-file-name-masks))
+  (setq flymake-err-line-patterns (append
+      '(("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3))
+      flymake-err-line-patterns))
 
-(setq flymake-err-line-patterns (append
-    '(("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3))
-    flymake-err-line-patterns))
+  ; Ensure flymake turds are written to system temp directory
+  (defun flymake-create-temp-in-system-tempdir (filename prefix)
+    (make-temp-file (or prefix "flymake-ruby")))
 
-; Ensure flymake turds are written to system temp directory
-(defun flymake-create-temp-in-system-tempdir (filename prefix)
-  (make-temp-file (or prefix "flymake-ruby")))
-
-(defun flymake-ruby-init ()
-  (list "ruby" (list "-c" (flymake-init-create-temp-buffer-copy
-                           'flymake-create-temp-in-system-tempdir))))
+  (defun flymake-ruby-init ()
+    (list "ruby" (list "-c" (flymake-init-create-temp-buffer-copy
+                             'flymake-create-temp-in-system-tempdir))))
+)
 
 ;; Rinari RHTML package
 (add-to-list 'load-path "~/.emacs.d/lib/rhtml")
@@ -41,20 +41,22 @@
     '(("\\.rb$"         . ruby-mode)
       ("\\.ru$"         . ruby-mode)
       ("\\.ru\\..*$"    . ruby-mode)
-      ("Rakefile$"      . ruby-mode)
       ("\\.rake$"       . ruby-mode)
       ("\\.rb\\.erb$"   . ruby-mode)
       ("\\.erb$"        . rhtml-mode)
       ("\\.html\\.erb$" . rhtml-mode)
       ("\\.rhtml$"      . rhtml-mode)
-      ("\\.yml\\..*$"   . yaml-mode))
+      ("\\.yml\\..*$"   . yaml-mode)
+      ("Rakefile$"      . ruby-mode)
+      ("Capfile$"       . ruby-mode)
+      ("Gemfile$"       . ruby-mode))
     auto-mode-alist))
 
 (add-hook 'ruby-mode-hook
   (lambda ()
     (set (make-variable-buffer-local 'ruby-deep-indent-paren) nil)
     (set (make-variable-buffer-local 'ruby-indent-level)      4)
-    (flymake-mode t)
+    (flymake-mode nil)
     ))
 
 ;; Gank some auto-align stuff from the compuweb.
