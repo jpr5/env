@@ -7,19 +7,25 @@
 ;; you want left alone.
 
 (setq-default tab-width        4)   ;; used by untabify
-(setq-default indent-tabs-mode nil)
-
+(setq-default untabify-mode    nil)
 
 (setq-default delete-trailing-whitespace-mode t)
 
 (add-hook 'write-file-hooks
   (lambda ()
-    (unless indent-tabs-mode)
+    (when untabify-mode
      (save-excursion
       (untabify (point-min) (point-max))
       (when delete-trailing-whitespace-mode
         (delete-trailing-whitespace))
       )))
+
+(defun toggle-untabify ()
+  "Toggle untabification"
+  (interactive)
+  (setq untabify-mode (not untabify-mode))
+  (message "Untabification is %s." untabify-mode)
+)
 
 ;; If indent-tabs-mode is off, nuke whitespace and untabify before saving.  I do this by
 ;; default now, with modes "opting out" of the practice by setting indent-tabs-mode to
