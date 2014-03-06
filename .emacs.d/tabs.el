@@ -11,10 +11,12 @@
 
 (setq-default delete-trailing-whitespace-mode t)
 
-(add-hook 'write-file-hooks
-  (lambda ()
-    (when untabify-mode
-     (save-excursion
+(add-hook 'write-file-hooks 'do-untabify)
+
+(defun do-untabify ()
+  "Untabify the buffer"
+  (when untabify-mode
+    (save-excursion
       (untabify (point-min) (point-max))
       (when delete-trailing-whitespace-mode
         (delete-trailing-whitespace))
@@ -24,8 +26,7 @@
   "Toggle untabification"
   (interactive)
   (setq untabify-mode (not untabify-mode))
-  (message "Untabification is %s." untabify-mode)
-)
+  (message "Untabification is %s." untabify-mode))
 
 ;; If indent-tabs-mode is off, nuke whitespace and untabify before saving.  I do this by
 ;; default now, with modes "opting out" of the practice by setting indent-tabs-mode to
