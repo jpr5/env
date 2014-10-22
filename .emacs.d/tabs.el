@@ -6,8 +6,8 @@
 ;; This is the default behaviour; (setq indent-tabs-mode t) in a hook for modes
 ;; you want left alone.
 
-(setq-default tab-width        4)   ;; used by untabify
-(setq-default untabify-mode    nil)
+(setq-default tab-width      4)   ;; used by untabify
+(setq-default untabify-mode  t)
 
 (setq-default delete-trailing-whitespace-mode t)
 
@@ -22,7 +22,7 @@
         (delete-trailing-whitespace))
       )))
 
-(defun toggle-untabify ()
+(defun untabify-mode-toggle ()
   "Toggle untabification"
   (interactive)
   (setq untabify-mode (not untabify-mode))
