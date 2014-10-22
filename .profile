@@ -56,7 +56,7 @@ export HISTSIZE=100000
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 export TMPDIR=/tmp
 
-export EDITOR="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
+export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
