@@ -12,24 +12,23 @@
   (unless (file-exists-p (expand-file-name (desktop-full-lock-name)))
     (desktop-save-mode 1)))
 
-;; Save your minibuffer history
-(setq savehist-file                  (expand-file-name "~/.emacs.history")
-      savehist-additional-variables '(search ring regexp-search-ring))
-(savehist-mode 1)
-
-;; Better buffer browser
-(when (fboundp 'ibuffer)
-  (global-set-key (kbd "C-x C-b") 'ibuffer))
-
 ;; Browse your kill ring buffer
 (when (require 'browse-kill-ring nil 'noerror)
   (global-set-key (kbd "C-c k") 'browse-kill-ring))
 
-;; Weirdness with linum not being added to features when elc'd.
+;; Navigate split buffer windows with shift-{left,right,up,down}
+;; DISABLED: I never use, but it might be useful to someone else..
+;(when window-system
+;  (windmove-default-keybindings))
+
+;; DISABLED: Weirdness with linum not being added to features when elc'd.
 ;(when (or (require 'linum nil 'noerror) (functionp 'global-linum-mode))
 ;  (global-linum-mode))
 
 (setq package-user-dir (expand-file-name "~/.emacs.d/lib/elpa"))
+
 (add-to-list 'load-path package-user-dir)
 (when (require 'package nil 'noerror)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/") t)
   (package-initialize))

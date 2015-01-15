@@ -1,10 +1,14 @@
-;; Main VCS settings
+;;;
+;;; Main VCS settings
+;;;
 
 (setq vc-follow-symlinks t)
 (setq diff-switches '"-u")
 
 ;; GIT
 (require 'vc-git)
+(require 'git)
+(require 'git-blame)
 
 ;; Fix vc-git's broken blame invocation syntax (OSX Carbon Emacs 22.3.1).
 (when (eq emacs-major-version 22)
@@ -18,7 +22,6 @@
 ;; Assume search-from-cwd, and limit grep depth to cwd vs. M-x rgrep for
 ;; unlimited depth (recursive).  Nuking the "-- ."  would separately accomplish
 ;; a full repository-wide search.
-;;
 (defun vc-git-override-grep ()
   "Change buffer-local grep mechanism to use git grep (waaay faster)."
   (when (or
@@ -28,3 +31,6 @@
     (set (make-local-variable 'grep-find-command) '("git --no-pager grep -En  -- ." . 25))))
 
 (add-hook 'find-file-hook 'vc-git-override-grep)
+
+(with-eval-after-load 'git-gutter+
+  (global-git-gutter+-mode t))

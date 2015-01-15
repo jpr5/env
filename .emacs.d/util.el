@@ -1,4 +1,10 @@
-;; Generic functions I use from time to time.
+;;;
+;;; Generic utility functions used in various places
+;;;
+
+;; Take any list-of-list(-of-list) and return a flat list.
+(defun flatten (list)
+  (mapcan (lambda (x) (if (listp x) x nil)) list))
 
 (defun count-words (start end)
   "Print number of words in the region."
@@ -11,13 +17,6 @@
           (setq n (1+ n))))
       (message "Region has %d words" n)
       n)))
-
-(defun emacs-format-function ()
-  "Untabify the whole buffer."
-  (untabify (point-min) (point-max))
-  (delete-trailing-whitespace)
-  (save-some-buffers t)
-  )
 
 (defun screen-zoom (n)
   "with positive N, increase the font size, otherwise decrease it"
@@ -32,10 +31,6 @@
                        (if (frame-parameter nil 'fullscreen)
                            nil
                          'fullboth)))
-
-;; Take any list-of-list(-of-list) and return a flat list.
-(defun flatten (list)
-  (mapcan (lambda (x) (if (listp x) x nil)) list))
 
 ;; Swap two frames/windows with each other.
 (defun swap-windows ()
