@@ -36,14 +36,6 @@
       user-mail-address "jpr5@darkridge.com"
       mail-host-address '"darkridge.com")
 
-;; NOTE: Disable bytecomp for now, while experimenting with newer emacsen.
-;(require 'bytecomp)
-;(setq byte-compile-verbose nil)
-;(setq byte-compile-warnings nil)
-;(require 'byte-code-cache)
-;(setq bcc-blacklist '("\\.emacs\\.history" "\\.emacs\\.desktop"))
-;(setq bcc-cache-directory "~/.emacs.d/elc")
-
 ;; Load our settings/config.  First disable Emacs' initialization warning about
 ;; .emacs.d in the load path - yeah, whatever.  Then prefix the load-path with
 ;; our own, and loop over all root files as basenames to load (add-to-list
@@ -58,23 +50,16 @@
 
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
 
-;; Autoload our other files.  Strategies: load them from ~/.emacs.d/*.el, either
-;; ordered (current) or in no particular order.
+;; Autoload our other config files.
 (dolist (filename '(util settings keys themes display tabs vcs modes addons))
   (load-library (format "~/.emacs.d/%s.el" filename)))
-;(let (files)
-;  (dolist (filename (file-expand-wildcards "~/.emacs.d/*.el*") files)
-;    (when (file-regular-p filename)
-;      (add-to-list 'files (file-name-sans-extension filename))))
-;  (dolist (filename files)
-;    (load-library filename)))
 
 ;; And finally Emacs custom settings.
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(case-fold-search t)
  '(compilation-scroll-output t)
  '(current-language-environment "UTF-8")
@@ -85,7 +70,13 @@
  '(flymake-start-syntax-check-on-newline nil)
  '(safe-local-variable-values (quote ((encoding . utf-8)))))
 
-(put 'narrow-to-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(magit-item-highlight ((t nil)))
+ '(magit-log-sha1 ((t (:foreground "SteelBlue1")))))
 
 ;; Totally useless but neat.
 (defconst animate-n-steps 7)
