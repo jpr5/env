@@ -34,3 +34,21 @@
 
 (with-eval-after-load 'git-gutter+
   (global-git-gutter+-mode t))
+
+;; TODO: figure out how to make magit log automatically include graph
+;;;###autoload
+;(defun magit-file-log (file &optional use-graph)
+;  "Display the log for the currently visited file or another one.
+;With a prefix argument show the log graph."
+;  (interactive
+;   (list (magit-read-file-from-rev (magit-get-current-branch)
+;                                   (magit-buffer-file-name t))
+;         current-prefix-arg))
+;  (magit-mode-setup magit-log-buffer-name nil
+;                    #'magit-log-mode
+;                    #'magit-refresh-log-buffer
+;                    'oneline "HEAD"
+;                    `(,@(and use-graph (list "--graph"))
+;                      ,@magit-custom-options
+;                      "--follow")
+;                    file))
