@@ -237,6 +237,7 @@
 (add-hook 'org-mode-hook
   (lambda ()
     (turn-on-font-lock)
+    (setq indent-tabs-mode nil)
     (set (make-local-variable 'line-move-visual) 'nil)
     (local-set-key (kbd "<return>") 'org-return)
     (local-set-key (kbd "C-<return>") 'org-return)
