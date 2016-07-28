@@ -29,6 +29,8 @@
 
 (add-to-list 'load-path package-user-dir)
 (when (require 'package nil 'noerror)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/") t)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("marmalade" . "https://marmalade-repo.org/packages/")
+                           ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
   (package-initialize))
