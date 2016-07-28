@@ -75,6 +75,8 @@
       savehist-additional-variables '(search ring regexp-search-ring))
 (savehist-mode 1)
 
+(put 'narrow-to-region 'disabled nil)
+
 ;; Show offscreen paren matches in the minibuffer
 (defadvice show-paren-function
  (after show-matching-paren-offscreen activate)
