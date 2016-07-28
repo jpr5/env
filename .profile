@@ -42,13 +42,16 @@ shopt -s no_empty_cmd_completion
 ## Envariables
 ##
 
-# MacPorts Installer addition on 2010-02-02_at_16:16:55: adding an appropriate PATH variable for use with MacPorts.
+# MacPorts Installer addition on 2015-11-19_at_11:41:13: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 # Put the real mysql utils at the beginning of the path.
-export PATH=/opt/local/lib/mysql5/bin:$PATH
-export PATH=/opt/local/lib/postgresql90/bin:$PATH
+#export PATH=/opt/local/lib/mysql5/bin:$PATH
+#export PATH=/opt/local/lib/postgresql90/bin:$PATH
+export PATH=$PATH:/Users/jpr5/Applications/dtscripts
+export PATH=$PATH:/Applications
+
 
 #export HISTCONTROL=ignoredups,ignorespace,ignoreboth
 export HISTSIZE=100000
@@ -97,3 +100,7 @@ alias f=field
 
 ## EC2
 test -f .ec2/rc && source .ec2/rc
+
+export NVM_DIR="/Users/jpr5/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+eval "$(rbenv init -)"
