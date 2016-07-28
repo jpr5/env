@@ -75,3 +75,5 @@
 ;(with-eval-after-load 'magit
 ;  (define-key vc-prefix-map "s" 'magit-status))
 (global-set-key (kbd "C-x v s") 'magit-status)
+(global-set-key (kbd "C-x v b") 'magit-branch-manager)
+(global-set-key (kbd "C-x v l") 'magit-log)
