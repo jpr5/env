@@ -261,6 +261,14 @@
     (sequence "TASK" "|" "DONE")))
 
 ;;;
+;;; Swift mode
+;;;
+(require 'swift-mode nil 'noerror)
+(setq auto-mode-alist (append
+                       '(("\\.swift$" . swift-mode))
+                       auto-mode-alist))
+
+;;;
 ;;; server-mode for Emacs - re-using GUI instance with cmdline invocations
 ;;;
 
