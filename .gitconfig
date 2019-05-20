@@ -33,7 +33,7 @@
     interactive = auto
     current = yellow reverse
     local = yellow
-    remote = green
+#    remote = green
 [color "diff"]
     whitespace = red reverse
     frag = cyan
