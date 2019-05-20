@@ -96,3 +96,4 @@ alias f=field
 ## EC2
 test -f .ec2/rc && source .ec2/rc
 
+ssh-add -A &>/dev/null
