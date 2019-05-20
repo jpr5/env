@@ -7,3 +7,5 @@
 !.emacs.d/
 .emacs.d/lib/elpa/archive-contents
 .emacs.d/lib/elpa/builtin-packages
+.emacs.d/lib/elpa/archives/*
+*.swp
