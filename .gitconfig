@@ -77,4 +77,8 @@
     email = jpr5@darkridge.com
 [github]
     user = jpr5
-    token = 4225723a97dc811c978bde1c1c54a23d
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
