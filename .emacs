@@ -73,8 +73,11 @@
  '(default-input-method "latin-1-prefix")
  '(flymake-gui-warnings-enabled nil)
  '(flymake-mode nil t)
- '(flymake-start-syntax-check-on-find-file t)
+ '(flymake-start-on-flymake-mode t)
  '(flymake-start-syntax-check-on-newline nil)
+ '(package-selected-packages
+   (quote
+    (php-mode yaml-mode swift-mode pkg-info magit let-alist go-dlv git-gutter+ flymake-go dash coffee-mode)))
  '(safe-local-variable-values (quote ((encoding . utf-8)))))
 
 (custom-set-faces
