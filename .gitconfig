@@ -75,10 +75,13 @@
 [user]
     name = Jordan Ritter
     email = jpr5@darkridge.com
+    signingkey = D14D7F2B028A9C53
 [github]
     user = jpr5
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[commit]
+    gpgsign = true
