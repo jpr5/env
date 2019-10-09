@@ -25,6 +25,8 @@
 [core]
     excludesfile = ~/.gitignore-global
     whitespace=trailing-space,cr-at-eol,space-before-tab,tab-in-indent
+    autocrlf = input
+    safecrlf = false
 [color]
     ui = auto
     diff = auto
