@@ -78,6 +78,7 @@ source $ZSH/oh-my-zsh.sh
 export LANG=en_US.UTF-8
 export DEFAULT_USER=jpr5
 
+export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 export TMPDIR=/tmp
 export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
