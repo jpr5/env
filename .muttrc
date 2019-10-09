@@ -59,7 +59,7 @@ set uncollapse_jump
 unset confirmappend
 unset confirmcreate
 
-#set copy="/home/jpr5/mail/sent"
+#set copy="/Users/jpr5/mail/sent"
 
 set from="jpr5@darkridge.com"
 
@@ -128,7 +128,7 @@ set read_inc=25
 # unset read_only
 set realname="Jordan Ritter"
 # set recall=ask-yes
-set record="/home/jpr5/mail/sent"
+set record="/Users/jpr5/mail/sent"
 # unset reply_self
 set reply_to=ask-yes
 # set resolve
@@ -154,7 +154,7 @@ set spoolfile="mail/inbox"
 
 set suspend
 set timeout=300
-set tmpdir="/home/jpr5/mail/tmp"
+set tmpdir="/Users/jpr5/mail/tmp"
 set use_domain
 set user_agent
 set weed
