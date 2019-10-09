@@ -95,11 +95,8 @@ alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
 
-#from bash
-#shopt -s cdspell checkwinsize extglob histreedit histappend cmdhist lithist
-#shopt -s no_empty_cmd_completion
-
-setopt extendedglob autopushd notify emacs
+setopt extendedglob autopushd notify emacs alwaystoend listpacked
+unsetopt hist_verify
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
 
 zstyle ':completion:*' completer _complete _match _approximate
