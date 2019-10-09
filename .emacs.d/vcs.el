@@ -11,7 +11,7 @@
 (require 'git-blame)
 
 ;; Fix vc-git's broken blame invocation syntax (OSX Carbon Emacs 22.3.1).
-(when (eq emacs-major-version 22)
+(when (eq emacs-major-version 24)
   (defun vc-git-annotate-command (file buf &optional rev)
     (let ((name (file-relative-name file)))
       (vc-git-command buf 0 name "blame" (if rev (concat rev))))))
