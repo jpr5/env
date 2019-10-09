@@ -35,6 +35,8 @@ export PS1=$(echo -e "$TITLEBAR_PROMPT$GIT_PROMPT$U$S$H($D)⇒ ")
 ## Bash options
 ##
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 shopt -s cdspell checkwinsize extglob histreedit histappend cmdhist lithist
 shopt -s no_empty_cmd_completion
 
@@ -47,6 +49,7 @@ export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
 # Put the real mysql utils at the beginning of the path.
 export PATH=/opt/local/lib/mysql5/bin:$PATH
 export PATH=/opt/local/lib/postgresql90/bin:$PATH
+export PATH=~jpr5/.rbenv/shims:$PATH
 
 #export HISTCONTROL=ignoredups,ignorespace,ignoreboth
 export HISTSIZE=100000
@@ -96,4 +99,4 @@ alias f=field
 ## EC2
 test -f .ec2/rc && source .ec2/rc
 
-ssh-add -A &>/dev/null
+ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
