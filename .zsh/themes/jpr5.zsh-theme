@@ -125,10 +125,10 @@ prompt_git() {
     ref="$vcs_info_msg_0_"
     if [[ -n "$ref" ]] && [[ -d "$PWD/.git" ]]; then
         if [[ -n "$(git status --porcelain --ignore-submodules -- ${PWD} 2>/dev/null)" ]]; then
-            parens="%F{red}"
+            parens="%B%F{red}"
             post="$(git_status)";
         else
-            parens="%F{028}"
+            parens="%B%F{028}"
         fi
         print -n "${parens}❮%f%b%F{007}${ref}${post}${parens}❯%f%b " # 243
     fi
