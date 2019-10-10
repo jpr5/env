@@ -118,12 +118,21 @@ ZSH_THEME_GIT_PROMPT_RENAMED="%{%F{208}%}➜"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}═" # ✂
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}✭"
 
+find-up () {
+  _path=$(pwd)
+  while [[ "$_path" != "" && ! -e "$_path/$1" ]]; do
+    _path=${_path%/*}
+  done
+  echo "$_path"
+}
+
+
 # Git: branch/detached head, dirty status
 prompt_git() {
     local ref post parens
 
     ref="$vcs_info_msg_0_"
-    if [[ -n "$ref" ]] && [[ -d "$PWD/.git" ]]; then
+    if [[ -n "$ref" ]] && [[ -n "$(find-up .git)" ]]; then
         if [[ -n "$(git status --porcelain --ignore-submodules -- ${PWD} 2>/dev/null)" ]]; then
             parens="%B%F{red}"
             post="$(git_status)";
