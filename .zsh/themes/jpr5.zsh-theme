@@ -109,16 +109,19 @@ prompt_status() {
 
 #ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{white}⦗%f%b"
 #ZSH_THEME_GIT_PROMPT_SUFFIX="%B%F{white}⦘%f%b"
-ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f"
+#ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f" # don't use
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✚"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}❉" # ✱❉✹
+#ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}❉" # ✱❉✹  # don't need, comes through the others
 ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✖" # ✗
 ZSH_THEME_GIT_PROMPT_RENAMED="%{%F{208}%}➜"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}═" # ✂
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}✭"
 
-find-up () {
+GIT_AHEAD_ICON=$'\u2193'
+GIT_BEHIND_ICON=$'\u2191'
+
+find_up () {
   _path=$(pwd)
   while [[ "$_path" != "" && ! -e "$_path/$1" ]]; do
     _path=${_path%/*}
@@ -126,20 +129,26 @@ find-up () {
   echo "$_path"
 }
 
-
 # Git: branch/detached head, dirty status
 prompt_git() {
     local ref post parens
 
     ref="$vcs_info_msg_0_"
-    if [[ -n "$ref" ]] && [[ -n "$(find-up .git)" ]]; then
+    if [[ -n "$ref" ]] && [[ -n "$(find_up .git)" ]]; then
         if [[ -n "$(git status --porcelain --ignore-submodules -- ${PWD} 2>/dev/null)" ]]; then
             parens="%B%F{red}"
             post="$(git_status)";
         else
             parens="%B%F{028}"
         fi
-        print -n "${parens}❮%f%b%F{007}${ref}${post}${parens}❯%f%b " # 243
+
+        ahead=$(git rev-list --count ..@{upstream})
+        behind=$(git rev-list --count @{upstream}..)
+
+        [[ "$behind" -gt 0 ]] && behindahead="${GIT_BEHIND_ICON}${behind}"
+        [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${GIT_AHEAD_ICON}${ahead}"
+
+        print -n "${parens}❮%f%b%F{007}${ref}%f%b%k${post}%B%F{007}${behindahead}%f%b%k${parens}❯%f%b "
     fi
 }
 
