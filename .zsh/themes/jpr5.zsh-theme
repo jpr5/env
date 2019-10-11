@@ -3,7 +3,7 @@
 # jpr5's theme, based on agnoster's theme (https://gist.github.com/3712874)
 #
 
-typeset -aHg AGNOSTER_PROMPT_SEGMENTS=(
+typeset -aHg PROMPT_SEGMENT_ORDER=(
     prompt_status
     prompt_git
     prompt_context
@@ -11,40 +11,34 @@ typeset -aHg AGNOSTER_PROMPT_SEGMENTS=(
     prompt_end
 )
 
-### Segment drawing
-# A few utility functions to make it easy and re-usable to draw segmented prompts
-
-CURRENT_BG='NONE'
-if [[ -z "$PRIMARY_FG" ]]; then
-    PRIMARY_FG=black
-fi
-
 # Characters
 SEGMENT_SEPARATOR=""
-PLUSMINUS="\u00b1"
-BRANCH="\ue0a0"
-DETACHED="\u27a6"
-CROSS="\u2718"
-LIGHTNING="\u26a1"
-GEAR="\u2699"
+PLUSMINUS="±"
+BRANCH=""
+DETACHED="➦"
+CROSS="✘"
+LIGHTNING="⚡"
+GEAR="⚙" # ⍟ ⎈
+EQUAL="═"
+RIGHT="➜"
+EX="✖" # ✗
+ASTERISK="❉" # ✱❉✹
+PLUS="✚"
+STAR="✭"
+UP="↑"
+DOWN="↓"
+LESSTHAN="❮"
+GREATERTHAN="❯"
+DOUBLERIGHT="⇒"
+SCISSORS="✂"
 
 
-# Begin a segment
-# Takes two arguments, background and foreground. Both can be omitted,
-# rendering default background/foreground.
-prompt_segment() {
-    local bg fg
-    [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
-    [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
-    if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-        print -n "%{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%}"
-    else
-        print -n "%{$bg%}%{$fg%}"
-    fi
-    CURRENT_BG=$1
-    [[ -n $3 ]] && print -n $3
-}
+##
+## Utility
+##
 
+# Copied from zsh's vcs/git/whatever.zsh.  needed to change the behavior of what
+# it emitted.
 git_status() {
     local INDEX
     INDEX=$(git status --porcelain -b -- $PWD  2> /dev/null)
@@ -95,32 +89,6 @@ git_status() {
     print -n "${GIT_STATUS}"
 }
 
-# Status:
-# - was there an error
-# - am I root
-# - are there background jobs?
-prompt_status() {
-    local symbols
-    symbols=()
-    [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
-    [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{063}%}$GEAR"
-    [[ -n "$symbols" ]] && prompt_segment $PRIMARY_FG default " $symbols "
-}
-
-#ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{white}⦗%f%b"
-#ZSH_THEME_GIT_PROMPT_SUFFIX="%B%F{white}⦘%f%b"
-#ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f" # don't use
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✚"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}❉" # ✱❉✹
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✖" # ✗
-ZSH_THEME_GIT_PROMPT_RENAMED="%{%F{208}%}➜"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}═" # ✂
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}✭"
-
-GIT_AHEAD_ICON=$'\u2193'
-GIT_BEHIND_ICON=$'\u2191'
-
 find_up () {
   _path=$(pwd)
   while [[ "$_path" != "" && ! -e "$_path/$1" ]]; do
@@ -129,78 +97,101 @@ find_up () {
   echo "$_path"
 }
 
-# Git: branch/detached head, dirty status
+##
+## Prompt Segments
+##
+
+# Status:
+# - was there an error
+# - are there background jobs?
+prompt_status() {
+    local symbols=()
+    [[ $RETVAL -ne 0 ]] && symbols+="%F{red}$CROSS%f"
+    [[ -n "$(jobs)" ]] && symbols+="%F{063}$GEAR%f"
+    [[ -n "$symbols" ]] && print -n " $symbols "
+}
+
+#ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{white}⦗%f%b"
+#ZSH_THEME_GIT_PROMPT_SUFFIX="%B%F{white}⦘%f%b"
+#ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f" # don't use
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}$PLUS"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}$ASTERISK"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}$EX"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{%F{208}%}$RIGHT"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}$EQUAL"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}$STAR"
+
 prompt_git() {
-    local ref post parens
+    local ref post
+    local parencolor refcolor="007" behindaheadcolor="007"
 
     ref="$vcs_info_msg_0_"
     if [[ -n "$ref" ]] && [[ -n "$(find_up .git)" ]]; then
         if [[ -n "$(git status --porcelain --ignore-submodules -- ${PWD} 2>/dev/null)" ]]; then
-            parens="%B%F{red}"
+            parencolor="red"
             post="$(git_status)";
         else
-            parens="%B%F{028}"
+            parencolor="028"
         fi
 
-        ahead=$(git rev-list --count ..@{upstream})
-        behind=$(git rev-list --count @{upstream}..)
+        ahead=$(command git rev-list --count ..@{upstream})
+        behind=$(command git rev-list --count @{upstream}..)
 
-        [[ "$behind" -gt 0 ]] && behindahead="${GIT_BEHIND_ICON}${behind}"
-        [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${GIT_AHEAD_ICON}${ahead}"
+        [[ "$behind" -gt 0 ]] && behindahead="${UP}${behind}"
+        [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${DOWN}${ahead}"
 
-        print -n "${parens}❮%f%b%F{007}${ref}%f%b%k${post}%B%F{007}${behindahead}%f%b%k${parens}❯%f%b "
+        print -n "%B%F{$parencolor}${LESSTHAN}%f%b"
+        print -n "%F{$refcolor}${ref}%f"
+        print -n "${post}%b%f%k"
+        print -n "%B%F{$behindaheadcolor}${behindahead}%f%b"
+        print -n "%B%F{$parencolor}${GREATERTHAN}%f%b "
     fi
 }
 
-# Context: user@hostname (who am I and where am I)
+# Context: user@hostname
 prompt_context() {
-    local user=`whoami`
-    local color='%F{193}' # 208=orange 039=darkercyan  159=prettycyan
+    # 208=orange 039=darkercyan  159=prettycyan
+    local usercolor='193' atcolor="094" hostcolor="243"
+    [[ $UID -eq 0 ]] && usercolor='196'
 
-    [[ $UID -eq 0 ]] && color='%F{196}'
-
-    prompt_segment $PRIMARY_FG default "%B$color$user%f%b%F{094}@%F{243}%m%f" # 231
+    print -n "%B%F{$usercolor}$USER%b%F{$atcolor}@%F{$hostcolor}%m%f"
 }
 
 # Dir: current working directory
 prompt_dir() {
-    prompt_segment black white '%F{white}(%f%c%F{white})%f'
+    print -n '%B%F{white}(%f%b%c%B%F{white})%f%b'
 }
 
 # End the prompt, closing any open segments
 prompt_end() {
-    if [[ -n $CURRENT_BG ]]; then
-        print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
-    else
-        print -n "%{%k%}"
-    fi
-    print -n "%{%f%}"
-    CURRENT_BG=''
-    print -n "%F{white}%K{black}%B%F{033}⇒%b%f%k"
+    local promptcolor="033"
+    print -n "%B%F{$promptcolor}%K{black}${DOUBLERIGHT}%b%f%k"
 }
 
+##
+## Main
+##
 
-## Main prompt
-prompt_agnoster_main() {
+prompt_main() {
     RETVAL=$?
-    CURRENT_BG='NONE'
-    for prompt_segment in "${AGNOSTER_PROMPT_SEGMENTS[@]}"; do
+    for prompt_segment in "${PROMPT_SEGMENT_ORDER[@]}"; do
         [[ -n $prompt_segment ]] && $prompt_segment
     done
 }
 
-prompt_agnoster_precmd() {
+prompt_precmd() {
     vcs_info
-    PROMPT='%{%f%b%k%}$(prompt_agnoster_main) '
+    PROMPT='%{%f%b%k%}$(prompt_main) '
 }
 
-prompt_agnoster_setup() {
+prompt_setup() {
     autoload -Uz add-zsh-hook
     autoload -Uz vcs_info
 
-    prompt_opts=(cr subst percent)
+#    prompt_opts=(cr subst percent)
 
-    add-zsh-hook precmd prompt_agnoster_precmd
+    add-zsh-hook precmd prompt_precmd
 
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:*' check-for-changes false
@@ -208,4 +199,4 @@ prompt_agnoster_setup() {
     zstyle ':vcs_info:git*' actionformats '%b (%a)'
 }
 
-prompt_agnoster_setup "$@"
+prompt_setup "$@"
