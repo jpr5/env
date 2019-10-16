@@ -311,10 +311,12 @@
     (kill-buffer nil)
     (server-done)))
 
-(when window-system
-  (unless server-mode (server-start))
+(setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
+  (unless server-mode
+    (server-force-delete)
+    (server-start))
   (add-hook 'server-switch-hook
     (lambda ()
       (when (current-local-map)
         (use-local-map (copy-keymap (current-local-map))))
-      (local-set-key (kbd "C-x k RET") 'server-buffer-done-or-kill))))
+      (local-set-key (kbd "C-x k RET") 'server-buffer-done-or-kill)))

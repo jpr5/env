@@ -57,8 +57,8 @@
 
 (setq load-path (append '("~/.emacs.d" "~/.emacs.d/lib") load-path))
 
-;; Autoload our other config files.
-(dolist (filename '(util settings keys themes display tabs vcs modes addons))
+;; Autoload our other config files.  themes will load display for us.
+(dolist (filename '(util settings keys themes tabs vcs modes addons))
   (load-library (format "~/.emacs.d/%s.el" filename)))
 
 ;; And finally Emacs custom settings.

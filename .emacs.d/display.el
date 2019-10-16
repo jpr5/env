@@ -1,5 +1,5 @@
 ;;;
-;;; Display-specific settings
+;;; Display-specific settings.  Loaded by themes.el.
 ;;;
 
 ;; Get rid of all those annoying things that get in the way.

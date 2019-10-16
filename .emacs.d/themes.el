@@ -113,7 +113,16 @@
      (hl-line                ((t (:background "grey12"))))
 )))
 
-;; Set the Visual theme
-(if window-system
+
+(defun configure-display ()
+  (if window-system
     (color-theme-jpr5-day)
     (color-theme-jpr5-tty))
+  (load-library "~/.emacs.d/display.el"))
+
+(if (daemonp)
+      (add-hook 'after-make-frame-functions
+         (lambda (frame)
+             (select-frame frame)
+             (configure-display)))
+  (configure-display))

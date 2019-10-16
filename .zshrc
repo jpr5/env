@@ -17,6 +17,10 @@ source $ZSH/oh-my-zsh.sh
 
 export LANG=en_US.UTF-8
 export DEFAULT_USER=jpr5
+export TMPDIR=/tmp
+
+export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
@@ -27,7 +31,8 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=vim
 export PATH=~/.rbenv/shims:$PATH
 
 alias ls='ls -FG'
-alias emacs='open -a Emacs'
+alias e='open -a Emacs'
+alias emacs="$EDITOR -n"
 alias su='sudo -s'
 alias df='df -klH '
 alias grep='grep --line-buffered --color=auto'
@@ -56,3 +61,5 @@ alias f=field
 
 test -f .ec2/rc && source .ec2/rc
 ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
+
+[[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))'
