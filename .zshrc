@@ -1,4 +1,5 @@
 export ZSH="$HOME/.zsh"
+export ZDOTDIR=$ZSH
 
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # CASE_SENSITIVE="true"
@@ -24,7 +25,7 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
-export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
+#export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
 
 export PATH=~/.rbenv/shims:$PATH
 
