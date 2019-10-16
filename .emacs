@@ -40,7 +40,7 @@
 (package-initialize)
 
 (setq user-full-name    "Jordan Ritter"
-      user-mail-address "jpr5@darkridge.com"
+      user-mail-address "j@darkrid.ge"
       mail-host-address '"darkridge.com")
 
 ;; Load our settings/config.  First disable Emacs' initialization warning about
@@ -92,7 +92,7 @@
 (defconst animate-n-steps 7)
 (defun lets-play ()
   (animate-string (concat ";; Init successful, welcome to "
-            (substring (emacs-version) 0 16)
+            (substring (emacs-version) 0 14)
             ".  Shall we play a game?") 0 0)
   (newline-and-indent) (newline-and-indent)
   (sit-for 0.2 nil))
