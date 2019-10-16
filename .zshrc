@@ -1,9 +1,9 @@
 export ZSH="$HOME/.zsh"
 
-# DISABLE_AUTO_TITLE="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 # CASE_SENSITIVE="true"
 
+DISABLE_AUTO_TITLE="true"
 HYPHEN_INSENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
@@ -24,9 +24,7 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
-export TMPDIR=/tmp
-export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
-export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=vim
+export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
 
 export PATH=~/.rbenv/shims:$PATH
 
