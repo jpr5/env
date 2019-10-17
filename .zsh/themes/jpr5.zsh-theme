@@ -189,8 +189,6 @@ prompt_setup() {
     autoload -Uz add-zsh-hook
     autoload -Uz vcs_info
 
-#    prompt_opts=(cr subst percent)
-
     add-zsh-hook precmd prompt_precmd
 
     zstyle ':vcs_info:*' enable git
