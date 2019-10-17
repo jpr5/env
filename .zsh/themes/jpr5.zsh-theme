@@ -135,8 +135,8 @@ prompt_git() {
             parencolor="028"
         fi
 
-        ahead=$(command git rev-list --count ..@{upstream})
-        behind=$(command git rev-list --count @{upstream}..)
+        ahead=$(command git rev-list --count ..@{upstream} 2>/dev/null)
+        behind=$(command git rev-list --count @{upstream}.. 2> /dev/null)
 
         [[ "$behind" -gt 0 ]] && behindahead="${UP}${behind}"
         [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${DOWN}${ahead}"
