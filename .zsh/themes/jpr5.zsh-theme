@@ -38,37 +38,23 @@ SCISSORS="✂"
 ##
 
 # Copied from zsh's vcs/git/whatever.zsh.  needed to change the behavior of what
-# it emitted.
+# it emitted.  Also consolidated a bunch of repeated grep's using -E.
 git_status() {
     local INDEX
     INDEX=$(git status --porcelain -b -- $PWD  2> /dev/null)
     if $(echo "$INDEX" | command grep -E '^\?\? ' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_UNTRACKED$GIT_STATUS"
     fi
-    if $(echo "$INDEX" | grep '^A  ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_ADDED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^M  ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_ADDED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^MM ' &> /dev/null); then
+    if $(echo "$INDEX" | grep -E '^(A  |M  |MM )' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_ADDED$GIT_STATUS"
     fi
-    if $(echo "$INDEX" | grep '^ M ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^AM ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^MM ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^ T ' &> /dev/null); then
+    if $(echo "$INDEX" | grep -E '^( M |AM |MM | T )' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_MODIFIED$GIT_STATUS"
     fi
     if $(echo "$INDEX" | grep '^R  ' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_RENAMED$GIT_STATUS"
     fi
-    if $(echo "$INDEX" | grep '^ D ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_DELETED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^D  ' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_DELETED$GIT_STATUS"
-    elif $(echo "$INDEX" | grep '^AD ' &> /dev/null); then
+    if $(echo "$INDEX" | grep -E '^( D |D  |AD )' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_DELETED$GIT_STATUS"
     fi
     if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
@@ -76,12 +62,6 @@ git_status() {
     fi
     if $(echo "$INDEX" | grep '^UU ' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_UNMERGED$GIT_STATUS"
-    fi
-    if $(echo "$INDEX" | grep '^## [^ ]\+ .*ahead' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_AHEAD$GIT_STATUS"
-    fi
-    if $(echo "$INDEX" | grep '^## [^ ]\+ .*behind' &> /dev/null); then
-        GIT_STATUS="$ZSH_THEME_GIT_PROMPT_BEHIND$GIT_STATUS"
     fi
     if $(echo "$INDEX" | grep '^## [^ ]\+ .*diverged' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_DIVERGED$GIT_STATUS"
@@ -111,16 +91,17 @@ prompt_status() {
     [[ -n "$symbols" ]] && print -n " $symbols "
 }
 
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+ZSH_THEME_GIT_PROMPT_ADDED="%F{green}$PLUS"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}$ASTERISK"
+ZSH_THEME_GIT_PROMPT_DELETED="%F{red}$EX"
+ZSH_THEME_GIT_PROMPT_RENAMED="%F{208}$RIGHT"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%F{magenta}$EQUAL"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}$STAR"
+# we don't use these
 #ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{white}⦗%f%b"
 #ZSH_THEME_GIT_PROMPT_SUFFIX="%B%F{white}⦘%f%b"
-#ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f" # don't use
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}$PLUS"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%B%F{white}$ASTERISK"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}$EX"
-ZSH_THEME_GIT_PROMPT_RENAMED="%{%F{208}%}$RIGHT"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}$EQUAL"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}$STAR"
+#ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}$PLUSMINUS%f"
 
 prompt_git() {
     local ref post
@@ -141,11 +122,7 @@ prompt_git() {
         [[ "$behind" -gt 0 ]] && behindahead="${UP}${behind}"
         [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${DOWN}${ahead}"
 
-        print -n "%B%F{$parencolor}${LESSTHAN}%f%b"
-        print -n "%F{$refcolor}${ref}%f"
-        print -n "${post}%b%f%k"
-        print -n "%B%F{$behindaheadcolor}${behindahead}%f%b"
-        print -n "%B%F{$parencolor}${GREATERTHAN}%f%b "
+        print -n "%B%F{$parencolor}${LESSTHAN}%b%F{$refcolor}${ref}%f${post}%f%b%k%B%F{$behindaheadcolor}${behindahead}%B%F{$parencolor}${GREATERTHAN}%f%b%k "
     fi
 }
 
@@ -163,7 +140,7 @@ prompt_dir() {
     print -n '%B%F{white}(%f%b%c%B%F{white})%f%b'
 }
 
-# End the prompt, closing any open segments
+# End the prompt
 prompt_end() {
     local promptcolor="033"
     print -n "%B%F{$promptcolor}%K{black}${DOUBLERIGHT}%b%f%k"
@@ -182,7 +159,7 @@ prompt_main() {
 
 prompt_precmd() {
     vcs_info
-    PROMPT='%{%f%b%k%}$(prompt_main) '
+    PROMPT='%f%b%k$(prompt_main) '
 }
 
 prompt_setup() {
