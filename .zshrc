@@ -27,7 +27,7 @@ export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 #export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
 
-export PATH=~/.rbenv/shims:$PATH
+export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
 
 alias ls='ls -FG'
 alias e='open -a Emacs'
@@ -59,6 +59,6 @@ function fcount {
 alias f=field
 
 test -f .ec2/rc && source .ec2/rc
-ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
+ssh-add -l &>/dev/null || ssh-add -A &>/dev/null 
 
 [[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
