@@ -39,7 +39,7 @@ alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
 
-setopt extendedglob autopushd notify emacs alwaystoend listpacked
+setopt extendedglob autopushd notify alwaystoend listpacked completeinword zle emacs bashautolist
 unsetopt hist_verify
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
 
@@ -58,7 +58,16 @@ function fcount {
 }
 alias f=field
 
-test -f .ec2/rc && source .ec2/rc
-ssh-add -l &>/dev/null || ssh-add -A &>/dev/null 
+function reset_gems() {
+    for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
+    gem install bundler:1.17.2
+}
 
-[[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
+function netkill() {
+    kill -9 `lsof -i tcp:$1 | f 1 2 | uniq | tail -1`
+}
+
+test -f .ec2/rc && source .ec2/rc
+ssh-add -l &>/dev/null || ssh-add -A &>/dev/null
+
+[[ -f $EDITOR ]] && [[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
