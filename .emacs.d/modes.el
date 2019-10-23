@@ -311,7 +311,7 @@
     (kill-buffer nil)
     (server-done)))
 
-(setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
+(setq server-socket-dir "/tmp/emacs4269"))
   (unless server-mode
     (server-force-delete)
     (server-start))
