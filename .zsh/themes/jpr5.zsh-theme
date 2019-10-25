@@ -128,8 +128,8 @@ prompt_git() {
 
 # Context: user@hostname
 prompt_context() {
-    # 208=orange 039=darkercyan  159=prettycyan
-    local usercolor='193' atcolor="094" hostcolor="243"
+    # 208=orange 039=darkercyan  159=prettycyan old=094
+    local usercolor='193' atcolor="233" hostcolor="243"
     [[ $UID -eq 0 ]] && usercolor='196'
 
     print -n "%B%F{$usercolor}$USER%b%F{$atcolor}@%F{$hostcolor}%m%f"
