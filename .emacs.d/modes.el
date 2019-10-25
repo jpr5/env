@@ -139,6 +139,11 @@
 (add-to-list 'load-path "~/.emacs.d/lib/elpa/yaml-mode-0.0.5")
 (require 'yaml-mode)
 
+(setq auto-mode-alist (append
+    '(("\\.yaml$"    . yaml-mode)
+      ("\\.yml$" . yaml-mode))
+    auto-mode-alist))
+
 ;; add-to-list symbol element
 (setq auto-mode-alist (append
     '(("\\.rb$"         . ruby-mode)
