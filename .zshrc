@@ -68,6 +68,8 @@ function netkill() {
 }
 
 test -f .ec2/rc && source .ec2/rc
+test -f .sdn/rc && source .sdn/rc
+
 ssh-add -l &>/dev/null || ssh-add -A &>/dev/null
 
 [[ -f $EDITOR ]] && [[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
