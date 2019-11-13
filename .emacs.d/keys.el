@@ -27,16 +27,13 @@
 (global-set-key (kbd "C-x C-t")     'cycle-tab-width)
 (global-set-key (kbd "C-x M-t")     'toggle-untabify-mode)
 
-;; Some settings when we're in a windowed environment.
-(when window-system
-  ;; Shell out instead of minimize on C-z
-  (global-set-key (kbd "C-z") 'shell))
-
-;; Some settings when we're specifically in Carbon Emacs
-(when (or (eq window-system 'ns) (eq window-system 'mac))
+;; Some settings when we're specifically in OSX-ish Emacs
+(when (or (eq window-system 'ns) (eq window-system 'mac) (daemonp)
   (setq mac-command-modifier       'alt
         mac-option-modifier        'meta
         mac-pass-command-to-system t)
+
+  (global-set-key (kbd "C-z")   'shell))
 
   (global-set-key (kbd "A-v")   'yank)
   (global-set-key (kbd "A-c")   'kill-ring-save)
@@ -46,6 +43,8 @@
 
   (global-set-key (kbd "A-g")   'grep-find)
   (global-set-key (kbd "s-g")   'grep-find)
+
+  (global-set-key (kbd "s-w")   'kill-buffer)
 
   (global-set-key (kbd "A-=")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
