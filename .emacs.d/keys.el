@@ -33,7 +33,7 @@
         mac-option-modifier        'meta
         mac-pass-command-to-system t)
 
-  (global-set-key (kbd "C-z")   'shell))
+  (global-set-key (kbd "C-z")   'shell)
 
   (global-set-key (kbd "A-v")   'yank)
   (global-set-key (kbd "A-c")   'kill-ring-save)
@@ -48,7 +48,7 @@
 
   (global-set-key (kbd "A-=")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
-  (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1))))
+  (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))))
 
 ;; Use the better Buffer browser
 (when (fboundp 'ibuffer)
