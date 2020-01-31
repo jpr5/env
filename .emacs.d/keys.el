@@ -28,7 +28,7 @@
 (global-set-key (kbd "C-x M-t")     'toggle-untabify-mode)
 
 ;; Some settings when we're specifically in OSX-ish Emacs
-(when (or (eq window-system 'ns) (eq window-system 'mac) (daemonp)
+;(when (or (eq window-system 'ns) (eq window-system 'mac) (daemonp)
   (setq mac-command-modifier       'alt
         mac-option-modifier        'meta
         mac-pass-command-to-system t)
@@ -48,7 +48,8 @@
 
   (global-set-key (kbd "A-=")   '(lambda nil (interactive) (screen-zoom 1)))
   (global-set-key (kbd "A-+")   '(lambda nil (interactive) (screen-zoom 1)))
-  (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))))
+  (global-set-key (kbd "A--")   '(lambda nil (interactive) (screen-zoom -1)))
+;))
 
 ;; Use the better Buffer browser
 (when (fboundp 'ibuffer)
