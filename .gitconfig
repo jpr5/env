@@ -87,3 +87,5 @@
     required = true
 [commit]
     gpgsign = false
+[grep]
+    lineNumber = true
