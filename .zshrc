@@ -31,7 +31,7 @@ export LSCOLORS="ExfxcxdxbxEgedabagacad"
 
 export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
 
-alias ls='ls -FG'
+alias ls='ls -F --color'
 alias e='open -a Emacs'
 alias emacs="$EDITOR -n"
 alias su='sudo -s'
