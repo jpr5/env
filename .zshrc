@@ -1,4 +1,5 @@
-export ZSH="$HOME/.zsh"
+ZSH_USER="jpr5"
+export ZSH=`ls -d ~$ZSH_USER/.zsh`
 export ZDOTDIR=$ZSH
 
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -26,6 +27,7 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 #export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
+#export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
 
