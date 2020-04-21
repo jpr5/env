@@ -46,8 +46,6 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 alias su='sudo -s'
 alias df='df -klH '
 alias grep='grep --line-buffered --color=auto'
-alias less='less -R'
-alias lsof='lsof -nP'
 alias diff='diff -u'
 
 setopt extendedglob autopushd notify alwaystoend listpacked completeinword zle emacs bashautolist
