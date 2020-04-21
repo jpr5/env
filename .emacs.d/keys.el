@@ -28,6 +28,7 @@
 (global-set-key (kbd "C-x M-t")     'toggle-untabify-mode)
 
 ;; Some settings when we're specifically in OSX-ish Emacs
+;; FIXME: This doesn't work when booted in daemon mode.
 ;(when (or (eq window-system 'ns) (eq window-system 'mac) (daemonp)
   (setq mac-command-modifier       'alt
         mac-option-modifier        'meta

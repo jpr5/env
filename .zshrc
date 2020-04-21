@@ -21,9 +21,6 @@ export LANG=en_US.UTF-8
 export DEFAULT_USER=jpr5
 export TMPDIR=/tmp
 
-export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
-export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
-
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 #export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
@@ -31,9 +28,21 @@ export LSCOLORS="ExfxcxdxbxEgedabagacad"
 
 export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
 
-alias ls='ls -F --color'
-alias e='open -a Emacs'
-alias emacs="$EDITOR -n"
+case `uname` in
+    Darwin)
+        export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+        alias emacs="$EDITOR -n"
+        alias ls='ls -FG'
+        alias e='open -a Emacs'
+        ;;
+    Linux)
+        export EDITOR=vim
+        alias ls='ls -F --color'
+        ;;
+esac
+
+export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
+
 alias su='sudo -s'
 alias df='df -klH '
 alias grep='grep --line-buffered --color=auto'
