@@ -15,7 +15,7 @@ TARGETS = [ 'home', 'local', 'srv' ]
 
 WORKDIR  = "/tmp"
 BUCKET   = "jpr5-backups"
-CREDS    = "/home/jpr5/.aws/darkridge-backup.env"
+CREDS    = "/home/jpr5/.aws/darkridge/backup.env"
 
 File.readlines(CREDS).map(&:chomp).each do |line|
   values = line.split("=")
