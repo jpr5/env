@@ -172,5 +172,5 @@ sed -i.bak -e 's/srv\/http\/logs/srv\/logs\/nginx/' /etc/nginx/nginx.conf
 #rbenv install 2.6.4
 #rbenv global 2.6.4
 #gem install aws-sdk-s3
-## install ~jpr5/.aws/darkridge-backup.env
+## install ~jpr5/.aws/darkridge/backup.env
 #echo @weekly ruby ~jpr5/.aws/darkridge-backup.rb >> /var/spool/cron/crontabs/root
