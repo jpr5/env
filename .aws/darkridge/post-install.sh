@@ -71,12 +71,8 @@ echo 'eval "$(rbenv init -)"' >>  /etc/profile.d/rbenv.sh
 chmod a+x /etc/profile.d/rbenv.sh
 echo source /etc/profile.d/rbenv.sh >> /etc/zsh/zshenv
 
-
 # git lfs
 git lfs install --system
-
-# clean shiz up
-apt autoremove -y
 
 # hostname
 hostname $TARGETHOST
@@ -114,9 +110,6 @@ cp ~jpr5/.ssh/authorized_keys .ssh/
 chmod 600 .ssh/authorized_keys
 chmod 711 .ssh
 chown -R root:root .
-
-# Nuke default ubuntu user
-userdel -r ubuntu || /bin/true
 
 # Migrate old sshd config
 rsync -Pavz root@$SRCHOST:/etc/ssh/sshd_config /etc/ssh/sshd_config.d/sshd_config.$SRCHOST
