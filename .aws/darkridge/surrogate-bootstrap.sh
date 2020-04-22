@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+#
+# Adapted from github:jen20/packer-ubuntu-zfs
+#
+# Notes:
+#
+#  - can't put a partition on /etc - ubuntu doesn't mount it (besides /) when booting = no sshd
+#  - can't put a parittion on /usr - update-grub automation won't find zfs partitions (bizarre!)
 
 set -o errexit
 set -o pipefail
@@ -26,6 +33,7 @@ zpool create rpool /dev/xvdf2 -o altroot=/mnt -o ashift=12 -o cachefile=/etc/zfs
 zfs create rpool/os        -o mountpoint=/ -o canmount=noauto
 zfs mount rpool/os
 
+# Make distinct locations we want to backup (home, srv, local) zfs mount points/snapshottable
 zfs create rpool/home      -o mountpoint=/home -o setuid=off
 zfs create rpool/home/root -o mountpoint=/root
 zfs create rpool/local     -o mountpoint=/usr/local
