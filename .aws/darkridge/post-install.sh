@@ -164,8 +164,12 @@ sed -i.bak -e 's/srv\/http\/logs/srv\/logs\/nginx/' /etc/nginx/nginx.conf
 ### Final Setup (after new AMI bootup)
 ###
 
+#passwd jpr5
 #echo $TARGETHOST.darkridge.com > /etc/hostname # Amazon overrides w/ new instance launch
+#hostname $TARGETHOST
 #userdel -r ubuntu
+## migrate user accounts
+#touch /etc/securetty
 #rm -rf /var/log.old
 #rsync -Pavz $SRCHOST:/srv/{http,https} /srv/
 #rsync -Pavz root@$SRCHOST:/home/ /home/
@@ -174,3 +178,5 @@ sed -i.bak -e 's/srv\/http\/logs/srv\/logs\/nginx/' /etc/nginx/nginx.conf
 #gem install aws-sdk-s3
 ## install ~jpr5/.aws/darkridge/backup.env
 #echo @weekly ruby ~jpr5/.aws/darkridge/backup.rb >> /var/spool/cron/crontabs/root
+## Update certs to include new hostname
+#certbot --standalone certonly --expand -d darkridge.com,www.darkridge.com,mail.darkridge.com,darkrid.ge,www.darkrid.ge,darkridge.digital,www.darkridge.digital,$SRCHOST,$TARGETHOST.darkridge.com
