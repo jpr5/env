@@ -23,7 +23,7 @@ File.readlines(CREDS).map(&:chomp).each do |line|
 end
 
 HOSTNAME = `hostname`.chomp
-DATETIME = `date +%Y%m%d%H%M%S`.chomp
+DATETIME = `date +%Y-%m%d-%H%M%S`.chomp
 
 $KEEP_XZ = false
 
