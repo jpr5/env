@@ -32,8 +32,17 @@ $KEEP_XZ = false
 # MAIN #
 ########
 
-puts "Beginning backups: #{TARGETS.join(", ")} (#{DATETIME})"
+puts "Beginning backups: #{TARGETS.join(", ")} (#{DATETIME})\n"
 
+# Snapshot immediately
+TARGETS.each do |fs|
+    snapshot = "#{POOL}/#{fs}@#{DATETIME}"
+
+    puts "Snapshot: #{snapshot}"
+    system("zfs snapshot #{snapshot}")
+end
+
+# Configure AWS
 Aws.config.update(
     credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']),
     region: 'us-west-2',
@@ -41,15 +50,13 @@ Aws.config.update(
 
 $bucket = Aws::S3::Resource.new.bucket(BUCKET)
 
+# Process snapshots
 TARGETS.each do |fs|
     snapshot = "#{POOL}/#{fs}@#{DATETIME}"
     snapxz   = "#{WORKDIR}/#{fs}-#{DATETIME}.zfs.xz"
     key      = "#{HOSTNAME}/#{POOL}/#{fs}-#{DATETIME}.zfs.xz"
 
-    puts "\nSnapshot: #{snapshot}"
-    system("zfs snapshot #{snapshot}")
-
-    puts "Compressing: #{snapxz}"
+    puts "\nCompressing: #{snapxz}"
     system("zfs send #{snapshot} | xz -c > #{snapxz}")
 
     puts "Uploading: #{snapxz} -> #{key}"
