@@ -16,6 +16,7 @@ TARGETS = [ 'home', 'local', 'srv' ]
 WORKDIR  = "/tmp"
 BUCKET   = "jpr5-backups"
 CREDS    = "/home/jpr5/.aws/darkridge/backup.env"
+ZFS      = "/usr/sbin/zfs"
 
 File.readlines(CREDS).map(&:chomp).each do |line|
   values = line.split("=")
@@ -39,7 +40,7 @@ TARGETS.each do |fs|
     snapshot = "#{POOL}/#{fs}@#{DATETIME}"
 
     puts "Snapshot: #{snapshot}"
-    system("zfs snapshot #{snapshot}")
+    system("#{ZFS} snapshot #{snapshot}")
 end
 
 # Configure AWS
@@ -57,13 +58,13 @@ TARGETS.each do |fs|
     key      = "#{HOSTNAME}/#{POOL}/#{fs}-#{DATETIME}.zfs.xz"
 
     puts "\nCompressing: #{snapxz}"
-    system("zfs send #{snapshot} | xz -c > #{snapxz}")
+    system("#{ZFS} send #{snapshot} | xz -c > #{snapxz}")
 
     puts "Uploading: #{snapxz} -> #{key}"
     $bucket.object(key).upload_file(snapxz)
 
     system("rm #{snapxz}") unless $KEEP_XZ
-    system("zfs destroy #{snapshot}")
+    system("#{ZFS} destroy #{snapshot}")
 end
 
 puts "\nBackup complete."
