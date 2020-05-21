@@ -131,8 +131,10 @@ rsync -Pavz "root@$SRCHOST:/etc/ssl/{old_certs,private,darkridge.pem*}" /etc/ssl
 
 # postfix
 cd /etc/postfix
-rsync -Pavz $SRCHOST:/etc/postfix/{localhosts,Makefile,main.cf,master.cf,virtuals} .
+rsync -Pavz root@$SRCHOST:/etc/postfix/{localhosts,Makefile,main.cf,master.cf,virtuals} .
+rsync -Pavz root@$SRCHOST:/etc/aliases /etc
 echo $TARGETHOST.darkridge.com >> localhosts
+echo $TARGETHOST.darkridge.com > /etc/mailname
 make
 sed -i.bak -e "s/$SRCHOST/$TARGETHOST.darkridge.com/" /etc/postfix/main.cf
 # REMOVE FOLLOWING AFTER FIRST SUCCESSFUL USAGE
