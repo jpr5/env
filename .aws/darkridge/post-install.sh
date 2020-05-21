@@ -152,7 +152,8 @@ rsync -Pavz "root@$SRCHOST:/etc/opendkim*" /etc/
 
 # dovecot
 cd /etc/dovecot
-rsync -Pavz $SRCHOST:/etc/dovecot/local.conf .
+rsync -Pavz root@$SRCHOST:/etc/dovecot/local.conf .
+sed -i.bak -e "s/$SRCHOST/$TARGETHOST.darkridge.com/" /etc/dovecot/local.conf
 #service dovecot start
 
 # nginx
