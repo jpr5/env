@@ -161,7 +161,7 @@ groupadd -og 33 www
 useradd -ou 33 -g 33 www
 cd /etc/nginx
 mv nginx.conf nginx.conf.orig
-rsync -Pavzb $SRCHOST:/etc/nginx/{nginx.conf,fastcgi.conf,conf.d} .
+rsync -Pavzb root@$SRCHOST:/etc/nginx/{nginx.conf,fastcgi.conf,conf.d} .
 mkdir -p /srv/logs/nginx
 chown root:www /srv/logs/nginx
 chmod 775 /srv/logs/nginx
