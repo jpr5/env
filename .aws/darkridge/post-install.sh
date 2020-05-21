@@ -49,6 +49,7 @@ apt-get install -y php
 
 apt-get install -y \
         dovecot-core dovecot-imapd postfix nginx \
+        opendkim opendkim-tools \
         certbot
 
 # global RBENV / Ruby
@@ -117,6 +118,7 @@ rsync -Pavz root@$SRCHOST:/etc/ssh/sshd_config /etc/ssh/sshd_config.d/sshd_confi
 # Sudo should keep the ssh agent connection
 echo Defaults env_keep = \"SSH_AUTH_SOCK\" > /etc/sudoers.d/keep_auth_sock
 
+service opendkim stop
 service postfix stop
 service dovecot stop
 service nginx stop
@@ -140,6 +142,10 @@ data_directory = /var/lib/postfix
 queue_directory = /var/spool/postfix
 EOF
 #service postfix start
+
+# opendkim
+cd /etc
+rsync -Pavz "root@$SRCHOST:/etc/opendkim*" /etc/
 
 
 # dovecot
