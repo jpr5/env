@@ -67,8 +67,8 @@ mount --rbind /sys /mnt/sys
 mount --rbind /tmp /mnt/tmp
 
 # Copy the bootstrap script into place and execute inside chroot
-for file in chroot-bootstrap.sh post-install.sh; do
-    chroot /mnt /tmp/$file
+for file in chroot-bootstrap.sh post-install-base.sh post-install-darkridge.sh; do
+    test -f /tmp/$file && chroot /mnt /tmp/$file
 done
 
 umount -l /mnt/tmp
