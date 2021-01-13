@@ -61,6 +61,9 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*'   force-list always
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
+bindkey '\ef' emacs-forward-word
+bindkey '\eb' emacs-backward-word
+
 function field { s=""; c=""; for a in $*; do s="$s$c\$$a"; c=","; done; awk "{ print $s }"; }
 function fcount {
     field $1 | sort | uniq -c | sort -rn | head $2
