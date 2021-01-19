@@ -89,3 +89,5 @@
     gpgsign = false
 [grep]
     lineNumber = true
+[pull]
+	rebase = false
