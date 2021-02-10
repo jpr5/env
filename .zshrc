@@ -24,9 +24,9 @@ export TMPDIR=/tmp
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 #export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+#export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
+export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:/opt/homebrew/bin:/usr/local/homebrew/bin:$PATH
 
 case `uname` in
     Darwin)
@@ -42,14 +42,15 @@ case `uname` in
 esac
 
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 alias su='sudo -s'
 alias df='df -klH '
 alias grep='grep --line-buffered --color=auto'
 alias diff='diff -u'
 
-setopt extendedglob autopushd notify alwaystoend listpacked completeinword zle emacs bashautolist sharehistory extendedhistory histexpiredupsfirst histignoredups histignorespace noflowcontrol
-unsetopt hist_verify autocd
+setopt extendedglob notify alwaystoend listpacked completeinword zle emacs bashautolist
+unsetopt hist_verify autopushd
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
 
 zstyle ':completion:*' completer _complete _match _approximate
@@ -60,7 +61,6 @@ zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*'   force-list always
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*:complete:*:_dirs:*' matcher-list '' # disable fucken annoying substr match
 
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
@@ -73,7 +73,6 @@ alias f=field
 
 function reset_gems() {
     for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
-    rm -rf ~/.rbenv/versions/2.6.4/lib/ruby/gems/2.6.0/bundler/gems/*
     gem install bundler:1.17.2
 }
 
