@@ -5,9 +5,10 @@
     br = branch -vv
     chekcout = checkout
     up = fetch --all -p -t
-    d  = !read B RB <<<$(git br -v | grep '*' | awk '{ print $2 \" \" $4 }' | tr -d '[]' ) && git wc ^$B $RB
-    rd = !read B RB <<<$(git br -v | grep '*' | awk '{ print $2 \" \" $4 }' | tr -d '[]' ) && git wc ^$RB $B
-    m  = !read B RB <<<$(git br -v | grep '*' | awk '{ print $2 \" \" $4 }' | tr -d '[]' ) && git merge $RB
+    brb = !git br -v | grep '*'  | tr -d '[]:' | awk '{ print $2 \" \" $4 }'
+    d  = !read B RB <<<$(git brb) && git wc ^$B $RB
+    rd = !read B RB <<<$(git brb) && git wc ^$RB $B
+    m  = !read B RB <<<$(git brb) && git merge $RB
     sub = submodule
     subup = !git submodule sync && git submodule update --init
     remotes = remote -v show
