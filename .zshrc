@@ -90,3 +90,6 @@ test -f .sdn/rc && source .sdn/rc
 ssh-add -l &>/dev/null || ssh-add -A &>/dev/null
 
 [[ -f $EDITOR ]] && [[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
+
+alias lmongo='mongo "mongodb://root:foobar@127.0.0.1:27017/augment_dev?authSource=admin"'
+alias cdgems='cd /usr/local/rbenv/versions/2.6.6/lib/ruby/gems/2.6.0/gems'
