@@ -70,7 +70,6 @@
 ;;; PHP
 ;;;
 
-
 (when (require 'flymake nil t)
   (when (not (fboundp 'flymake-php-init))
     (defun flymake-create-temp-in-system-tempdir (filename prefix)
@@ -107,6 +106,8 @@
   (ruby-block-mode t)
   (setq ruby-block-highlight-face 'hl-line)
   (setq ruby-block-highlight-toggle 'overlay))
+
+(eval-after-load 'flymake '(require 'flymake-cursor))
 
 ;; Enable Flymake in Ruby
 (when (require 'flymake nil 'noerror)
