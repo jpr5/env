@@ -26,7 +26,11 @@ export LSCOLORS="ExfxcxdxbxEgedabagacad"
 #export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
 #export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-export PATH=~/.rbenv/shims:/usr/local/opt/gnu-tar/libexec/gnubin:/opt/homebrew/bin:/usr/local/homebrew/bin:$PATH
+
+export PATH=/usr/local/opt/gnu-tar/libexec/gnubin:/opt/homebrew/bin:/usr/local/homebrew/bin:$PATH
+export RBENV_ROOT=/usr/local/rbenv
+export PATH=$RBENV_ROOT/bin:$PATH
+eval "$(rbenv init -)"
 
 case `uname` in
     Darwin)
