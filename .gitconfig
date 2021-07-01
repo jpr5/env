@@ -91,4 +91,4 @@
 [grep]
     lineNumber = true
 [pull]
-    rebase = false
+	rebase = true
