@@ -17,6 +17,8 @@ plugins=(ruby rbenv colored-man-pages zsh-syntax-highlighting zsh-autosuggestion
 
 source $ZSH/oh-my-zsh.sh
 
+export ZSH_HIGHLIGHT_MAXLENGTH=60
+
 export LANG=en_US.UTF-8
 export DEFAULT_USER=jpr5
 export TMPDIR=/tmp
@@ -74,6 +76,13 @@ function fcount {
     field $1 | sort | uniq -c | sort -rn | head $2
 }
 alias f=field
+
+function avg() {
+   awk 'NR == 1 { max=$1; min=$1; sum=0 }
+   { if ($1>max) max=$1; if ($1<min) min=$1; sum+=$1;}
+   END {printf "Min: %d\tMax: %d\tAverage: %f\n", min, max, sum/NR}'
+}
+alias num=avg
 
 function reset_gems() {
     for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
