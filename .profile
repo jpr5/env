@@ -1,6 +1,6 @@
-##
-## Setup Prompt
-##
+#
+# Shell Prompt
+#
 
 GIT_COMP="$HOME/.git-prompt.sh"
 if test -f $GIT_COMP; then
@@ -31,72 +31,19 @@ esac
 
 export PS1=$(echo -e "$TITLEBAR_PROMPT$GIT_PROMPT$U$S$H($D)⇒ ")
 
-##
-## Bash options
-##
-
-export BASH_SILENCE_DEPRECATION_WARNING=1
+#
+# Bash-specific options
+#
 
 shopt -s cdspell checkwinsize extglob histreedit histappend cmdhist lithist
 shopt -s no_empty_cmd_completion
 
-##
-## Envariables
-##
-
-export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
-
-# Put the real mysql utils at the beginning of the path.
-export PATH=/opt/local/lib/mysql5/bin:$PATH
-export PATH=/opt/local/lib/postgresql90/bin:$PATH
-export PATH=~jpr5/.rbenv/shims:$PATH
-
 #export HISTCONTROL=ignoredups,ignorespace,ignoreboth
 export HISTSIZE=100000
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
-export LSCOLORS="ExfxcxdxbxEgedabagacad"
-export TMPDIR=/tmp
+#
+# Common RC
+#
 
-export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
-export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
-
-[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
-
-##
-## Aliases
-##
-
-alias su='sudo -s'
-alias df='df -klH '
-alias grep='grep --line-buffered --color=auto'
-alias less='less -R'
-alias lsof='lsof -nP'
-alias diff='diff -u'
-
-[[ -n "`which gfind`" ]] && alias find=gfind
-
-case `uname` in
-    Linux)
-    alias ls='ls -F --color=auto '
-    ;;
-
-    Darwin)
-    alias ls='ls -FG '
-    alias emacs='open -a Emacs'
-    ;;
-esac
-
-##
-## Functions
-##
-
-function field { s=""; c=""; for a in $*; do s="$s$c\$$a"; c=","; done; awk "{ print $s }"; }
-function fcount {
-    field $1 | sort | uniq -c | sort -rn | head $2
-}
-alias f=field
-
-## EC2
-test -f .ec2/rc && source .ec2/rc
-
-ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
+source ~/.commonrc
