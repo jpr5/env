@@ -42,10 +42,10 @@ zfs mount sys/os
 
 # Make distinct locations we want to backup (home, srv, local) zfs mount points/snapshottable
 zfs create sys/home      -o mountpoint=/home -o setuid=off
-zfs create sys/home/root -o mountpoint=/root
+zfs create sys/home/root -o mountpoint=/root -o setuid=off
 zfs create sys/local     -o mountpoint=/usr/local
 zfs create sys/srv       -o mountpoint=/srv
-zfs create sys/srv/logs  -o mountpoint=/srv/logs
+zfs create sys/srv/logs  -o mountpoint=/srv/logs setuid=off
 zfs create sys/var       -o mountpoint=/var -o setuid=off -o overlay=on
 zfs create sys/var/cache -o mountpoint=/var/cache
 zfs create sys/var/tmp   -o mountpoint=/var/tmp
