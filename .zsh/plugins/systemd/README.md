@@ -3,7 +3,8 @@
 The systemd plugin provides many useful aliases for systemd.
 
 To use it, add systemd to the plugins array of your zshrc file:
-```
+
+```zsh
 plugins=(... systemd)
 ```
 
@@ -22,7 +23,7 @@ plugins=(... systemd)
 | `sc-show-environment`  | `systemctl show-environment`       | Dump the systemd manager environment block                       |
 | `sc-cat`               | `systemctl cat`                    | Show backing files of one or more units                          |
 | `sc-list-timers`       | `systemctl list-timers`            | List timer units currently in memory                             |
-| **Aliases with sudo**                                                                                                          |
+| **Aliases with sudo**                                                                                                        |||
 | `sc-start`             | `sudo systemctl start`             | Start Unit(s)                                                    |
 | `sc-stop`              | `sudo systemctl stop`              | Stop Unit(s)                                                     |
 | `sc-reload`            | `sudo systemctl reload`            | Reload Unit(s)                                                   |
@@ -51,3 +52,46 @@ plugins=(... systemd)
 
 You can use the above aliases as `--user` by using the prefix `scu` instead of `sc`.
 For example: `scu-list-units` will be aliased to `systemctl --user list-units`.
+
+### Unit Status Prompt
+
+You can add a token to your prompt in a similar way to the gitfast plugin. To add the token
+to your prompt, drop `$(systemd_prompt_info [unit]...)` into your prompt (more than one unit
+may be specified).
+
+The plugin will add the following to your prompt for each `$unit`.
+
+```text
+<prefix><unit>:<active|notactive><suffix>
+```
+
+You can control these parts with the following variables:
+
+- `<prefix>`: Set `$ZSH_THEME_SYSTEMD_PROMPT_PREFIX`.
+
+- `<suffix>`: Set `$ZSH_THEME_SYSTEMD_PROMPT_SUFFIX`.
+
+- `<unit>`: name passed as parameter to the function. If you want it to be in ALL CAPS,
+  you can set the variable `$ZSH_THEME_SYSTEMD_PROMPT_CAPS` to a non-empty string.
+
+- `<active>`: shown if the systemd unit is active.
+  Set `$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE`.
+
+- `<notactive>`: shown if the systemd unit is *not* active.
+  Set `$ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE`.
+
+For example, if your prompt contains `PROMPT='$(systemd_prompt_info dhcpd httpd)'` and you set the following variables:
+
+```sh
+ZSH_THEME_SYSTEMD_PROMPT_PREFIX="["
+ZSH_THEME_SYSTEMD_PROMPT_SUFFIX="]"
+ZSH_THEME_SYSTEMD_PROMPT_ACTIVE="+"
+ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE="X"
+ZSH_THEME_SYSTEMD_PROMPT_CAPS=1
+```
+
+If `dhcpd` is running, and `httpd` is not, then your prompt will look like this:
+
+```text
+[DHCPD: +][HTTPD: X]
+```

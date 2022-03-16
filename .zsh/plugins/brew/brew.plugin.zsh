@@ -1,24 +1,21 @@
 alias brewp='brew pin'
-alias brews='brew list -1'
 alias brewsp='brew list --pinned'
 alias bubo='brew update && brew outdated'
 alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
-alias bcubo='brew update && brew cask outdated'
-alias bcubc='brew cask reinstall $(brew cask outdated) && brew cleanup'
+alias buf='brew upgrade --formula'
+alias bcubo='brew update && brew outdated --cask'
+alias bcubc='brew upgrade --cask && brew cleanup'
 
-if command mkdir "$ZSH_CACHE_DIR/.brew-completion-message" 2>/dev/null; then
-	print -P '%F{yellow}'Oh My Zsh brew plugin:
-	cat <<-'EOF'
+function brews() {
+  local formulae="$(brew leaves | xargs brew deps --installed --for-each)"
+  local casks="$(brew list --cask)"
 
-		  With the advent of their 1.0 release, Homebrew has decided to bundle
-		  the zsh completion as part of the brew installation, so we no longer
-		  ship it with the brew plugin; now it only has brew aliases.
+  local blue="$(tput setaf 4)"
+  local bold="$(tput bold)"
+  local off="$(tput sgr0)"
 
-		  If you find that brew completion no longer works, make sure you have
-		  your Homebrew installation fully up to date.
-
-		  You will only see this message once.
-	EOF
-	print -P '%f'
-fi
+  echo "${blue}==>${off} ${bold}Formulae${off}"
+  echo "${formulae}" | sed "s/^\(.*\):\(.*\)$/\1${blue}\2${off}/"
+  echo "\n${blue}==>${off} ${bold}Casks${off}\n${casks}"
+}
