@@ -40,7 +40,7 @@ SCISSORS="✂"
 # Copied from zsh's vcs/git/whatever.zsh.  needed to change the behavior of what
 # it emitted.  Also consolidated a bunch of repeated grep's using -E.
 git_status() {
-    local INDEX
+    local INDEX GIT_STATUS
     INDEX=$(git status --porcelain -b -- $PWD  2> /dev/null)
     if $(echo "$INDEX" | command grep -E '^\?\? ' &> /dev/null); then
         GIT_STATUS="$ZSH_THEME_GIT_PROMPT_UNTRACKED$GIT_STATUS"
@@ -70,7 +70,7 @@ git_status() {
 }
 
 find_up () {
-  _path=$(pwd)
+  local _path=$(pwd)
   while [[ "$_path" != "" && ! -e "$_path/$1" ]]; do
     _path=${_path%/*}
   done
@@ -116,8 +116,8 @@ prompt_git() {
             parencolor="028"
         fi
 
-        ahead=$(command git rev-list --count ..@{upstream} 2>/dev/null)
-        behind=$(command git rev-list --count @{upstream}.. 2> /dev/null)
+        local ahead=$(command git rev-list --count ..@{upstream} 2>/dev/null)
+        local behind=$(command git rev-list --count @{upstream}.. 2> /dev/null)
 
         [[ "$behind" -gt 0 ]] && behindahead="${UP}${behind}"
         [[ "$ahead" -gt 0 ]] && behindahead="${behindahead}${DOWN}${ahead}"
@@ -151,7 +151,7 @@ prompt_end() {
 ##
 
 prompt_main() {
-    RETVAL=$?
+    local RETVAL=$? prompt_segment
     for prompt_segment in "${PROMPT_SEGMENT_ORDER[@]}"; do
         [[ -n $prompt_segment ]] && $prompt_segment
     done
