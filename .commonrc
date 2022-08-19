@@ -47,7 +47,7 @@ alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
 alias lmongo='mongo "mongodb://root:foobar@127.0.0.1:27017/augment_dev?authSource=admin"'
-alias cdgems='cd /usr/local/rbenv/versions/2.6.6/lib/ruby/gems/2.6.0/gems'
+alias cdgems='cd /usr/local/rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems'
 
 [[ -n "`which gfind`" ]] && alias find=gfind
 
@@ -84,7 +84,7 @@ function netkill() {
 # Load supplementary RCs
 #
 
-test -f .ec2/rc && source .ec2/rc
+test -f .aws/augment.sh && source .aws/augment.sh
 
 #
 # Last: load all keys into the agent
