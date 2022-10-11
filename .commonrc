@@ -91,6 +91,6 @@ test -f .aws/augment.sh && source .aws/augment.sh
 #
 
 #ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
-ssh-add -l &>/dev/null || ssh-add --apple-load-keychain &>/dev/null
+/usr/bin/ssh-add -l &>/dev/null || /usr/bin/ssh-add --apple-load-keychain &>/dev/null
 
 alias jump='ssh -J shell'
