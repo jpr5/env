@@ -1,3 +1,7 @@
+/*
+ * DefaultKeyBindings for macOS built-in Mostly Emacs/Readline keybindings
+ */
+
 {
         "~f" = "moveWordForward:";
         "~b" = "moveWordBackward:";
