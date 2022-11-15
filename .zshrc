@@ -25,7 +25,12 @@ source $ZSH/oh-my-zsh.sh
 #export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 export ZSH_HIGHLIGHT_MAXLENGTH=60
 
-
+setopt nobeep
+unsetopt sharehistory
+setopt appendhistory
+setopt COMPLETE_IN_WORD
+unsetopt auto_menu
+setopt AUTO_PARAM_SLASH
 setopt extendedglob notify alwaystoend listpacked completeinword zle emacs bashautolist
 unsetopt hist_verify autopushd
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
@@ -41,7 +46,7 @@ zstyle ':completion:*:kill:*'   force-list always
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 # case-insensitive completion
-#zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 
+#zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
