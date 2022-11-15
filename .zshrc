@@ -34,6 +34,7 @@ setopt AUTO_PARAM_SLASH
 setopt extendedglob notify alwaystoend listpacked completeinword zle emacs bashautolist
 unsetopt hist_verify autopushd
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
+unsetopt nomatch
 
 zstyle ':completion:*' list-suffixes expand prefix suffix
 #zstyle ':completion:*' completer _complete _match _approximate
