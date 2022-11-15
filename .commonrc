@@ -23,7 +23,7 @@ eval "$(rbenv init -)"
 
 case `uname` in
     Darwin)
-        export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+        export EDITOR="code -w"
         alias emacs="$EDITOR -n"
         alias e='open -a Emacs'
         alias ls='ls -FG'
