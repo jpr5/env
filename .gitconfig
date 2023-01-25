@@ -5,7 +5,7 @@
     br = branch -vv
     chekcout = checkout
     up = fetch --all -p -t
-    brb = !git br -v | grep '*'  | tr -d '[]:' | awk '{ print $2 \" \" $4 }'
+    brb = !git br -v | grep '^*'  | tr -d '[]:' | awk '{ print $2 \" \" $4 }'
     d  = !read B RB <<<$(git brb) && git wc ^$B $RB
     rd = !read B RB <<<$(git brb) && git wc ^$RB $B
     m  = !read B RB <<<$(git brb) && git merge $RB
@@ -27,6 +27,7 @@
     large-blobs = !git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize:disk) %(rest)' |  sed -n 's/^blob //p' | sort --numeric-sort --key=2 | cut -c 1-12,41- | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
     large-files-gone = !git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p' | grep -vF --file=<(git ls-tree -r HEAD | awk '{print $3}') | sort --numeric-sort --key=2 | cut -c 1-12,41- | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
     large-blobs-gone = !git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize:disk) %(rest)' |  sed -n 's/^blob //p' | grep -vF --file=<(git ls-tree -r HEAD | awk '{print $3}') | sort --numeric-sort --key=2 | cut -c 1-12,41- | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+    recent = "!r() { refbranch=$1 count=$2; git for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)|%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always --count=${count:-50} | while read line; do branch=$(echo \"$line\" | awk 'BEGIN { FS = \"|\" }; { print $1 }' | tr -d '*'); ahead=$(git rev-list --count \"${refbranch:-origin/master}..${branch}\"); behind=$(git rev-list --count \"${branch}..${refbranch:-origin/master}\"); colorline=$(echo \"$line\" | sed 's/^[^|]*|//'); echo \"$ahead|$behind|$colorline\" | awk -F'|' -vOFS='|' '{$5=substr($5,1,70)}1' ; done | ( echo \"ahead|behind||branch|lastcommit|message|author\\n\" && cat) | column -ts'|';}; r"
 [core]
     excludesfile = ~/.gitignore-global
     whitespace=trailing-space,cr-at-eol,space-before-tab,tab-in-indent
@@ -98,3 +99,5 @@
 	rebase = true
 [rebase]
     autostash = true
+[credential]
+    helper = osxkeychain
