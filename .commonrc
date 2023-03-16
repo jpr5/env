@@ -94,3 +94,6 @@ test -f .aws/augment.sh && source .aws/augment.sh
 /usr/bin/ssh-add -l &>/dev/null || /usr/bin/ssh-add --apple-load-keychain &>/dev/null
 
 alias jump='ssh -J shell'
+
+alias audiorestart="sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod"
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
