@@ -62,15 +62,17 @@
     httpd = webrick
     port = 4321
 [diff]
-    tool = opendiff
-    renamelimit = 500
-[difftool]
-    prompt = false
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
 [merge]
     stat = true
     conflictstyle = diff3
     defaultToUpstream = true
     renamelimit = 2000
+    tool = code
+[mergetool "code"]
+  cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 [rerere]
     enabled = 1
     autoupdate = 1
