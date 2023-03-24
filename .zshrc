@@ -26,13 +26,11 @@ source $ZSH/oh-my-zsh.sh
 export ZSH_HIGHLIGHT_MAXLENGTH=60
 
 setopt nobeep
-unsetopt sharehistory
-setopt appendhistory
 setopt COMPLETE_IN_WORD
 unsetopt auto_menu
 setopt AUTO_PARAM_SLASH
 setopt extendedglob notify alwaystoend listpacked completeinword zle emacs bashautolist
-unsetopt hist_verify autopushd
+unsetopt autopushd
 #alwaystoend autocd autopushd combiningchars completeinword extendedhistory noflowcontrol histexpiredupsfirst histignoredups histignorespace histverify incappendhistory interactive interactivecomments longlistjobs monitor promptsubst pushdignoredups pushdminus sharehistory shinstdin zle
 unsetopt nomatch
 
@@ -51,6 +49,23 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
+
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt APPEND_HISTORY            # Write to the history file immediately, not when the shell exits.
+unsetopt SHARE_HISTORY            # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 #
 # Common RC
