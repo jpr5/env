@@ -17,7 +17,7 @@ COMPLETION_WAITING_DOTS="true"
 ZSH_DISABLE_COMPFIX=true
 ZSH_THEME="jpr5"
 
-plugins=(ruby colored-man-pages zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(ruby colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -66,6 +66,16 @@ setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
 setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+
+## experiment
+#autocorrect() {
+#  zle .spell-word
+#  zle .$WIDGET
+#}
+#zle -N accept-line autocorrect
+#zle -N magic-space autocorrect
+#bindkey ' ' magic-space
+
 
 #
 # Common RC
