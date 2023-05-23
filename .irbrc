@@ -1,3 +1,5 @@
+# something to play with https://nts.strzibny.name/improving-irb-with-custom-irbrc/
+
 require 'irb/completion'
 require 'irb/ext/save-history'
 
@@ -7,7 +9,6 @@ require 'pp'
 ARGV.concat [ "--readline", "--prompt-mode", "simple" ]
 IRB.conf[:VERBOSE] = true
 IRB.conf[:SAVE_HISTORY] = 10000
-IRB.conf[:USE_READLINE] = true
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.ruby_history"
 
 module IRB
