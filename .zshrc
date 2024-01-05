@@ -84,3 +84,4 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 source ~/.commonrc
 
 export COLUMNS="120"
+export PATH="$PATH:/Users/jpr5/.local/bin" # Added by Docker Gremlin"
