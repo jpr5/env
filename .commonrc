@@ -47,7 +47,7 @@ alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
 alias lmongo='mongo "mongodb://root:foobar@127.0.0.1:27017/augment_dev?authSource=admin"'
-alias cdgems='cd /usr/local/rbenv/versions/2.7.8/lib/ruby/gems/2.7.0/gems'
+alias cdgems='cd /usr/local/rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems'
 
 [[ -n "`which gfind`" ]] && alias find=gfind
 
