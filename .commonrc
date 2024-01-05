@@ -84,7 +84,9 @@ function netkill() {
 # Load supplementary RCs
 #
 
-test -f .aws/augment.sh && source .aws/augment.sh
+
+test -f ~/.config/op/plugins.sh && source ~/.config/op/plugins.sh
+test -f ~/.aws/augment.sh && source ~/.aws/augment.sh
 
 #
 # Last: load all keys into the agent
