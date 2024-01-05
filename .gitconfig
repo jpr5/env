@@ -97,8 +97,15 @@
     gpgsign = false
 [grep]
     lineNumber = true
+[fetch]
+#    prune = true
+#    pruneTags = true
 [pull]
 	rebase = true
+    ff = true
+[push]
+    default = current
+    autoSetupRemote = true
 [rebase]
     autostash = true
 [credential]
