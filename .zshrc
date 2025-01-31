@@ -83,5 +83,11 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 source ~/.commonrc
 
+export HOMEBREW_PREFIX=/opt/homebrew
+test -f $HOMEBREW_PREFIX/bin/fzf && test -f ~/.fzf.sh && source ~/.fzf.sh
+test -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
+
 export COLUMNS="120"
 export PATH="$PATH:/Users/jpr5/.local/bin" # Added by Docker Gremlin"
+
+export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
