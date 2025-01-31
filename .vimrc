@@ -7,3 +7,4 @@ set background=dark
 :map y Y$
 :map c C$
 :map p gP$
+set mouse=r
