@@ -9,9 +9,21 @@ export COLUMNS="120"
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 
-if test -s "$(which rbenv)"; then
-    export RBENV_ROOT=/usr/local/rbenv
-    export PATH=$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH
+HOMEBREW_PREFIX=$(find /opt/homebrew /usr/local/homebrew -maxdepth 0 -type d 2> /dev/null)
+if test -n "$HOMEBREW_PREFIX"; then
+    export PATH=$HOMEBREW_PREFIX/sbin:$HOMEBREW_PREFIX/bin:$PATH
+    export PATH=$HOMEBREW_PREFIX/opt/python@3.11/libexec/bin:$PATH
+
+    test -f $HOMEBREW_PREFIX/bin/fzf && test -f ~/.fzf.sh && source ~/.fzf.sh
+    test -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
+
+    test -n "$(which gfind)" && alias find=gfind
+fi
+
+RBENV_PREFIX=$(find /usr/local/rbenv -maxdepth 0 -type d 2> /dev/null)
+if test -n "$RBENV_PREFIX"; then
+    export RBENV_ROOT=$RBENV_PREFIX
+    export PATH=$RBENV_ROOT/shims:$PATH
 
     eval "$(rbenv init - --no-rehash zsh)"
 
@@ -21,17 +33,6 @@ if test -s "$(which rbenv)"; then
         for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
         gem install bundler
     }
-fi
-
-if test -s "$(which brew)"; then
-    export HOMEBREW_PREFIX=$(brew --prefix)
-    export PATH=$HOMEBREW_PREFIX/sbin:$HOMEBREW_PREFIX/bin
-    export PATH="$HOMEBREW_PREFIX/opt/python@3.11/libexec/bin:$PATH"
-
-    test -f $HOMEBREW_PREFIX/bin/fzf && test -f ~/.fzf.sh && source ~/.fzf.sh
-    test -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
-
-    test -n "$(which gfind)" && alias find=gfind
 fi
 
 export PATH="$PATH:/Users/jpr5/.local/bin" # Added by Docker Gremlin"
