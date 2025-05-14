@@ -2,36 +2,53 @@
 ## Common shell options b/w bashrc/zshrc
 ##
 
-#
-# Envariables
-#
-
 export LANG=en_US.UTF-8
 export DEFAULT_USER=jpr5
 export TMPDIR=/tmp
-
+export COLUMNS="120"
 export LESS="-RFX"
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
-#export WORDCHARS='/~!#$%^&*(){}[]<>?.+;-'
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-export PATH=/usr/local/opt/gnu-tar/libexec/gnubin:$PATH
-export PATH=/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/homebrew/sbin:/usr/local/homebrew/bin:$PATH
-export RBENV_ROOT=/usr/local/rbenv
-export PATH=$RBENV_ROOT/bin:$PATH
-test -x /usr/local/rbenv/bin/rbenv && eval "$(rbenv init -)"
+if test -s "$(which rbenv)"; then
+    export RBENV_ROOT=/usr/local/rbenv
+    export PATH=$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH
+
+    eval "$(rbenv init - --no-rehash zsh)"
+
+    alias cdgems='cd /usr/local/rbenv/versions/*/lib/ruby/gems/3.2.0/gems'
+
+    function reset_gems() {
+        for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
+        gem install bundler
+    }
+fi
+
+if test -s "$(which brew)"; then
+    export HOMEBREW_PREFIX=$(brew --prefix)
+    export PATH=$HOMEBREW_PREFIX/sbin:$HOMEBREW_PREFIX/bin
+    export PATH="$HOMEBREW_PREFIX/opt/python@3.11/libexec/bin:$PATH"
+
+    test -f $HOMEBREW_PREFIX/bin/fzf && test -f ~/.fzf.sh && source ~/.fzf.sh
+    test -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
+
+    test -n "$(which gfind)" && alias find=gfind
+fi
+
+export PATH="$PATH:/Users/jpr5/.local/bin" # Added by Docker Gremlin"
+export PATH="/Users/jpr5/.codeium/windsurf/bin:$PATH"
 
 case `uname` in
     Darwin)
-        export EDITOR="code -w"
-        alias emacs="$EDITOR -n"
-        alias e='open -a Emacs'
+        export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+        export EDITOR="windsurf -w"
+
         alias ls='ls -FG'
         alias audiorestart="sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod"
         alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
         ;;
     Linux)
         export EDITOR=vim
+        
         alias ls='ls -F --color'
         ;;
 esac
@@ -43,15 +60,12 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 #
 
 alias su='sudo -s'
-alias df='df -klH '
+alias df='df -klH'
 alias grep='grep --line-buffered --color=auto'
 alias less='less -R'
 alias lsof='lsof -nP'
 alias diff='diff -u'
 alias lmongo='mongo "mongodb://root:foobar@127.0.0.1:27017/augment_dev?authSource=admin"'
-alias cdgems='cd /usr/local/rbenv/versions/*/lib/ruby/gems/3.2.0/gems'
-
-[[ -n "`which gfind`" ]] && alias find=gfind
 
 #
 # Functions
@@ -70,27 +84,14 @@ function avg() {
 }
 alias num=avg
 
-function reset_gems() {
-    for gem in `gem list --no-versions`; do gem uninstall $gem -aIx; done
-    gem install bundler:2.4.21
-}
-
 function netkill() {
     kill -9 `lsof -i tcp:$1 | f 1 2 | uniq | tail -1`
 }
 
-[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
-[[ -f $EDITOR ]] && [[ -n "$(emacs  -e '(frames-on-display-list)' | grep F1)" ]] && emacs -ce '(make-frame-invisible (selected-frame))' >/dev/null || true
-
-#
-# Load supplementary RCs
-#
-
-test -f ~/.aws/augment.sh && source ~/.aws/augment.sh
+test -x /usr/bin/lesspipe && eval "$(SHELL=/bin/sh lesspipe)"
 
 #
 # Last: load all keys into the agent
 #
 
-#ssh-add -l &>/dev/null && [[ $? = 1 ]] && ssh-add -A &>/dev/null || true
 /usr/bin/ssh-add -l &>/dev/null || /usr/bin/ssh-add --apple-load-keychain &>/dev/null

@@ -50,7 +50,6 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 bindkey '\ef' emacs-forward-word
 bindkey '\eb' emacs-backward-word
 
-
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
@@ -67,27 +66,4 @@ setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-## experiment
-#autocorrect() {
-#  zle .spell-word
-#  zle .$WIDGET
-#}
-#zle -N accept-line autocorrect
-#zle -N magic-space autocorrect
-#bindkey ' ' magic-space
-
-
-#
-# Common RC
-#
-
 source ~/.commonrc
-
-export HOMEBREW_PREFIX=/opt/homebrew
-test -f $HOMEBREW_PREFIX/bin/fzf && test -f ~/.fzf.sh && source ~/.fzf.sh
-test -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
-
-export COLUMNS="120"
-export PATH="$PATH:/Users/jpr5/.local/bin" # Added by Docker Gremlin"
-
-export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
